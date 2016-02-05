@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">Smart Car</string>
+    <string name="loginText">Login</string>
+    <string name="signUpText">Sign Up</string>
+    <string name="getStarted">Get Started</string>
+
+
+    <string name="drawer_open">OPEN</string>
+    <string name="drawer_close">CLOSE</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="exitMessage">Press Back Again To Exit</string>
+
+    <string name="blankEmailId">Enter Email Id</string>
+    <string name="blankPassword">Enter Password</string>
+    <string name="invalidEmail">Entered Email Id Is Invalid</string>
+    <string name="passwordDontMatch">Passwords Dont Match</string>
+
+    <string name="sendEmail">Send Email</string>
+    <string name="resetPassword">Reset Password</string>
+    <string name="verificationCOde">Verification Code</string>
+
+    <string name="resetPasswordMessage">Please Enter The Code The Was Sent To The Registered Email Id</string>
+    <string name="blankVerificationCOde">Please Enter Verification Code</string>
+
+    <string name="fullService">Full Service</string>
+    <string name="fullservicesubtitle">Full Service done at every 10,000 km and recommended by the manufacturer</string>
+
+    <array name="navTabs">
+        <item>My Bookings</item>
+        <item>Regular Service</item>
+        <item>Custom Service</item>
+        <item>Dent &amp; Paint</item>
+        <item>Report Breakdown</item>
+        <item>AMC</item>
+        <item>Notification</item>
+        <item>Profile</item>
+        <item>Support</item>
+        <item>Terms Of Use</item>
+        <item>Share SmartCar</item>
+        <item>Rate SmartCar</item>
+        <item>Logout</item>
+
+    </array>
+
+    <string-array name="profiletabs">
+        <item>User Info</item>
+        <item>Car Detail</item>
+    </string-array>
+
+    <string name="mybookings">My Bookings</string>
+    <string name="regservice">Regular Service</string>
+    <string name="customservice">Custom Service</string>
+    <string name="dentandpaint">Dent &amp; Paint</string>
+    <string name="reportbreakdown">Report Breakdown</string>
+    <string name="AMC">AMC</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="support">Support</string>
+    <string name="logout">Logout</string>
+    <string name="expressService">Regular Service</string>
+    <string name="expresschackupsubtitle">Express Checkup (Every 5,000 km)</string>
+
+    <string name="LoremIpsum">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</string>
+    <string name="servicetiming">Service Timing</string>
+
+    <string name="mapInfo">This is for customer assistance ,SmartCar is not involved in this service ,but we will find out someone nearby who can .All payments should be handled by the user directly</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="location">Location</string>
+    <string name="close">Close</string>
+    <string name="bookNow">Book Now</string>
+    <string name="totalprice">Total Price</string>
+    <string name="saveText">SAVE</string>
+    <string name="dataInconsistent">Data Inconsistent</string>
+
+    <array name="carTabs">
+        <item>Bugati Veron</item>
+        <item>BMW i8</item>
+        <item>Pagani</item>
+        <item>Lamborgini</item>
+        <item>Ferrari</item>
+        <item>Bugati Veron</item>
+        <item>BMW i8</item>
+        <item>Pagani</item>
+        <item>Lamborgini</item>
+        <item>Ferrari</item>
+    </array>
+    <string name="title_activity_breakdown_google_map">Map</string>
+    <string name="continueText">Continue</string>
+    <string name="number3">8828002989</string>
+    <string name="number2">7738269888</string>
+    <string name="number1">9867008785</string>
+</resources>

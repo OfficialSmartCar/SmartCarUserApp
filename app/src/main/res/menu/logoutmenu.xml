@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="connect.qaagility.com.myclass.Admin.AdminHome">
+    <item android:id="@+id/action_settings" android:title="@string/logout"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@drawable/logout"/>
+</menu>

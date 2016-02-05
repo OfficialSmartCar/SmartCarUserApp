@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.moin.smartcar.Support.faqFinal">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/questionTextFeild"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qustion"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:elevation="10dp"/>
+
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/andwerTextFeild"
+            android:text="Qustion"
+            android:textStyle="bold"
+            android:textColor="@color/lightGrey"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

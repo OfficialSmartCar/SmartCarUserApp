@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.moin.smartcar">
+
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+
+    <!-- map permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <meta-data
+        android:name="com.google.android.maps.v2.API_KEY"
+        android:value="AIzaSyDCbTlmUmLA78nMZ1A0oh288-nfWUikUSM" />
+
+    <application
+        android:name=".Network.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.MaterialColdStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginSignUp.Login"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".LoginSignUp.LoginInitial"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".LoginSignUp.ForgotPassword"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".LoginSignUp.LoginNew"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.BaseLogin" />
+        <activity
+            android:name=".MyBookings.UserBookings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginSignUp.SignUp"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".LoginSignUp.ResetPassword"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".HomePage"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".RegService.RegularService"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".User.Profile"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".User.AddCarInfo"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".RegService.RegularServiceListing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RequestBooking.InvoicePage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OwnServices.MyOwnService"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OwnServices.OwnServiceDetail"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".Support.SupportHome"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Support.ContactUs"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Support.FAQHome"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Support.FAQPartTwo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Support.faqFinal"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReportBreakdown.BreakdownHome"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReportBreakdown.BreakdownMap"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReportBreakdown.BreakdownEntering"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".BreakdownGoogleMap"
+            android:label="@string/title_activity_breakdown_google_map" />
+        <activity
+            android:name=".DentPaint.DentPaintHome"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".DentPaint.DentingAndPainting"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ReportBreakdown.BreakdownCategory" />
+        <activity android:name=".LoginSignUp.SignUpAdditionalDataPartOne" />
+        <activity android:name=".LoginSignUp.SignUpAdditionalPartTwo" />
+        <activity android:name=".Support.Calling" />
+        <activity android:name=".RegService.RegularServiceDetail"></activity>
+    </application>
+
+</manifest>

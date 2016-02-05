@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/redbackground"
+    tools:context="com.moin.smartcar.LoginSignUp.LoginInitial">
+
+    <com.moin.smartcar.Pager.CustomPager
+        android:id="@+id/viewPagerLoginInitial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/getstarted"
+        android:layout_alignParentTop="true" />
+
+
+    <com.andexert.library.RippleView
+        android:id="@+id/getstarted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        ripple:rv_type="rectangle">
+
+        <Button
+            android:onClick="navigateToLoginPage"
+            android:id="@+id/navigatetoLoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/strip"
+            android:text="@string/getStarted"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/buttonsTextSIze" />
+
+    </com.andexert.library.RippleView>
+
+</RelativeLayout>

@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_Parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#6B24FF" />
+
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/app_bar_transparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" />
+
+            <View
+
+                android:id="@+id/slantingView"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/topView"
+                android:background="@drawable/profile_strip" />
+
+            <ViewFlipper
+                android:id="@+id/viewFlipperProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@+id/app_bar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-10dp"
+                android:clickable="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user1" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fabAddCar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fab_plus"
+                    android:tint="@android:color/white" />
+
+            </ViewFlipper>
+
+
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--android:layout_marginTop="-10dp"-->
+            <!--android:layout_below="@+id/app_bar"-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/profile_image"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:src="@drawable/user1"-->
+            <!--android:layout_centerHorizontal="true" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/changesConfirmedLayout"
+                android:layout_below="@+id/slantingView"
+                android:orientation="vertical">
+
+                <com.moin.smartcar.Tabs.SlidingTabLayout
+                    android:id="@+id/slidingtabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary" />
+
+                <com.moin.smartcar.Pager.CustomPager
+                    android:id="@+id/viewPagerHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/changesConfirmedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/strip"
+                android:text="Update"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/buttonsTextSIze" />
+
+
+            <com.moin.smartcar.Custom.SheetLayout
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:elevation="2dp"
+                app:ft_color="@color/colorPrimary"
+                app:ft_container_gravity="center" />
+
+
+        </RelativeLayout>
+
+        <fragment
+            android:id="@+id/navigationDrawer_fragment"
+            android:name="com.moin.smartcar.MyBookings.navUserBookings"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:layout="@layout/fragment_nav_user_bookings"
+            tools:layout="@layout/fragment_nav_user_bookings" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadignView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@android:color/black" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            app:indicator="BallClipRotatePulse"
+            app:indicator_color="#ff8b90af" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+

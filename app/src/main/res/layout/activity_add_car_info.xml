@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    tools:context="com.moin.smartcar.User.AddCarInfo">
+
+    <include layout="@layout/app_bar"
+        android:id="@+id/appbar"/>
+
+    <ScrollView
+
+        android:layout_below="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/carNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/contactUsTextFeilds"
+                android:hint="Car Name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+
+
+            <AutoCompleteTextView
+                android:hint="Car Brand"
+                android:id="@+id/autoComplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text1"
+                android:ems="8"
+                style="@style/contactUsTextFeilds"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+
+            <AutoCompleteTextView
+                android:hint="Model"
+                style="@style/contactUsTextFeilds"
+                android:id="@+id/modelAutoompleteTextFeild"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text1"
+                android:ems="8"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/yearOfManufacture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/contactUsTextFeilds"
+                android:hint="Year Of Manufacture"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Registration Number"-->
+                <!--style="@style/addCarTextViewSTyle"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+            <EditText
+                style="@style/contactUsTextFeilds"
+                android:id="@+id/CarNumberTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:hint="Registration Number"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                />
+
+
+            <AutoCompleteTextView
+                android:hint="Variant"
+                android:id="@+id/variantTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                style="@style/contactUsTextFeilds"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Color"-->
+                <!--style="@style/addCarTextViewSTyle"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+
+
+
+            <!--<com.andexert.library.RippleView-->
+                <!--android:layout_marginBottom="9dp"-->
+                <!--android:layout_marginLeft="18dp"-->
+                <!--android:layout_marginRight="21dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:elevation="10dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--ripple:rv_type="rectangle">-->
+
+                <Button
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/SaveButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/strip"
+                    android:text="@string/saveText"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/buttonsTextSIze"
+                    android:layout_marginTop="5dp" />
+
+
+            <!--</com.andexert.library.RippleView>-->
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/loadignView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:alpha="0.8"/>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            app:indicator="BallClipRotatePulse"
+            app:indicator_color="#ff8b90af" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

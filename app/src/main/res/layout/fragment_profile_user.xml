@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    tools:context="com.moin.smartcar.User.ProfileUserFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:enabled="false"
+                android:id="@+id/userEmailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="EmailId"
+                android:inputType="textEmailAddress"
+                style="@style/editTextDisabled"
+                android:textColor="@color/backgroundGrey"
+                android:textColorHint="@color/backgroundGrey"/>
+
+            <EditText
+                android:id="@+id/userNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="User Name"
+                android:inputType="text"
+                style="@style/contactUsTextFeilds"/>
+
+
+
+            <EditText
+                android:id="@+id/userMobileNumberEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mobile Number"
+                android:inputType="phone"
+                style="@style/contactUsTextFeilds"/>
+
+            <EditText
+                android:id="@+id/userAddressEditText"
+                android:scrollIndicators="right"
+                android:gravity="top|left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                style="@style/contactUsTextArea"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

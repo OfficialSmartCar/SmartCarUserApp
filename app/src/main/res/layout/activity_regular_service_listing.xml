@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <com.tuesda.walker.circlerefresh.CircleRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                app:AniBackColor="#ff8b90af"
+                app:AniForeColor="@color/colorPrimary"
+                app:CircleSmaller="4"
+                android:layout_marginBottom="49dp">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_below="@+id/app_bar"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+            </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomContainer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/holo_red_dark"
+                android:orientation="vertical"
+                android:elevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/strip"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Total : "
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/costTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text=" Rs. "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="BOOK"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="20dp"
+                        android:paddingRight="10dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/arrow_right"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/loadignView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<com.wang.avi.AVLoadingIndicatorView-->
+                    <!--android:id="@+id/loadingIndicator"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:visibility="visible"-->
+                    <!--app:indicator="BallClipRotatePulse"-->
+                    <!--app:indicator_color="#ff8b90af" />-->
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/fragmentContainer"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@android:color/black"-->
+                    <!--android:alpha="0.8"/>-->
+
+                <!--<fragment android:name="com.moin.smartcar.CarSelector.CarSelection"-->
+                    <!--android:id="@+id/fragment1"-->
+                    <!--android:layout_margin="30dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout="@layout/fragment_car_selection"-->
+                    <!--tools:layout="@layout/fragment_car_selection"-->
+                    <!--android:layout_marginBottom="0dp" />-->
+
+            <!--</RelativeLayout>-->
+
+        </RelativeLayout>
+
+        <fragment
+            android:id="@+id/navigationDrawer_fragment"
+            android:name="com.moin.smartcar.MyBookings.navUserBookings"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:layout="@layout/fragment_nav_user_bookings"
+            tools:layout="@layout/fragment_nav_user_bookings" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

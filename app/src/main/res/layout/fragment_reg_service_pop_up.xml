@@ -1,0 +1,374 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.moin.smartcar.RegService.RegServicePopUp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@android:color/black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/offWhite"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:id="@+id/titleofRegService"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/button_gradient"
+            android:elevation="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Name Of Regular Service"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/mainScrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonsLayout"
+            android:layout_below="@+id/titleofRegService">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="3"
+                    android:text="@string/LoremIpsum" />
+
+                <TextView
+                    android:id="@+id/datePickerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/plain_border_radius"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Select Date And Time"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/servicetiming"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/sunday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/monday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/tuesday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/wednesday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/thursday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/friday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/saturday"
+                            android:textColor="@color/backgroundGrey"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                        <TextView
+                            android:id="@+id/time7"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9:00 AM - 10:00 PM"
+                            android:textSize="@dimen/dateTimeHeight" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/location"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="3"
+                    android:text="@string/LoremIpsum" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="@string/totalprice"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/dateTimeHeight" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:text="200/-"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/dateTimeHeight" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
+
+                <!--<com.andexert.library.RippleView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="@dimen/button_height"-->
+                    <!--android:layout_marginRight="2.5dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--ripple:rv_type="rectangle">-->
+
+                    <Button
+                        android:layout_weight="1"
+                        android:onClick="closePopUp"
+                        android:id="@+id/closebutton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height"
+                        android:background="@drawable/strip"
+                        android:text="@string/close"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/buttonsTextSIze"
+                        android:layout_marginRight="2.5dp" />
+
+                <!--</com.andexert.library.RippleView>-->
+
+                <!--<com.andexert.library.RippleView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="@dimen/button_height"-->
+                    <!--android:layout_marginLeft="2.5dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--ripple:rv_type="rectangle">-->
+
+                    <Button
+                        android:layout_weight="1"
+                        android:id="@+id/bookButton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height"
+                        android:background="@drawable/strip"
+                        android:text="@string/bookNow"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/buttonsTextSIze"
+                        android:layout_marginLeft="2.5dp" />
+
+                <!--</com.andexert.library.RippleView>-->
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

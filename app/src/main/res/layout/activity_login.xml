@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.codetail.widget.RevealLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/root_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/redbackground">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                android:background="@drawable/border_radius" />
+
+            <RelativeLayout
+                android:id="@+id/loginBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@android:color/transparent"
+                android:paddingTop="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/mainLoginContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border_radius_white">
+
+                    <LinearLayout
+                        android:id="@+id/loginHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="@string/loginText"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:id="@+id/usernameLoginLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/loginHeader"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        float:fletPaddingBottom="10dp"
+                        float:fletTextAppearance="@style/floatlabelededittext">
+
+                        <EditText
+                            android:id="@+id/usernameLoginEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Email Id"
+                            android:inputType="text"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="#000"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:id="@+id/passwordLoginLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/usernameLoginLayout"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        float:fletPaddingBottom="10dp"
+                        float:fletTextAppearance="@style/floatlabelededittext">
+
+                        <EditText
+                            android:id="@+id/passwordEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:lines="1"
+                            android:password="true"
+                            android:singleLine="true"
+                            android:textColor="#000"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+                    <FrameLayout
+                        android:id="@+id/loginButtonLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/passwordLoginLayout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/buttonsColor">
+
+                        <Button
+                            android:onClick="validateEmailIdAndLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:text="@string/loginText"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/buttonsTextSIze"
+                            android:textStyle="bold" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:onClick="navigateToForgotPasswordPage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/loginButtonLayout"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="Forgot Password ?"
+                        android:textSize="17sp"
+                        android:textStyle="italic" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+            <io.codetail.widget.RevealFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="470dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+
+                <RelativeLayout
+                    android:visibility="invisible"
+                    android:id="@+id/internalSignUpToReveal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="320dp"
+                        android:layout_marginTop="100dp"
+                        android:background="@drawable/border_radius_grey"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/SignUpHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorPrimary" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="@string/signUpText"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            float:fletPaddingBottom="10dp"
+                            float:fletTextAppearance="@style/floatlabelededittext">
+
+                            <EditText
+                                android:id="@+id/usernameSignUpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Email Id"
+                                android:inputType="text"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@android:color/white"
+                                android:textSize="15sp" />
+                        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            float:fletPaddingBottom="10dp"
+                            float:fletTextAppearance="@style/floatlabelededittext">
+
+                            <EditText
+                                android:id="@+id/passwordSignUpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Password"
+                                android:inputType="text"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:password="true"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@android:color/white"
+                                android:textSize="15sp" />
+                        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            float:fletPaddingBottom="10dp"
+                            float:fletTextAppearance="@style/floatlabelededittext">
+
+                            <EditText
+                                android:id="@+id/confirmPasswordSignUpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Confirm Password"
+                                android:inputType="text"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:password="true"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@android:color/white"
+                                android:textSize="15sp" />
+                        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                        <FrameLayout
+                            android:id="@+id/SignUpButtonLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/buttonsColor">
+
+                            <Button
+                                android:onClick="validateAndConfirmSignUp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:text="@string/signUpText"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/buttonsTextSIze"
+                                android:textStyle="bold" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </io.codetail.widget.RevealFrameLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="25dp"
+                android:elevation="60dp"
+                android:src="@drawable/fab_plus"
+                android:tint="@android:color/white"
+                android:layout_alignTop="@+id/view"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp" />
+
+        </RelativeLayout>
+
+
+    </io.codetail.widget.RevealLinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimary">#352a46</color>
+
+    <color name="colorPrimaryDark">#221B34</color>
+
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">@color/colorPrimary</color>
+
+    <color name="backgroundGrey">#606060</color>
+
+    <color name="lightGrey">#B6B6B6</color>
+    <color name="darkGrey">#000</color>
+
+    <color name="buttonsColor">#913a54</color>
+    <color name="gradientBackColor">#D84059</color>
+    <!--<color name="buttonsColor">#3F51B5</color>-->
+    <color name="glass">#88ffffff</color>
+
+    <color name="navBarSelectedBackground">#442E47</color>
+    <color name="navBarSelection">#903B53</color>
+
+    <color name="subtitleCOlor">#cccccc</color>
+
+    <color name="m0in_grey">#6E6E6E</color>
+
+    <color name="offWhite">#EBEEF0</color>
+
+    <color name="regServiceSeperatorColor">#F25E8A</color>
+
+</resources>
