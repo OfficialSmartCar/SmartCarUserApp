@@ -1,11 +1,12 @@
 package com.moin.smartcar.User;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -39,14 +40,12 @@ public class AddCarInfo extends AppCompatActivity {
     ArrayList<String> carBrand = new ArrayList<>();
     ArrayList<String> carModel = new ArrayList<>();
     ArrayList<String> carVariants = new ArrayList<>();
-
-    private ArrayAdapter<String> brandAdapter,modelAdapter,variantAdapter;
     AutoCompleteTextView brandAutocompleteTextView,modelAutocompleteTextView,variantAutoCompleteTextView;
     @Bind(R.id.appbar) Toolbar myToolbar;
     @Bind(R.id.CarNumberTextView) EditText carNumberEditText;
     @Bind(R.id.carNameTextView) EditText carNameTextView;
     @Bind(R.id.yearOfManufacture) EditText yearOfManufacture;
-
+    private ArrayAdapter<String> brandAdapter, modelAdapter, variantAdapter;
     private CarInfoStr recievedCarInfo = null;
     private int indexSelection = -1;
 
@@ -54,6 +53,8 @@ public class AddCarInfo extends AppCompatActivity {
     private AVLoadingIndicatorView loadingIndicator;
 
     private ArrayList<CarBrand> serverList = new ArrayList<>();
+
+    private Boolean newChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +73,21 @@ public class AddCarInfo extends AppCompatActivity {
         hideLoadingView();
         hideLoadingView();
 
+        newChange = true;
+
         carVariants = new ArrayList<>();
         carVariants.add("Petrol");
         carVariants.add("Diesel");
 //
-        variantAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,carVariants);
+//        variantAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,carVariants);
 //
         brandAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoComplete);
 //
         modelAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id.modelAutoompleteTextFeild);
 
         variantAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.variantTextView);
-        variantAutoCompleteTextView.setAdapter(variantAdapter);
-        variantAutoCompleteTextView.setThreshold(1);
+//        variantAutoCompleteTextView.setAdapter(variantAdapter);
+//        variantAutoCompleteTextView.setThreshold(1);
 
         modelAutocompleteTextView.setEnabled(false);
 
@@ -105,6 +108,94 @@ public class AddCarInfo extends AppCompatActivity {
                 modelAutocompleteTextView.setEnabled(true);
             }
         });
+
+        modelAutocompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                variantAutoCompleteTextView.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                getVariantForModel();
+                variantAutoCompleteTextView.setEnabled(true);
+            }
+        });
+
+        yearOfManufacture.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 4) {
+                    validateNumber();
+                    carNumberEditText.requestFocus();
+                    carNumberEditText.append("");
+                    if (s.length() == 4) {
+                        int number = Integer.parseInt(s.toString());
+                        if (number < 1980 || number > 2030) {
+                            yearOfManufacture.setText("");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        carNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String[] arr = s.toString().split("-");
+
+                if (arr.length > 1) {
+                    if (s.toString().length() >= 13) {
+                        variantAutoCompleteTextView.requestFocus();
+                        variantAutoCompleteTextView.append("");
+                    }
+                } else {
+                    if (s.toString().length() >= 10) {
+                        variantAutoCompleteTextView.requestFocus();
+                        variantAutoCompleteTextView.append("");
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        carNumberEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    changeTheDataInEditText();
+                }
+            }
+        });
+
+
+//        getVariantForModel
 
         try{
             Intent recieveingIntent = getIntent();
@@ -127,6 +218,41 @@ public class AddCarInfo extends AppCompatActivity {
 
     }
 
+    private void changeTheDataInEditText() {
+
+        try {
+            String toCapCharacters = carNumberEditText.getText().toString().toUpperCase();
+            toCapCharacters = toCapCharacters.replace(" ", "");
+            toCapCharacters = toCapCharacters.replace("-", "");
+            String part1 = toCapCharacters.subSequence(0, 2).toString();
+            String part2 = toCapCharacters.subSequence(2, 4).toString();
+            String part3 = toCapCharacters.subSequence(4, 6).toString();
+            String part4 = toCapCharacters.substring(6, 10).toString();
+
+            if (toCapCharacters.length() == 2 || toCapCharacters.length() == 5 || toCapCharacters.length() == 8) {
+                toCapCharacters += "-";
+            }
+
+            carNumberEditText.setText(part1 + "-" + part2 + "-" + part3 + "-" + part4);
+
+        } catch (Exception e) {
+            showMessage("Please Enter Valid Registration Number");
+        }
+
+
+    }
+
+    private void validateNumber() {
+        try {
+            int number1 = Integer.parseInt(yearOfManufacture.getText().toString());
+            if (number1 > 9999) {
+                yearOfManufacture.setText("");
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     private void getModelsForBrand(){
         String brand = brandAutocompleteTextView.getText().toString();
         try{
@@ -141,7 +267,8 @@ public class AddCarInfo extends AppCompatActivity {
             CarBrand myBrand = serverList.get(index);
 
             for (int i=0;i<myBrand.carModelList.size();i++){
-                carModel.add(myBrand.carModelList.get(i));
+
+                carModel.add(myBrand.carModelList.get(i).carModel);
             }
 
             modelAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,carModel);
@@ -149,6 +276,36 @@ public class AddCarInfo extends AppCompatActivity {
             modelAutocompleteTextView.setThreshold(1);
         }catch (Exception e){
 
+        }
+    }
+
+    private void getVariantForModel() {
+        String model = modelAutocompleteTextView.getText().toString();
+        try {
+            int index = -1;
+            CarBrand myBrand = new CarBrand();
+            CarModel myModel = new CarModel();
+            for (int i = 0; i < serverList.size(); i++) {
+                if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())) {
+                    myBrand = serverList.get(i);
+                }
+            }
+
+            for (int i = 0; i < myBrand.carModelList.size(); i++) {
+                if (myBrand.carModelList.get(i).carModel.equalsIgnoreCase(model)) {
+                    myModel = myBrand.carModelList.get(i);
+                }
+            }
+            carVariants = new ArrayList<>();
+
+            for (int i = 0; i < myModel.carVariantList.size(); i++) {
+                carVariants.add(myModel.carVariantList.get(i));
+            }
+            variantAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carVariants);
+            variantAutoCompleteTextView.setAdapter(variantAdapter);
+            variantAutoCompleteTextView.setThreshold(1);
+        } catch (Exception e) {
+            Log.d("exc", "some exception");
         }
     }
 
@@ -180,7 +337,7 @@ public class AddCarInfo extends AppCompatActivity {
     private void getDataFromServer(){
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
-        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, mySingelton.getBrandAndModels,
+        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getBrandAndModels,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -223,11 +380,19 @@ public class AddCarInfo extends AppCompatActivity {
         for (int i=0;i<arr.length();i++){
             JSONObject myObj = arr.getJSONObject(i);
             CarBrand myStr = new CarBrand();
-            myStr.carBrand = myObj.getString("brand");
+            myStr.carBrand = myObj.getString("BrandName");
             myStr.carModelList = new ArrayList<>();
-            JSONArray internalArray = myObj.getJSONArray("models");
+            JSONArray internalArray = myObj.getJSONArray("ModelArr");
             for (int j=0;j<internalArray.length();j++){
-                myStr.carModelList.add(internalArray.get(j).toString());
+                CarModel myModel = new CarModel();
+                JSONObject internalObject = internalArray.getJSONObject(i);
+                myModel.carModel = internalObject.getString("ModelName");
+                JSONArray variantArray = internalObject.getJSONArray("models");
+                myModel.carVariantList = new ArrayList<>();
+                for (int k = 0; k < variantArray.length(); k++) {
+                    myModel.carVariantList.add(variantArray.get(k).toString());
+                }
+                myStr.carModelList.add(myModel);
             }
             serverList.add(myStr);
         }
@@ -236,7 +401,6 @@ public class AddCarInfo extends AppCompatActivity {
     }
 
     private void splitIntobrandArray(){
-
         carBrand = new ArrayList<>();
         for (int i=0;i<serverList.size();i++){
             carBrand.add(serverList.get(i).carBrand);
@@ -340,7 +504,10 @@ public class AddCarInfo extends AppCompatActivity {
             showErr("Please enter car year of manufacture");
             return 0;
         }
-
+        if (carNumberEditText.getText().toString().length() != 13) {
+            showErr("Please enter valid Reg Number");
+            return 0;
+        }
         return 1;
     }
 
@@ -392,6 +559,11 @@ public class AddCarInfo extends AppCompatActivity {
 
     private class CarBrand {
         public String carBrand;
-        public ArrayList<String> carModelList;
+        public ArrayList<CarModel> carModelList;
+    }
+
+    private class CarModel {
+        public String carModel;
+        public ArrayList<String> carVariantList;
     }
 }

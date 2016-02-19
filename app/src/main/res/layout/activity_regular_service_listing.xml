@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true">
 
     <include
@@ -25,42 +25,64 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary">
 
+            <LinearLayout
+                android:id="@+id/discountView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="Get 25% discount"
+                    android:textColor="@color/gradientBackColor"
+                    android:textSize="15sp"
+                    android:textStyle="italic|bold" />
+
+            </LinearLayout>
+
             <com.tuesda.walker.circlerefresh.CircleRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/discountView"
+                android:layout_marginBottom="65dp"
                 android:background="@android:color/transparent"
                 app:AniBackColor="#ff8b90af"
                 app:AniForeColor="@color/colorPrimary"
-                app:CircleSmaller="4"
-                android:layout_marginBottom="49dp">
-
+                app:CircleSmaller="4">
 
                 <android.support.v7.widget.RecyclerView
-                    android:layout_below="@+id/app_bar"
-                    android:background="@color/colorPrimary"
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/app_bar"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/colorPrimary"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
             </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
 
-            <LinearLayout
-                android:id="@+id/bottomContainer"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:background="@android:color/holo_red_dark"
-                android:orientation="vertical"
-                android:elevation="1dp">
+                android:layout_height="55dp"
+                android:layout_below="@+id/refresh_layout"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="-65dp"
+                android:background="@drawable/strip"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/payLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/strip"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
@@ -87,68 +109,71 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/bookLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="BOOK"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="BOOK"
-                        android:paddingRight="10dp"
-                        android:paddingLeft="10dp"/>
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="20dp"
-                        android:paddingRight="10dp"
                         android:layout_gravity="center"
+                        android:paddingRight="10dp"
                         android:src="@drawable/arrow_right"/>
+
 
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/loadignView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
+            <RelativeLayout
+                android:id="@+id/loadignView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <!--<com.wang.avi.AVLoadingIndicatorView-->
-                    <!--android:id="@+id/loadingIndicator"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:visibility="visible"-->
-                    <!--app:indicator="BallClipRotatePulse"-->
-                    <!--app:indicator_color="#ff8b90af" />-->
-            <!--</RelativeLayout>-->
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"
+                    app:indicator="BallClipRotatePulse"
+                    app:indicator_color="#ff8b90af" />
+            </RelativeLayout>
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/fragmentContainer"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
+            <RelativeLayout
+                android:id="@+id/fragmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@android:color/black"-->
-                    <!--android:alpha="0.8"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:background="@android:color/black" />
 
-                <!--<fragment android:name="com.moin.smartcar.CarSelector.CarSelection"-->
-                    <!--android:id="@+id/fragment1"-->
-                    <!--android:layout_margin="30dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout="@layout/fragment_car_selection"-->
-                    <!--tools:layout="@layout/fragment_car_selection"-->
-                    <!--android:layout_marginBottom="0dp" />-->
+                <fragment
+                    android:id="@+id/fragment1"
+                    android:name="com.moin.smartcar.CarSelector.CarSelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1"
+                    android:layout="@layout/fragment_car_selection"
+                    tools:layout="@layout/fragment_car_selection" />
 
-            <!--</RelativeLayout>-->
+            </RelativeLayout>
 
         </RelativeLayout>
 

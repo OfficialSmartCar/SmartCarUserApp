@@ -15,45 +15,60 @@
         android:layout_alignParentTop="true" />
 
     <android.support.v4.widget.DrawerLayout
-        android:layout_below="@+id/app_bar"
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.moin.smartcar.Tabs.SlidingTabLayout
+                    android:id="@+id/slidingtabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_gradient" />
+
+                <com.moin.smartcar.Tabs.CustomPager
+                    android:id="@+id/viewPagerHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/loadignView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:onClick="doNothing">
 
+                <View
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/userBookingsRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:background="@android:color/black" />
 
-                <RelativeLayout
-                    android:id="@+id/fragmentContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <fragment android:name="com.moin.smartcar.RegService.RegServicePopUp"
-                        android:id="@+id/fragment1"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout="@layout/fragment_reg_service_pop_up"
-                        tools:layout="@layout/fragment_reg_service_pop_up"
-                        android:layout_marginBottom="0dp" />
-                </RelativeLayout>
-
-
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"
+                    app:indicator="BallClipRotatePulse"
+                    app:indicator_color="#ff8b90af" />
             </RelativeLayout>
 
         </RelativeLayout>
+
 
         <fragment
             android:id="@+id/navigationDrawer_fragment"

@@ -2,11 +2,9 @@ package com.moin.smartcar.ReportBreakdown;
 
 import android.content.Intent;
 import android.graphics.Point;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -15,10 +13,8 @@ import android.widget.ImageView;
 
 import com.moin.smartcar.BreakdownGoogleMap;
 import com.moin.smartcar.LoginSignUp.LoginNew;
-import com.moin.smartcar.MyBookings.navUserBookings;
 import com.moin.smartcar.R;
-import com.moin.smartcar.Support.ContactUs;
-import com.moin.smartcar.Support.FAQHome;
+import com.moin.smartcar.SingeltonData.DataSingelton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,10 +29,9 @@ public class BreakdownHome extends AppCompatActivity {
     @Bind(R.id.BottomClick)View bottomView;
     int navigationDestination = 0;
     @Bind(R.id.outerImageView)ImageView imgView;
-    private int REQUEST_CODE = 109;
-
     int check = 0;
     int closignAnimationStarted = 0;
+    private int REQUEST_CODE = 109;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +70,10 @@ public class BreakdownHome extends AppCompatActivity {
                 BottomSelection();
             }
         });
+
+        DataSingelton.getMy_SingeltonData_Reference().myLong = 0.0;
+        DataSingelton.getMy_SingeltonData_Reference().myLat = 0.0;
+
 
     }
 
@@ -215,11 +214,11 @@ public class BreakdownHome extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logoutmenu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.logoutmenu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

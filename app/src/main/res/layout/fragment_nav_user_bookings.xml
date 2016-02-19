@@ -1,19 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        android:orientation="vertical">
+        android:background="@android:color/darker_gray">
+
 
         <RelativeLayout
-            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/top_View">
+            android:background="@color/colorPrimary">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
@@ -22,19 +20,19 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/top_View"
-            android:layout_width="match_parent"
-            android:layout_height="200dp">
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/top_View"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="120dp">-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/menu_bg"
-                android:scaleType="centerCrop"/>
+        <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/menu_bg"-->
+        <!--android:scaleType="centerCrop"/>-->
 
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
 
 
 

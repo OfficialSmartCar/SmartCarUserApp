@@ -6,14 +6,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.vignesh_iopex.confirmdialog.Confirm;
-import com.github.vignesh_iopex.confirmdialog.Dialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,21 +22,44 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.moin.smartcar.Network.MyApplication;
 import com.moin.smartcar.ReportBreakdown.BreakdownEntering;
 import com.moin.smartcar.SingeltonData.DataSingelton;
+import com.moin.smartcar.Utility.MoinUtils;
 
 public class BreakdownGoogleMap extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap googleMap1;
     Marker mMarker;
     int cameraZoom = 0;
-
     double myLatitude = 0.0;
     double myLongitude = 0.0;
     int locationChanged = 0;
-
+    private GoogleMap googleMap1;
     private Button sendButton;
 
 
     private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+    private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+        @Override
+        public void onMyLocationChange(Location location) {
+            if (locationChanged == 0) {
+                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                if (mMarker != null) {
+                    mMarker.remove();
+                }
+                mMarker = googleMap1.addMarker(new MarkerOptions().position(loc));
+                mMarker.setDraggable(true);
+                mMarker.setTitle("User Location");
+                myLatitude = location.getLatitude();
+                myLongitude = location.getLongitude();
+
+                mySingelton.myLat = myLatitude;
+                mySingelton.myLong = myLongitude;
+
+                if (googleMap1 != null && cameraZoom == 0) {
+                    cameraZoom = 1;
+                    googleMap1.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,31 +139,6 @@ public class BreakdownGoogleMap extends FragmentActivity implements OnMapReadyCa
 
     }
 
-    private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
-        @Override
-        public void onMyLocationChange(Location location) {
-            if (locationChanged == 0) {
-                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                if (mMarker != null) {
-                    mMarker.remove();
-                }
-                mMarker = googleMap1.addMarker(new MarkerOptions().position(loc));
-                mMarker.setDraggable(true);
-                mMarker.setTitle("User Location");
-                myLatitude = location.getLatitude();
-                myLongitude = location.getLongitude();
-
-                mySingelton.myLat = myLatitude;
-                mySingelton.myLong = myLongitude;
-
-                if (googleMap1 != null && cameraZoom == 0) {
-                    cameraZoom = 1;
-                    googleMap1.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-                }
-            }
-        }
-    };
-
     void getCurrentLocation() {
         Location myLocation = googleMap1.getMyLocation();
         if (myLocation != null) {
@@ -164,8 +157,12 @@ public class BreakdownGoogleMap extends FragmentActivity implements OnMapReadyCa
     private void validateUserLocationSending() {
 
         if (mySingelton.myLat == 0.0) {
-
+            MoinUtils.getReference().showMessage(MyApplication.getAppContext(), "Location Not Found");
         } else {
+
+            startActivity(new Intent(BreakdownGoogleMap.this, BreakdownEntering.class));
+            overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+
 //            Confirm.using(this).ask("This is for customer assistance ," + getResources().getString(R.string.app_name) + " is not involved in this service \nAll payments should be handled by the user directly").onPositive("Yes", new Dialog.OnClickListener() {
 //                @Override
 //                public void onClick(Dialog dialog, int which) {
@@ -178,23 +175,22 @@ public class BreakdownGoogleMap extends FragmentActivity implements OnMapReadyCa
 //                }
 //            }).build().show();
 
-            TextView textView = new TextView(this);
-            textView.setPadding(10, 40, 10, 40);
-            textView.setText(getResources().getString(R.string.mapInfo));
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(20);
-            Confirm.using(this).askView(textView).onPositive("Ok", new Dialog.OnClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int which) {
-                        startActivity(new Intent(BreakdownGoogleMap.this, BreakdownEntering.class));
-                    overridePendingTransition(R.anim.activity_slide_right_in,R.anim.scalereduce);
-                }
-            }).onNegative("Cancel", new Dialog.OnClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int which) {
-
-                }
-            }).build().show();
+//            TextView textView = new TextView(this);
+//            textView.setPadding(10, 40, 10, 40);
+//            textView.setText(getResources().getString(R.string.mapInfo));
+//            textView.setGravity(Gravity.CENTER);
+//            textView.setTextSize(20);
+//            Confirm.using(this).askView(textView).onPositive("Ok", new Dialog.OnClickListener() {
+//                @Override
+//                public void onClick(Dialog dialog, int which) {
+//
+//                }
+//            }).onNegative("Cancel", new Dialog.OnClickListener() {
+//                @Override
+//                public void onClick(Dialog dialog, int which) {
+//
+//                }
+//            }).build().show();
         }
     }
 

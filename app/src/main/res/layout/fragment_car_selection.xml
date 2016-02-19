@@ -1,38 +1,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:orientation="vertical"
-    android:elevation="5dp"
+    android:layout_height="430dp"
     android:background="@color/colorPrimaryDark"
+    android:elevation="5dp"
+    android:orientation="vertical"
     tools:context="com.moin.smartcar.CarSelector.CarSelection">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/fragmentHeader"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:elevation="20dp">
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
+            android:id="@+id/carSelectionHeading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:gravity="center"
             android:text="Select Car"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="25sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:background="@android:color/transparent"
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_height="270dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_margin="15dp" />
+        android:layout_alignParentTop="true"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/bottomMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="3 more steps to go to confirm"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
 
 </LinearLayout>

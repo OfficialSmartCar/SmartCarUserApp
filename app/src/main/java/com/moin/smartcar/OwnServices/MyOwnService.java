@@ -6,22 +6,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -29,14 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.hanks.htextview.HTextView;
-import com.hanks.htextview.animatetext.HText;
+import com.moin.smartcar.Booking.BookingMain;
 import com.moin.smartcar.CarSelector.CarSelection;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
 import com.moin.smartcar.Network.VolleySingelton;
 import com.moin.smartcar.R;
-import com.moin.smartcar.RegService.RegServicePopUp;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.User.CarInfoStr;
 import com.moin.smartcar.Utility.MoinUtils;
@@ -47,10 +39,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class MyOwnService extends AppCompatActivity implements CarSelection.carSelectedInterface {
 
+    int textCheck = 0;
     private TextView totalCostTextView;
     private int mSelected = 0;
     private View BottomConatiner;
@@ -59,8 +53,6 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     private ArrayList<OwnServiceStr> data = new ArrayList<>();
     private MyOwnServiceAdapter myAdapter;
     private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
-    int textCheck = 0;
-
     private View loadingView;
     private AVLoadingIndicatorView loadingIndicator;
 
@@ -68,12 +60,15 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     private CarSelection fragmentPopUp;
 
     private CarInfoStr selectedCar;
+    private Double costWithTax;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_own_service);
+
+        mySingelton.selectionOfScreen = 2;
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -95,7 +90,8 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
         myRecyclerView.setHasFixedSize(true);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,1);
-        myRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+//        myRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new MyOwnServiceAdapter(this);
@@ -131,9 +127,30 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
 
         if (mySingelton.userCarList.size() == 1){
             selectedCar = mySingelton.userCarList.get(0);
+            mySingelton.CarSelecetd = selectedCar;
             fragmentContainer = findViewById(R.id.fragmentContainer);
-            fragmentContainer.setVisibility(View.VISIBLE);
+            fragmentContainer.setVisibility(View.GONE);
+            getData();
         }
+
+        showLoadingView();
+
+        BottomConatiner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MyOwnService.this, BookingMain.class);
+                mySingelton.paymentSelection = 2;
+                mySingelton.AmmountToPay = costWithTax;
+                mySingelton.customServiceSelection = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    if (data.get(i).isActive) {
+                        mySingelton.customServiceSelection.add(data.get(i));
+                    }
+                }
+                startActivity(myIntent);
+                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+            }
+        });
 
     }
 
@@ -141,7 +158,7 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
 
 //        hintTextView.setAlpha(1.0f);
 
-        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, mySingelton.getServicesurl,
+        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getCustomeServices,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -172,10 +189,20 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
                 }
 
         );
-        showLoadingView();
+
+        unselectAllSelections();
+
+//        showLoadingView();
+        calculateTotal();
         RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         getServcesList.setRetryPolicy(policy);
         VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(getServcesList);
+    }
+
+    private void unselectAllSelections() {
+        for (int i = 0; i < data.size(); i++) {
+            data.get(i).isActive = false;
+        }
     }
 
     private void parseServerResponse(JSONObject myObj){
@@ -293,76 +320,6 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
         MoinUtils.getReference().showMessage(MyOwnService.this,msg);
     }
 
-
-
-    private class MyOwnServiceAdapter extends RecyclerView.Adapter<MyOwnServiceHolder>{
-
-        private LayoutInflater inflator;
-
-        public MyOwnServiceAdapter(Context context){
-            this.inflator = LayoutInflater.from(context);
-        }
-
-        @Override
-        public MyOwnServiceHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflator.inflate(R.layout.my_own_service_cell, parent, false);
-            MyOwnServiceHolder holder = new MyOwnServiceHolder(view);
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyOwnServiceHolder holder, int position) {
-//            holder.titletextView.setText(data.get(position));
-            OwnServiceStr myStr = data.get(position);
-            holder.titletextView.setText(myStr.title);
-            holder.subTitleTextView.setText(myStr.subTitle);
-            holder.costTextView.setText("Rs " + myStr.cost.toString());
-
-            if (myStr.isActive){
-                holder.parentView.setBackgroundColor(getResources().getColor(R.color.lightGrey));
-                holder.checkImage1.setImageResource(R.drawable.check);
-            }else{
-                holder.parentView.setBackgroundColor(Color.WHITE);
-                holder.checkImage1.setImageResource(R.drawable.uncheck);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-    }
-
-    public class MyOwnServiceHolder extends RecyclerView.ViewHolder {
-        TextView titletextView,subTitleTextView,costTextView;
-        View parentView;
-        View topView,BottomView;
-        ImageView checkImage1;
-
-        public MyOwnServiceHolder(View itemView) {
-            super(itemView);
-            checkImage1 = (ImageView)itemView.findViewById(R.id.checkImage1);
-            titletextView = (TextView) itemView.findViewById(R.id.ownServiceTitle);
-            subTitleTextView = (TextView) itemView.findViewById(R.id.contentOfService);
-            costTextView = (TextView)itemView.findViewById(R.id.costTextVew);
-            parentView = itemView.findViewById(R.id.parent);
-            topView = itemView.findViewById(R.id.top1);
-            BottomView = itemView.findViewById(R.id.lowerView);
-            topView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewSelected(getAdapterPosition());
-                }
-            });
-            BottomView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showMoreInfoForView(getAdapterPosition(),parentView);
-                }
-            });
-        }
-    }
-
     private void viewSelected (int position){
 
         data.get(position).isActive = !data.get(position).isActive;
@@ -371,14 +328,20 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     }
 
     private void calculateTotal(){
-        double mTotal = 0;
+        costWithTax = 0.0;
         for (int i=0;i<data.size();i++){
             if (data.get(i).isActive){
-                mTotal = mTotal + data.get(i).cost;
+                double mTotal = 0;
+                mTotal = data.get(i).cost;
+                mTotal = mTotal + (((data.get(i).taxPercentage) / 100) * mTotal);
+                costWithTax += mTotal;
             }
         }
 
-        if (mTotal == 0.0){
+        Double truncatedDouble = new BigDecimal(costWithTax).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        costWithTax = truncatedDouble;
+
+        if (costWithTax == 0.0) {
             collapse(BottomConatiner);
             mSelected = 0;
         }else{
@@ -388,7 +351,7 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             }
         }
 
-        totalCostTextView.setText(" Rs. " + mTotal + " ");
+        totalCostTextView.setText(" Rs. " + costWithTax + " ");
     }
 
     private void showMoreInfoForView(int position, View v){
@@ -417,18 +380,13 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     @Override
     protected void onResume() {
         super.onResume();
+        fragmentPopUp.refreshHeader();
         mySingelton.customServicetitle = "";
         mySingelton.customServicesubTitle = "";
         mySingelton.customServiceTaxType = "";
         mySingelton.customServiceTaxPercentage = 0.0;
         mySingelton.customServiceCost = 0.0;
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logoutmenu,menu);
-        return true;
     }
 
     @Override
@@ -446,6 +404,81 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
         getData();
         fragmentContainer.setVisibility(View.GONE);
         selectedCar = mySingelton.userCarList.get(index);
-        Toast.makeText(MyOwnService.this,selectedCar.carName + "",Toast.LENGTH_LONG).show();
+//        Toast.makeText(MyOwnService.this,selectedCar.carName + "",Toast.LENGTH_LONG).show();
+    }
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.logoutmenu,menu);
+//        return true;
+//    }
+
+    private class MyOwnServiceAdapter extends RecyclerView.Adapter<MyOwnServiceHolder> {
+
+        private LayoutInflater inflator;
+
+        public MyOwnServiceAdapter(Context context) {
+            this.inflator = LayoutInflater.from(context);
+        }
+
+        @Override
+        public MyOwnServiceHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = inflator.inflate(R.layout.my_own_service_cell, parent, false);
+            MyOwnServiceHolder holder = new MyOwnServiceHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MyOwnServiceHolder holder, int position) {
+//            holder.titletextView.setText(data.get(position));
+            OwnServiceStr myStr = data.get(position);
+            holder.titletextView.setText(myStr.title);
+            holder.subTitleTextView.setText(myStr.subTitle);
+            holder.costTextView.setText("Rs " + myStr.cost.toString());
+
+            if (myStr.isActive) {
+                holder.parentView.setBackgroundColor(getResources().getColor(R.color.lightGrey));
+                holder.checkImage1.setImageResource(R.drawable.check);
+            } else {
+                holder.parentView.setBackgroundColor(Color.WHITE);
+                holder.checkImage1.setImageResource(R.drawable.uncheck);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+    }
+
+    public class MyOwnServiceHolder extends RecyclerView.ViewHolder {
+        TextView titletextView, subTitleTextView, costTextView;
+        View parentView;
+        View topView, BottomView;
+        ImageView checkImage1;
+
+        public MyOwnServiceHolder(View itemView) {
+            super(itemView);
+            checkImage1 = (ImageView) itemView.findViewById(R.id.checkImage1);
+            titletextView = (TextView) itemView.findViewById(R.id.ownServiceTitle);
+            subTitleTextView = (TextView) itemView.findViewById(R.id.contentOfService);
+            costTextView = (TextView) itemView.findViewById(R.id.costTextVew);
+            parentView = itemView.findViewById(R.id.parent);
+            topView = itemView.findViewById(R.id.top1);
+            BottomView = itemView.findViewById(R.id.lowerView);
+            topView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewSelected(getAdapterPosition());
+                }
+            });
+            BottomView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showMoreInfoForView(getAdapterPosition(), parentView);
+                }
+            });
+        }
     }
 }

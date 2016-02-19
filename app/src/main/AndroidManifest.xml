@@ -154,11 +154,38 @@
             android:name=".DentPaint.DentingAndPainting"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ReportBreakdown.BreakdownCategory" />
-        <activity android:name=".LoginSignUp.SignUpAdditionalDataPartOne" />
-        <activity android:name=".LoginSignUp.SignUpAdditionalPartTwo" />
-        <activity android:name=".Support.Calling" />
-        <activity android:name=".RegService.RegularServiceDetail"></activity>
+        <activity
+            android:name=".ReportBreakdown.BreakdownCategory"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".LoginSignUp.SignUpAdditionalDataPartOne"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".LoginSignUp.SignUpAdditionalPartTwo"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Support.Calling"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".RegService.RegularServiceDetail"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AMC.AMCListing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Booking.BookingMain"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".Booking.BookingSuccess" />
+        <activity android:name=".Booking.BookingDetailPartOne" />
+        <activity android:name=".MyBookings.RescheduleBooking" />
+        <activity android:name=".Booking.CodeUsage"></activity>
     </application>
 
 </manifest>

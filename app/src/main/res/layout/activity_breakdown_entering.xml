@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     tools:context="com.moin.smartcar.ReportBreakdown.BreakdownEntering">
 
@@ -15,10 +15,10 @@
         android:layout_alignParentTop="true" />
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -32,63 +32,100 @@
 
                 <EditText
                     android:id="@+id/phoneNumberEditText"
+                    style="@style/editTextDisabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone Number"
                     android:inputType="phone"
-                    style="@style/editTextDisabled"
                     android:textColor="@color/backgroundGrey"/>
 
                 <EditText
                     android:id="@+id/alternatephoneNumberEditText"
+                    style="@style/contactUsTextFeilds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Alternate Number"
-                    android:inputType="phone"
-                    style="@style/contactUsTextFeilds"/>
+                    android:inputType="phone" />
 
 
                 <EditText
                     android:id="@+id/LocationEditText"
-                    android:scrollIndicators="right"
-                    android:gravity="top|left"
+                    style="@style/contactUsTextArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top|left"
                     android:hint="Enter Your Location"
-                    style="@style/contactUsTextArea"/>
+                    android:scrollIndicators="right" />
 
-                <EditText
-                    android:padding="10dp"
-                    android:id="@+id/commentsEditText"
-                    android:scrollIndicators="right"
-                    android:gravity="top|left"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Comments"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/border_radius_white"
-                    android:maxLines="3"
-                    android:maxHeight="75dp"
-                    android:minHeight="75dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp" />
+                    android:gravity="right"
+                    android:text="Please provide nearest landmark to help us locate you easily"
+                    android:textColor="@color/lightGrey" />
+
+                <EditText
+                    android:id="@+id/commentsEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border_radius_white"
+                    android:gravity="top|left"
+                    android:hint="Comments"
+                    android:maxHeight="75dp"
+                    android:maxLines="3"
+                    android:minHeight="75dp"
+                    android:padding="10dp"
+                    android:scrollIndicators="right"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <com.github.lguipeng.library.animcheckbox.AnimCheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="10dp"
+                        app:circle_color="@android:color/transparent"
+                        app:stroke_color="#2196F3"
+                        app:stroke_width="4dp" />
+
+                    <TextView
+                        android:id="@+id/termsOfUseTextFeild"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Accept Terms Of Use" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/sendBreakdownButton"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/strip"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
                     android:padding="5dp"
                     android:text="Send"
-                    android:textSize="@dimen/buttonsTextSIze"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/buttonsTextSIze"
+                    android:textStyle="bold" />
 
 
 
@@ -107,8 +144,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black"
-            android:alpha="0.8"/>
+            android:alpha="0.8"
+            android:background="@android:color/black" />
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/loadingIndicator"

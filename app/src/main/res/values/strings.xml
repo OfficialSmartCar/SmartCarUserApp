@@ -38,11 +38,32 @@
         <item>Profile</item>
         <item>Support</item>
         <item>Terms Of Use</item>
-        <item>Share SmartCar</item>
-        <item>Rate SmartCar</item>
+        <item>Share Smart Car</item>
+        <item>Rate Smart Car</item>
         <item>Logout</item>
-
     </array>
+
+    <array name="timeSlots">
+        <item>10:00 AM</item>
+        <item>11:00 AM</item>
+        <item>12:00 PM</item>
+        <item>1:00 PM</item>
+        <item>2:00 PM</item>
+        <item>3:00 PM</item>
+        <item>3:00 PM</item>
+        <item>4:00 PM</item>
+        <item>5:00 PM</item>
+        <item>6:00 PM</item>
+        <item>7:00 PM</item>
+        <item>8:00 PM</item>
+        <item>9:00 PM</item>
+    </array>
+
+    <string-array name="my_bookings_tabs">
+        <item>Up Comming</item>
+        <item>In Progress</item>
+        <item>History</item>
+    </string-array>
 
     <string-array name="profiletabs">
         <item>User Info</item>
@@ -98,4 +119,5 @@
     <string name="number3">8828002989</string>
     <string name="number2">7738269888</string>
     <string name="number1">9867008785</string>
+    <string name="codeInfoString">The above three codes are used for verification and identification purposes, please keep them handy when our executive comes to pick up your vehicle for servicing</string>
 </resources>

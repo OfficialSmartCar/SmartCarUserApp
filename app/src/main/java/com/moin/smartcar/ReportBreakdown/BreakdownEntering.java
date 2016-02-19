@@ -1,9 +1,11 @@
 package com.moin.smartcar.ReportBreakdown;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.lguipeng.library.animcheckbox.AnimCheckBox;
 import com.moin.smartcar.Custom.LocationAddress;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
@@ -20,17 +23,19 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class BreakdownEntering extends AppCompatActivity {
 
+    @Bind(R.id.checkBox)
+    AnimCheckBox checkBox;
     private DataSingelton mySingelton  =DataSingelton.getMy_SingeltonData_Reference();
     private View loadingView;
     private AVLoadingIndicatorView loadingIndicator;
-
     private EditText contactNumberEditText,alternateContactNumberEditText,addressEditText,commentsEditText;
     private Button sendBreakdownButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class BreakdownEntering extends AppCompatActivity {
         getSupportActionBar().setTitle("Enter Location");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        checkBox.setChecked(true, false);
 
         loadingView = findViewById(R.id.loadignView);
         loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.loadingIndicator);
@@ -72,6 +79,16 @@ public class BreakdownEntering extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.termsOfUseTextFeild)
+    void showTermsOfUse(View view) {
+        String url = "ww.google.com";
+        if (!url.startsWith("http://") && !url.startsWith("https://"))
+            url = "http://" + url;
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+    }
+
     private void validateAndUpdate(){
 
         if (mySingelton.myLat == 0.0){
@@ -97,8 +114,24 @@ public class BreakdownEntering extends AppCompatActivity {
         double latitude = mySingelton.myLat;
         double longitude = mySingelton.myLong;
         LocationAddress locationAddress = new LocationAddress();
-        locationAddress.getAddressFromLocation(latitude, longitude,
+        LocationAddress.getAddressFromLocation(latitude, longitude,
                 getApplicationContext(), new GeocoderHandler());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void hideLoadingView() {
+        loadingView.setVisibility(View.GONE);
+        loadingIndicator.setVisibility(View.GONE);
+    }
+
+    private void showLoadingView() {
+        loadingView.setVisibility(View.VISIBLE);
+        loadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private class GeocoderHandler extends Handler {
@@ -179,21 +212,5 @@ public class BreakdownEntering extends AppCompatActivity {
                 hideLoadingView();
             }
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void hideLoadingView() {
-        loadingView.setVisibility(View.GONE);
-        loadingIndicator.setVisibility(View.GONE);
-    }
-
-    private void showLoadingView() {
-        loadingView.setVisibility(View.VISIBLE);
-        loadingIndicator.setVisibility(View.VISIBLE);
     }
 }

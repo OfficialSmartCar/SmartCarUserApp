@@ -2,6 +2,7 @@ package com.moin.smartcar.User;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,16 +10,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.ViewAnimator;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -43,9 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,23 +49,17 @@ import butterknife.OnClick;
 public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener,ProfileCarFragment.carSectionInterface {
 
     int check = 0;
-
-    private CustomPager mPager;
-    private SlidingTabLayout myTabLayout;
-
     ProfileCarFragment frg1;
     ProfileUserFragment frg2;
-
-    private ViewGroup synchronizeButton;
-    private ViewGroup.LayoutParams buttonLayoutParams;
-
-    private ViewAnimator viewAnimator;
-
     @Bind(R.id.bottom_sheet)
     SheetLayout mSheetLayout;
     @Bind(R.id.fabAddCar)
     FloatingActionButton mFab;
-
+    private CustomPager mPager;
+    private SlidingTabLayout myTabLayout;
+    private ViewGroup synchronizeButton;
+    private ViewGroup.LayoutParams buttonLayoutParams;
+    private ViewAnimator viewAnimator;
     private int REQUEST_CODE = 1;
 
     private View loadingView;
@@ -278,7 +267,7 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
         }
 
 
-        JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, mySingelton.UpdateUserDetails, params,
+        JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.UpdateUserDetails, params,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -383,39 +372,6 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
         }
     }
 
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        String[] tabs;
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-            tabs = getResources().getStringArray(R.array.profiletabs);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-
-                case 0:return frg2;
-                case 1:return frg1;
-                default: return frg2;
-            }
-
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabs[position];
-        }
-
-
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    }
-
     @Override
     public void carSelected(CarInfoStr someStr,int index) {
         Intent myIntent = new Intent(Profile.this,AddCarInfo.class);
@@ -424,13 +380,6 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
         mySingelton.carSelectionIndex = index;
         startActivity(myIntent);
         overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logoutmenu,menu);
-        return true;
     }
 
     @Override
@@ -442,6 +391,13 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
 
         return super.onOptionsItemSelected(item);
     }
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.logoutmenu,menu);
+//        return true;
+//    }
 
     @Override
     public void finish() {
@@ -466,5 +422,40 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
 
     private void showMessage(String msg) {
         MoinUtils.getReference().showMessage(Profile.this, msg);
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        String[] tabs;
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+            tabs = getResources().getStringArray(R.array.profiletabs);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+
+                case 0:
+                    return frg2;
+                case 1:
+                    return frg1;
+                default:
+                    return frg2;
+            }
+
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabs[position];
+        }
+
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }

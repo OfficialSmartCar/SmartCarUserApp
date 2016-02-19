@@ -16,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.github.lguipeng.library.animcheckbox.AnimCheckBox;
 import com.moin.smartcar.Database.DatabaseManager;
 import com.moin.smartcar.HomePage;
 import com.moin.smartcar.Network.VolleySingelton;
@@ -37,13 +36,10 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginNew extends AppCompatActivity {
 
-    private int backPressed = 0;
-    private Runnable task;
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
-
-    private ImageView glassImage;
-
+    private int backPressed = 0;
+    private Runnable task;
     private EditText emailIdEditTExt, passwordEdittext;
     private Button loginButton;
     private TextView signUpTextView;
@@ -51,7 +47,8 @@ public class LoginNew extends AppCompatActivity {
     private View loadingView;
     private AVLoadingIndicatorView loadingIndicator;
 
-    private AnimCheckBox rememberMeCheckBox;
+    private ImageView rememberMeCheckBox;
+    private Boolean rememberMeValue;
 
     private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
@@ -60,8 +57,7 @@ public class LoginNew extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
 
-        glassImage = (ImageView) findViewById(R.id.glassImageView);
-        MoinUtils.getReference().setGlassyBitmap(glassImage);
+
 
         emailIdEditTExt = (EditText) findViewById(R.id.newLoginUsername);
         passwordEdittext = (EditText) findViewById(R.id.newLoginPasswordEditText);
@@ -89,10 +85,24 @@ public class LoginNew extends AppCompatActivity {
         loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.loadingIndicator);
         hideLoadingView();
 
-        rememberMeCheckBox = (AnimCheckBox) findViewById(R.id.rememberMeCheckBox);
-        rememberMeCheckBox.setChecked(false, false);
+        rememberMeCheckBox = (ImageView) findViewById(R.id.rememberMeCheckBox);
+        rememberMeValue = false;
+        rememberMeCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rememberMeValue = !rememberMeValue;
+                changeCheckBoxContent();
+            }
+        });
 
+    }
 
+    private void changeCheckBoxContent() {
+        if (rememberMeValue) {
+            rememberMeCheckBox.setImageResource(R.drawable.check1);
+        } else {
+            rememberMeCheckBox.setImageResource(R.drawable.check0);
+        }
     }
 
     private void validateAndLogin() {
@@ -142,7 +152,7 @@ public class LoginNew extends AppCompatActivity {
         }
 
 
-        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, mySingelton.LoginUrl, params,
+        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.LoginUrl, params,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -236,7 +246,7 @@ public class LoginNew extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (rememberMeCheckBox.isChecked()) {
+                    if (rememberMeValue) {
                         DatabaseManager db = new DatabaseManager(LoginNew.this);
                         db.deleteAllCars();
                         db.deleteUserInfo();

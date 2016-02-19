@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="@color/colorPrimary"
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.moin.smartcar.RequestBooking.InvoicePage"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.moin.smartcar.RequestBooking.InvoicePage">
 
     <include
-        layout="@layout/app_bar"
-        android:id="@+id/app_bar"/>
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
 
 
     <TextView
 
         android:id="@+id/dateSelected"
+        style="@style/addCarTextViewSTyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/addCarTextViewSTyle"
         android:text="Date"/>
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/colorPrimary"
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
-        android:padding="10dp"
-        android:layout_below="@+id/recycler"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="5dp">
+        android:layout_below="@+id/recycler"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
-            android:gravity="end"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             style="@style/addCarTextViewSTyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
             android:text="Total"/>
 
         <TextView
             android:id="@+id/finalCostLabel"
-            android:paddingLeft="50dp"
-            android:text="300"
             style="@style/addCarTextViewSTyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:text="300" />
 
     </LinearLayout>
 
-    <com.andexert.library.RippleView
-        android:id="@+id/FBloginButtonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ripple:rv_type="rectangle">
+    <!--<com.andexert.library.RippleView-->
+    <!--android:id="@+id/FBloginButtonLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--ripple:rv_type="rectangle">-->
 
         <Button
             android:id="@+id/confirmBookingButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/strip"
             android:text="Confirm Booking"
             android:textColor="@android:color/white"
             android:textSize="@dimen/buttonsTextSIze" />
 
-    </com.andexert.library.RippleView>
+    <!--</com.andexert.library.RippleView>-->
 
 </LinearLayout>

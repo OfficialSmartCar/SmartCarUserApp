@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="120dp"
-    card_view:cardUseCompatPadding="true"
     android:background="@android:color/white"
-    card_view:cardCornerRadius="2dp">
+    android:minHeight="97dp"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardUseCompatPadding="true">
+
 
     <RelativeLayout
         android:id="@+id/parent"
@@ -17,73 +18,73 @@
 
         <ImageView
             android:id="@+id/checkImage1"
-            android:src="@drawable/uncheck"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp" />
+            android:src="@drawable/uncheck" />
 
         <LinearLayout
             android:id="@+id/top1"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/ownServiceTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:text="Title"
-                android:textSize="18sp"
                 android:textColor="@color/gradientBackColor"
-                android:layout_marginRight="20dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/contentOfService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sub Title"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginTop="5dp"
+                android:text="Sub Title"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/top1"
             android:id="@+id/lowerView"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/top1"
             android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <TextView
-                android:textColor="@color/colorPrimary"
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:textSize="13sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="More Info"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:textColor="@color/gradientBackColor"
                 android:id="@+id/costTextVew"
-                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ammount"
+                android:textColor="@color/gradientBackColor"
+                android:textSize="13sp"
                 />
 
         </LinearLayout>

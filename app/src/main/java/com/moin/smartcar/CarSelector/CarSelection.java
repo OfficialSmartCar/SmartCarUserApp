@@ -30,25 +30,28 @@ public class CarSelection extends Fragment {
     private ArrayList<CarInfoStr>data = new ArrayList<>();
     private CarSelectionAdapter myAdapter;
     private carSelectedInterface my_carSelectedInterface;
+    private TextView bottomMessage, carSelectionHeading;
 
-    public void setMy_carSelectedInterface(carSelectedInterface my_carSelectedInterface) {
-        this.my_carSelectedInterface = my_carSelectedInterface;
-    }
+    private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
     public CarSelection() {
         // Required empty public constructor
     }
 
-    public void setMyFragmentManager(FragmentManager myFragmentManager) {
-        this.myFragmentManager = myFragmentManager;
+    public static CarSelection getInstance() {
+        return new CarSelection();
+    }
+
+    public void setMy_carSelectedInterface(carSelectedInterface my_carSelectedInterface) {
+        this.my_carSelectedInterface = my_carSelectedInterface;
     }
 
 //    public void setMyContext(Context myContext) {
 //        this.myContext = myContext;
 //    }
 
-    public static CarSelection getInstance(){
-        return new CarSelection();
+    public void setMyFragmentManager(FragmentManager myFragmentManager) {
+        this.myFragmentManager = myFragmentManager;
     }
 
     private void getData(){
@@ -70,9 +73,36 @@ public class CarSelection extends Fragment {
         myAdapter = new CarSelectionAdapter(myContext);
         myRecyclerView.setAdapter(myAdapter);
 
+        carSelectionHeading = (TextView) view.findViewById(R.id.carSelectionHeading);
+        bottomMessage = (TextView) view.findViewById(R.id.bottomMessage);
+
+
         return view;
     }
 
+    public void refreshHeader() {
+        if (mySingelton.selectionOfScreen == 1) {
+            bottomMessage.setText(" 3 more steps to confirm Regular Service");
+            carSelectionHeading.setText("Select Your Car for Regular Service");
+        } else {
+            if (mySingelton.selectionOfScreen == 2) {
+                bottomMessage.setText(" 3 more steps to confirm Custom Service");
+                carSelectionHeading.setText("Select Your Car for Custom Service");
+            } else {
+                bottomMessage.setText(" 3 more steps to confirm AMC");
+                carSelectionHeading.setText("Select Your Car for AMC");
+            }
+        }
+    }
+
+    private void carSelected(int index) {
+        DataSingelton.getMy_SingeltonData_Reference().CarSelecetd = data.get(index);
+        my_carSelectedInterface.carSelectedAtIndex(index);
+    }
+
+    public interface carSelectedInterface {
+        void carSelectedAtIndex(int index);
+    }
 
     private class CarSelectionAdapter extends RecyclerView.Adapter<CarSelectionHolder>{
 
@@ -117,14 +147,6 @@ public class CarSelection extends Fragment {
                 }
             });
         }
-    }
-
-    private void carSelected(int index){
-        my_carSelectedInterface.carSelectedAtIndex(index);
-    }
-
-    public interface carSelectedInterface{
-        public void carSelectedAtIndex(int index);
     }
 
 }

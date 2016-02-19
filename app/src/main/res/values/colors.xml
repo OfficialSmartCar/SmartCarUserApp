@@ -29,4 +29,6 @@
 
     <color name="regServiceSeperatorColor">#F25E8A</color>
 
+    <color name="successBackground">#352a46</color>
+
 </resources>

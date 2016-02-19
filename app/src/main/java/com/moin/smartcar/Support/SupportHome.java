@@ -2,20 +2,17 @@ package com.moin.smartcar.Support;
 
 import android.content.Intent;
 import android.graphics.Point;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
-import com.moin.smartcar.Custom.SheetLayout;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
 import com.moin.smartcar.R;
@@ -34,11 +31,9 @@ public class SupportHome extends AppCompatActivity{
     @Bind(R.id.BottomClick)View bottomView;
     int navigationDestination = 0;
     @Bind(R.id.outerImageView)ImageView imgView;
-    private int REQUEST_CODE = 109;
-
     int check = 0;
     int closignAnimationStarted = 0;
-
+    private int REQUEST_CODE = 109;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,11 +210,11 @@ public class SupportHome extends AppCompatActivity{
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logoutmenu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.logoutmenu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

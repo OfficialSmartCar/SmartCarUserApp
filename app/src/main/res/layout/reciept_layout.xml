@@ -1,78 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:background="@android:color/transparent">
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/userbookingsCellParent"
-        android:orientation="horizontal"
+        android:id="@+id/backView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/paper2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
-        
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="11">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1.6"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
+            <TextView
+                android:id="@+id/nameOfService"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3">
-
-                <TextView
-                    android:id="@+id/cellTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/cellTitleHeight"
-                    android:textColor="@color/gradientBackColor"
-                    android:text="Express Service 1"/>
-
-                <TextView
-                    android:id="@+id/cellSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="(Every 500 km)"
-                    android:layout_marginTop="5dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:id="@+id/cellTax"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="match_parent"
-                    android:text="Location"/>
-
-                <TextView
-                    android:id="@+id/cellTotal"
-                    android:gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="500/-"/>
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:paddingLeft="15dp"
+                android:text="Name Of Service"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.6"
+            android:gravity="top|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:text="More info"
+                android:textColor="@color/backgroundGrey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/costOfService"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="top|right"
+                android:paddingRight="10dp"
+                android:text="Cost"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
+
 
 </RelativeLayout>

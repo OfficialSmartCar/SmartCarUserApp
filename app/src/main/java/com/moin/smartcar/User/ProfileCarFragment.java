@@ -2,15 +2,16 @@ package com.moin.smartcar.User;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +19,6 @@ import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 
 import java.util.ArrayList;
-
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,7 +62,7 @@ public class ProfileCarFragment extends Fragment {
         data = new ArrayList<>();
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
         for (int i = 0; i < mySingelton.userCarList.size(); i++) {
-                data.add(mySingelton.userCarList.get(i));
+            data.add(mySingelton.userCarList.get(i));
         }
         myAdapter.notifyDataSetChanged();
     }
@@ -82,6 +80,23 @@ public class ProfileCarFragment extends Fragment {
         return view;
     }
 
+    public void reloadtable() {
+        myAdapter.notifyDataSetChanged();
+    }
+
+    private void showDetailsOf(int index) {
+        my_carSectionInterface.carSelected(data.get(index), index);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    public interface carSectionInterface {
+        void carSelected(CarInfoStr someStr, int index);
+    }
 
     private class ProfileCarListAdapter extends RecyclerView.Adapter<ProfileCarCell> {
 
@@ -102,7 +117,7 @@ public class ProfileCarFragment extends Fragment {
         public void onBindViewHolder(ProfileCarCell holder, int position) {
             CarInfoStr myStr = data.get(position);
             holder.carName.setText(myStr.carName);
-            holder.carBrand.setText(myStr.carBrand);;
+            holder.carBrand.setText(myStr.carBrand);
             holder.carModel.setText(myStr.carModel);
             holder.carYearOfReg.setText(myStr.yearOfMaufacture);
             holder.RegNumber.setText(myStr.carRegNo);
@@ -116,7 +131,7 @@ public class ProfileCarFragment extends Fragment {
     }
 
     public class ProfileCarCell extends RecyclerView.ViewHolder {
-        TextView carName, carBrand, carModel, carYearOfReg, RegNumber , carVariant;
+        TextView carName, carBrand, carModel, carYearOfReg, RegNumber, carVariant;
         ImageView deleteImage;
         View mainView;
         View rootLayout;
@@ -129,8 +144,8 @@ public class ProfileCarFragment extends Fragment {
             carYearOfReg = (TextView) itemView.findViewById(R.id.carYearOfManufactureTextView);
             RegNumber = (TextView) itemView.findViewById(R.id.carNumberTextView);
             carVariant = (TextView) itemView.findViewById(R.id.carVariantTextView);
-            deleteImage = (ImageView)itemView.findViewById(R.id.deleteImage);
-            mainView = (View)itemView.findViewById(R.id.card_view);
+            deleteImage = (ImageView) itemView.findViewById(R.id.deleteImage);
+            mainView = itemView.findViewById(R.id.card_view);
 
             mainView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,31 +158,26 @@ public class ProfileCarFragment extends Fragment {
             deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mySingelton.deletedCars.add(data.get(getAdapterPosition()));
-                    data.remove(getAdapterPosition());
-                    myAdapter.notifyDataSetChanged();
+
+                    new AlertDialog.Builder(myContext)
+                            .setTitle("Remove Car Confirmation")
+                            .setMessage("Are you sure you want to delete this car ?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mySingelton.deletedCars.add(data.get(getAdapterPosition()));
+                                    data.remove(getAdapterPosition());
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             });
         }
-    }
-
-    public void reloadtable(){
-        myAdapter.notifyDataSetChanged();
-    }
-
-    private void showDetailsOf(int index){
-        my_carSectionInterface.carSelected(data.get(index),index);
-    }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getData();
-    }
-
-    public interface carSectionInterface {
-        public void carSelected(CarInfoStr someStr,int index);
     }
 }

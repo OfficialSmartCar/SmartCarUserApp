@@ -17,15 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.moin.smartcar.DentPaint.DentPaintHome;
+import com.moin.smartcar.AMC.AMCListing;
 import com.moin.smartcar.DentPaint.DentingAndPainting;
+import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.NavDrawer.NavigationDrawerRecyclerViewAdapter;
 import com.moin.smartcar.OwnServices.MyOwnService;
 import com.moin.smartcar.R;
-import com.moin.smartcar.RegService.RegularService;
 import com.moin.smartcar.RegService.RegularServiceListing;
 import com.moin.smartcar.ReportBreakdown.BreakdownCategory;
-import com.moin.smartcar.ReportBreakdown.BreakdownHome;
 import com.moin.smartcar.Support.SupportHome;
 import com.moin.smartcar.User.Profile;
 
@@ -41,28 +40,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class navUserBookings extends Fragment implements NavigationDrawerRecyclerViewAdapter.MyClickListener{
 
-    public String file_Name = "file_name";
-    private String myTitle;
-
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-
-    private boolean mUserLearnedDrawer;
-    private boolean fromSavedState;
-
-    public String Key_User_Learned_Drawer = "userLearnedDrawer";
-
-
-    private View containerView;
-
-    private Runnable task;
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
-
+    public String file_Name = "file_name";
+    public String Key_User_Learned_Drawer = "userLearnedDrawer";
+    private String myTitle;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private boolean mUserLearnedDrawer;
+    private boolean fromSavedState;
+    private View containerView;
+    private Runnable task;
     private RecyclerView recyclerView;
     private NavigationDrawerRecyclerViewAdapter myAdapter;
     private List<String> AllData = Collections.emptyList();
 
+
+    public navUserBookings() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +69,8 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
         }
     }
 
-    public navUserBookings() {
-        // Required empty public constructor
+    public void refreshHeader() {
+        myAdapter.notifyDataSetChanged();
     }
 
 
@@ -90,19 +86,19 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
         myAdapter.setMyClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myAdapter);
-
         return view;
     }
 
+
     public void setSharedPreferences(Context context, String Key, String Value) {
-        SharedPreferences sp = context.getSharedPreferences(file_Name, context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(file_Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Key, Value);
         editor.apply();
     }
 
     public String getSharedPreferences(Context context, String Key, String Value) {
-        SharedPreferences sp = context.getSharedPreferences(file_Name, context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(file_Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         return (sp.getString(Key, Value)).toString();
     }
@@ -221,6 +217,21 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                     worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
                 }
                 break;
+            case 5:
+                if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.AMC))) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent myIntent = new Intent(getActivity(), AMCListing.class);
+                            myIntent.putExtra("check", "1");
+                            startActivity(myIntent);
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
             case 7:
                 if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.profile))) {
                     navigated = 1;
@@ -230,6 +241,21 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                         public void run() {
                             Intent myIntent = new Intent(getActivity(),Profile.class);
                             myIntent.putExtra("check","1");
+                            startActivity(myIntent);
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
+            case 12:
+                if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.support))) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent myIntent = new Intent(getActivity(), LoginNew.class);
+                            myIntent.putExtra("check", "1");
                             startActivity(myIntent);
                         }
                     };
@@ -270,7 +296,10 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                     getActivity().finish();
                 }
             };
-            worker.schedule(task,1500, TimeUnit.MILLISECONDS);
+
+            if (!this.myTitle.toString().equalsIgnoreCase("HOME")) {
+                worker.schedule(task, 1500, TimeUnit.MILLISECONDS);
+            }
         }
 
 
@@ -281,7 +310,7 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
 
         this.myTitle = myTitle;
         myAdapter.setTitle(myTitle);
-        containerView = (View) getActivity().findViewById(fragmentId);
+        containerView = getActivity().findViewById(fragmentId);
 
         mDrawerLayout = drawerLayout;
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {

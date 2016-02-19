@@ -14,80 +14,195 @@
         android:layout_alignParentTop="true" />
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="10dp">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/phoneNumberEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone Number"
-                android:inputType="phone"
-                style="@style/editTextDisabled"/>
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/alternatePhoneNumberEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Alternate Number"
-                android:inputType="phone"
-                style="@style/contactUsTextFeilds"/>
+                <EditText
+                    android:id="@+id/phoneNumberEditText"
+                    style="@style/editTextDisabled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:textColor="@color/backgroundGrey" />
 
-            <EditText
-                android:id="@+id/emailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email Id"
-                android:inputType="textEmailAddress"
-                style="@style/editTextDisabled"/>
+                <EditText
+                    android:id="@+id/alternatePhoneNumberEditText"
+                    style="@style/contactUsTextFeilds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Alternate Number"
+                    android:inputType="phone" />
 
-            <EditText
-                android:id="@+id/mainQueryEditText"
-                android:scrollIndicators="right"
-                android:gravity="top|left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Whats On Your Mind ?"
-                style="@style/contactUsTextArea"/>
+                <EditText
+                    android:id="@+id/emailEditText"
+                    style="@style/editTextDisabled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email Id"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/backgroundGrey" />
 
-            <Button
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/strip"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:padding="5dp"
-                android:text="Send"
-                android:textSize="@dimen/buttonsTextSIze"/>
+                <EditText
+                    android:id="@+id/mainQueryEditText"
+                    style="@style/contactUsTextArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:hint="Whats On Your Mind ?"
+                    android:scrollIndicators="right" />
 
-            <Button
-                android:id="@+id/callButton"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/strip"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:padding="5dp"
-                android:text="CALL"
-                android:textSize="@dimen/buttonsTextSIze"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/strip"
+                    android:padding="5dp"
+                    android:text="Submit"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/buttonsTextSIze"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="OR"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/cell1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="40dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/contact_us" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/img1"
+                                android:layout_marginTop="-40dp"
+                                android:gravity="center"
+                                android:text="@string/number1"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
 
-        </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/cell2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/img2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="40dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/contact_us" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/img2"
+                                android:layout_marginTop="-40dp"
+                                android:gravity="center"
+                                android:text="@string/number2"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
 
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cell3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <ImageView
+                            android:id="@+id/img3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/contact_us" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img3"
+                            android:layout_marginTop="-40dp"
+                            android:gravity="center"
+                            android:text="@string/number3"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
 
 
     </RelativeLayout>

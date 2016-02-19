@@ -2,15 +2,14 @@ package com.moin.smartcar.RegService;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.moin.smartcar.OwnServices.OwnServiceStr;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Utility.MoinUtils;
@@ -21,6 +20,10 @@ import butterknife.OnClick;
 
 public class RegularServiceDetail extends AppCompatActivity {
 
+    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+    private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
+    private static final String PACKAGE_NAME = MoinUtils.getReference().Package;
+    private static final int ANIM_DURATION = 500;
     @Bind(R.id.mainContainer)View mainContainerView;
     @Bind(R.id.parent) View parentView;
     @Bind(R.id.title) TextView titleTextView;
@@ -28,12 +31,6 @@ public class RegularServiceDetail extends AppCompatActivity {
     @Bind(R.id.taxTypeTextView) TextView taxType;
     @Bind(R.id.costTextVew) TextView costTextView;
     @Bind(R.id.closebutton1) View closeBackground;
-
-    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
-    private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
-    private static final String PACKAGE_NAME = MoinUtils.getReference().Package;
-    private static final int ANIM_DURATION = 500;
-
     int mLeftDelta;
     int mTopDelta;
     float mWidthScale;
@@ -49,6 +46,7 @@ public class RegularServiceDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regular_service_detail);
         ButterKnife.bind(this);
+
 
         myStr = new RegServiceStr();
         myStr.TaskId = mySingelton.regServiceTaskId;

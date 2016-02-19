@@ -5,30 +5,21 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.vignesh_iopex.confirmdialog.Confirm;
-import com.github.vignesh_iopex.confirmdialog.Dialog;
 import com.moin.smartcar.LoginSignUp.LoginNew;
-import com.moin.smartcar.MyBookings.navUserBookings;
-import com.moin.smartcar.Network.MyApplication;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Utility.MoinUtils;
@@ -36,8 +27,6 @@ import com.moin.smartcar.Utility.MoinUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 public class DentPaintHome extends AppCompatActivity {
@@ -208,11 +197,11 @@ public class DentPaintHome extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logoutmenu,menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.logoutmenu,menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -223,6 +212,30 @@ public class DentPaintHome extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showMessageBeforeUploading() {
+        if (data.size() == 0) {
+            MoinUtils.getReference().showMessage(DentPaintHome.this, "Please select at least One Photo");
+        } else {
+            DataSingelton.getMy_SingeltonData_Reference().imagesSelected = new ArrayList<>();
+            DataSingelton.getMy_SingeltonData_Reference().imagesSelected = data;
+            finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        data = new ArrayList<>();
+        data = DataSingelton.getMy_SingeltonData_Reference().imagesSelected;
+        reloadCarousel();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
     }
 
     public class CoverFlowAdapter extends BaseAdapter {
@@ -289,30 +302,6 @@ public class DentPaintHome extends AppCompatActivity {
         class ViewHolder {
             public ImageView image;
         }
-    }
-
-    private void showMessageBeforeUploading(){
-        if (data.size() == 0){
-            MoinUtils.getReference().showMessage(DentPaintHome.this,"Please select at least One Photo");
-        }else{
-            DataSingelton.getMy_SingeltonData_Reference().imagesSelected = new ArrayList<>();
-            DataSingelton.getMy_SingeltonData_Reference().imagesSelected = data;
-            finish();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        data = new ArrayList<>();
-        data = DataSingelton.getMy_SingeltonData_Reference().imagesSelected;
-        reloadCarousel();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
     }
 
 

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:layout_margin="4dp"
-    android:elevation="4dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
+    android:layout_margin="4dp"
+    android:background="@android:color/transparent"
+    android:elevation="4dp"
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.CardView
-        card_view:cardCornerRadius="2dp"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="1dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp">
+        android:elevation="1dp"
+        card_view:cardCornerRadius="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,99 +25,100 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:elevation="3dp"
                 android:id="@+id/topSection"
-                android:orientation="horizontal"
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent">
+                android:background="@android:color/transparent"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <TextView
 
                     android:id="@+id/carNameTextView"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:layout_height="match_parent"
                     android:text="Name Of Car"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     android:textColor="@color/gradientBackColor"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/deleteImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@android:color/black"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/delete" />
 
 
             </LinearLayout>
 
             <RelativeLayout
-                android:layout_below="@+id/topSection"
                 android:id="@+id/card_view"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/topSection"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp">
 
                 <LinearLayout
-                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/carBrandNameTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text="Brand Name"
-                        android:textSize="@dimen/cellTitleHeight"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:text="Brand Name"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/cellTitleHeight" />
 
                     <TextView
                         android:id="@+id/carModelTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text="Model"
-                        android:textSize="@dimen/cellTitleHeight"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:text="Model"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/cellTitleHeight" />
 
                     <TextView
                         android:id="@+id/carYearOfManufactureTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text="Year Of Manufacture"
-                        android:textSize="@dimen/cellTitleHeight"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:text="Year Of Manufacture"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/cellTitleHeight" />
 
                     <TextView
                         android:id="@+id/carNumberTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text="MH26 AN 2306"
-                        android:textSize="@dimen/cellTitleHeight"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:text="MH26 AN 2306"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/cellTitleHeight" />
 
                     <TextView
                         android:id="@+id/carVariantTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text="Car Variant"
-                        android:textSize="@dimen/cellTitleHeight"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:text="Car Variant"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/cellTitleHeight" />
 
 
                 </LinearLayout>
