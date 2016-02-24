@@ -21,6 +21,7 @@ public class MainActivity extends AwesomeSplash {
             Executors.newSingleThreadScheduledExecutor();
     private Runnable task;
 
+
     @Override
     public void initSplash(ConfigSplash configSplash) {
         configSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
@@ -36,14 +37,23 @@ public class MainActivity extends AwesomeSplash {
         configSplash.setTitleTextSize(25f); //float value
         configSplash.setAnimTitleDuration(0);
         configSplash.setAnimTitleTechnique(Techniques.BounceIn);
+
+
     }
+
 
     @Override
     public void animationsFinished() {
-        DataSingelton.getMy_SingeltonData_Reference().userName = "";
+
+
+        DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+        mySingelton.signUpSuccess = "";
+
+        mySingelton.notificationCount = 0;
+
+        mySingelton.userName = "";
         DatabaseManager db = new DatabaseManager(MainActivity.this);
         Boolean check = db.getUserInfo();
-        DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
         ArrayList<CarInfoStr> list = new ArrayList<>();
         mySingelton.userCarList = new ArrayList<>();
@@ -65,8 +75,4 @@ public class MainActivity extends AwesomeSplash {
         }
         db.closeDB();
     }
-
-
-
-
 }

@@ -62,4 +62,8 @@ dependencies {
     compile 'com.github.moondroid.coverflow:library:1.0'
     compile 'com.github.lguipeng:AnimCheckBox:1.0.0'
     compile 'com.android.support:support-v4:23.1.1'
+
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'de.greenrobot:eventbus:2.4.0'
+
 }

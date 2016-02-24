@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.moin.smartcar.MyBookings.MyBookingsTabs.UpCommingBookings">
+
+    <com.tuesda.walker.circlerefresh.CircleRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        app:AniBackColor="#ff8b90af"
+        app:AniForeColor="@color/colorPrimary"
+        app:CircleSmaller="4">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/colorPrimary"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
+
+    <TextView
+        android:id="@+id/noInUpCommingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="40dp"
+        android:gravity="center"
+        android:text="You do not have any upcoming servicing . "
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        android:textStyle="normal" />
+
+</RelativeLayout>

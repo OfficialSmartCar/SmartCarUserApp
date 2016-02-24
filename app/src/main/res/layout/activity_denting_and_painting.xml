@@ -277,17 +277,16 @@
                         style="@style/contactUsTextArea"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:layout_marginTop="10dp"
                         android:gravity="top|left"
                         android:hint="Location Of Damage" />
 
                     <LinearLayout
                         android:id="@+id/attachImages"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -319,11 +318,15 @@
                         android:id="@+id/numberOfImages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right" />
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="right"
+                        android:textColor="@color/lightGrey" />
 
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:layout_margin="10dp"
                         android:background="@drawable/strip"
                         android:onClick="startSendingData"
                         android:text="SEND"
@@ -334,6 +337,29 @@
                 </LinearLayout>
 
             </ScrollView>
+
+            <RelativeLayout
+                android:id="@+id/loadingView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:background="@android:color/black" />
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"
+                    app:indicator="BallClipRotatePulse"
+                    app:indicator_color="#ff8b90af" />
+
+            </RelativeLayout>
 
 
         </RelativeLayout>

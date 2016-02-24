@@ -122,7 +122,7 @@ public class UserBookings extends AppCompatActivity implements UpCommingBookings
             mySingelton.cancelledOrRescheduled = 0;
             new AlertDialog.Builder(UserBookings.this)
                     .setTitle("Appointment Cancelled")
-                    .setMessage("Our 'Service Representative' will get back to you for further process to refund the funds")
+                    .setMessage("Our 'Service Representative' will get in touch with you for further assistance related to refund")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
@@ -213,6 +213,7 @@ public class UserBookings extends AppCompatActivity implements UpCommingBookings
             myStr.parentId = object.getString("parentId");
             myStr.isParent = Integer.parseInt(object.getString("isParent"));
             myStr.carName = object.getString("carName");
+            myStr.serviceIndex = object.getString("serviceIndex");
 
             String services = object.getString("servicesSelected");
 

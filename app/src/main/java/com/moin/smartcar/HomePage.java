@@ -29,6 +29,7 @@ import com.moin.smartcar.DentPaint.DentingAndPainting;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.UserBookings;
 import com.moin.smartcar.MyBookings.navUserBookings;
+import com.moin.smartcar.Notification.NotificationHome;
 import com.moin.smartcar.OwnServices.MyOwnService;
 import com.moin.smartcar.RegService.RegularServiceListing;
 import com.moin.smartcar.ReportBreakdown.BreakdownCategory;
@@ -39,34 +40,50 @@ import com.moin.smartcar.User.Profile;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class HomePage extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
     int first = 0;
+    //    private TextView notificationCountTextView;
+    @Bind(R.id.notificationCountTextView123)
+    TextView notificationCountTextView123;
     private ImageView backgroundImage;
     private Runnable task;
     private navUserBookings navFragment;
     private View rootLayout;
-
     private TextView userNameTextView;
     private TextView userCar;
-
     private SliderLayout mDemoSlider;
-
 
     @Override
     protected void onResume() {
         super.onResume();
+        DataSingelton.getMy_SingeltonData_Reference().signUpOrAdd = "Add";
         navFragment.refreshHeader();
+
+        notificationCountTextView123.setText(DataSingelton.getMy_SingeltonData_Reference().notificationCount + "");
+        if (DataSingelton.getMy_SingeltonData_Reference().notificationCount == 0) {
+            notificationCountTextView123.setAlpha(0.0f);
+        } else {
+            notificationCountTextView123.setAlpha(1.0f);
+        }
+
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.homeappbar);
+        ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.homeappbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
@@ -82,16 +99,16 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         navFragment = (navUserBookings) getSupportFragmentManager().findFragmentById(R.id.navigationDrawer_fragment);
         navFragment.setUp(R.id.navigationDrawer_fragment, (DrawerLayout) findViewById(R.id.drawerLayout), toolbar, "HOME");
 
-
-        backgroundImage = (ImageView)findViewById(R.id.backgroundImage);
+        backgroundImage = (ImageView) findViewById(R.id.backgroundImage);
 
 //        startAnimation();
-        animateImage();
+//        animateImage();
 
         mDemoSlider = (SliderLayout) findViewById(R.id.carouselSlider);
         loadSlider();
 
         getTheScreenHeight();
+
     }
 
     private void getTheScreenHeight() {
@@ -158,7 +175,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
     }
 
-    private void startAnimation(){
+    private void startAnimation() {
 //        if (first == 0) {
 ////            view.setVisibility(View.INVISIBLE);
 //
@@ -192,11 +209,11 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     }
 
 
-    private void animateViews(){
+    private void animateViews() {
 
     }
 
-    private void circularRevealActivity(){
+    private void circularRevealActivity() {
 //        int cx = rootLayout.getLeft();
 //        int cy = rootLayout.getTop();
 //
@@ -236,7 +253,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
 //        }).run();
     }
 
-    private void animateImage(){
+    private void animateImage() {
 
         Animation animFade;
 
@@ -252,10 +269,11 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
             @Override
             public void onAnimationEnd(Animation animation) {
                 backgroundImage.setImageResource(R.drawable.backcover);
-                Animation animFadeIn;
-                animFadeIn = AnimationUtils.loadAnimation(HomePage.this, R.anim.fade_in);
-                animFadeIn.setDuration(500);
-                backgroundImage.startAnimation(animFadeIn);
+                backgroundImage.setAlpha(1.0f);
+//                Animation animFadeIn;
+//                animFadeIn = AnimationUtils.loadAnimation(HomePage.this, R.anim.fade_in);
+//                animFadeIn.setDuration(500);
+//                backgroundImage.startAnimation(animFadeIn);
             }
 
             @Override
@@ -275,14 +293,14 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         navigation(new Intent(HomePage.this, UserBookings.class));
     }
 
-    private void navigation(Intent intent){
+    private void navigation(Intent intent) {
         startActivity(intent);
         overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
 
     }
 
     public void navigateToProfilePage(View view) {
-        Intent intent = new Intent(HomePage.this,Profile.class);
+        Intent intent = new Intent(HomePage.this, Profile.class);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
     }
@@ -306,7 +324,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     }
 
     public void navigateToDentPaintPage(View view) {
-        Intent myIntent = new Intent(HomePage.this,DentingAndPainting.class);
+        Intent myIntent = new Intent(HomePage.this, DentingAndPainting.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
 
@@ -319,9 +337,9 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     }
 
     public void navigateToNotifications(View view) {
-//        Intent myIntent = new Intent(HomePage.this,BookingSuccess.class);
-//        startActivity(myIntent);
-//        overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+        Intent myIntent = new Intent(HomePage.this, NotificationHome.class);
+        startActivity(myIntent);
+        overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
     }
 
     @Override
@@ -334,9 +352,10 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
-                            finish();
-//                            startActivity(new Intent(HomePage.this,MainActivity.class));
-//                            overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
+//                            finish();
+                            startActivity(new Intent(HomePage.this, LoginNew.class));
+                            overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
+                            killSelf();
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -371,4 +390,15 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    private void killSelf() {
+        Runnable task23 = new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        };
+        worker.schedule(task23, 2000, TimeUnit.MILLISECONDS);
+    }
+
 }

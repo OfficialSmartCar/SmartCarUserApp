@@ -31,7 +31,7 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 public class DentPaintHome extends AppCompatActivity {
 
-    private FeatureCoverFlow mCoverFlow,tempCoverFlow;
+    private FeatureCoverFlow mCoverFlow, tempCoverFlow;
     private CoverFlowAdapter mAdapter;
     private ArrayList<Bitmap> data = new ArrayList<>(0);
     private int currentPosition = -1;
@@ -58,22 +58,22 @@ public class DentPaintHome extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        CameraButton = (TextView)findViewById(R.id.CameraTextView);
-        GalleryButton = (TextView)findViewById(R.id.GalleryTextView);
+        CameraButton = (TextView) findViewById(R.id.CameraTextView);
+        GalleryButton = (TextView) findViewById(R.id.GalleryTextView);
 
-        deleteButton = (TextView)findViewById(R.id.deleteButton);
-        deleteUpArrow = (ImageView)findViewById(R.id.deleteUpArrow);
-        hintTextView = (TextView)findViewById(R.id.hintTextView);
+        deleteButton = (TextView) findViewById(R.id.deleteButton);
+        deleteUpArrow = (ImageView) findViewById(R.id.deleteUpArrow);
+        hintTextView = (TextView) findViewById(R.id.hintTextView);
 
         deleteButton.setAlpha(0.0f);
         deleteUpArrow.setAlpha(0.0f);
 
         mCoverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
-        tempCoverFlow = (FeatureCoverFlow)findViewById(R.id.coverflow);
+        tempCoverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
         mAdapter = new CoverFlowAdapter(this);
         mCoverFlow.setAdapter(mAdapter);
 
-        ContinueButton = (Button)findViewById(R.id.ContinueButton);
+        ContinueButton = (Button) findViewById(R.id.ContinueButton);
         ContinueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,52 +104,70 @@ public class DentPaintHome extends AppCompatActivity {
         CameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (data.size() == 4) {
+                    MoinUtils.getReference().showMessage(DentPaintHome.this, "Only 4 Images Allowed");
+                    return;
+                }
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                        cameraIntent.setType("image/*");
                 startActivityForResult(cameraIntent, 101);
-//                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
             }
         });
 
         GalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (data.size() == 4) {
+                    MoinUtils.getReference().showMessage(DentPaintHome.this, "Only 4 Images Allowed");
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 102);
-//                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
             }
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.remove(currentPosition);
-                reloadCarousel();
-                reloadCarousel();
+
+                try {
+                    if (data.size() != 0) {
+                        data.remove(currentPosition);
+                    }
+                    reloadCarousel();
+//                reloadCarousel();
 //                mAdapter.notifyDataSetChanged();
-                if (data.size() == 0){
-                    deleteButton.setAlpha(0.0f);
-                    deleteUpArrow.setAlpha(0.0f);
-                    hintTextView.setAlpha(1.0f);
-                }else{
-                    deleteButton.setAlpha(1.0f);
-                    deleteUpArrow.setAlpha(1.0f);
+                    if (data.size() == 0) {
+                        deleteButton.setAlpha(0.0f);
+                        deleteUpArrow.setAlpha(0.0f);
+                        hintTextView.setAlpha(1.0f);
+                    } else {
+                        deleteButton.setAlpha(1.0f);
+                        deleteUpArrow.setAlpha(1.0f);
+                    }
+                } catch (Exception e) {
+
                 }
+
             }
         });
 
     }
 
-    private void reloadCarousel(){
-        mCoverFlow.releaseAllMemoryResources();
-        mCoverFlow = null;
-        mAdapter = null;
-        mCoverFlow = tempCoverFlow;
-        mAdapter = new CoverFlowAdapter(this);
-        mCoverFlow.setAdapter(mAdapter);
+    private void reloadCarousel() {
+        try {
+            mCoverFlow.releaseAllMemoryResources();
+            mCoverFlow = null;
+            mAdapter = null;
+            mCoverFlow = tempCoverFlow;
+            mAdapter = new CoverFlowAdapter(this);
+            mCoverFlow.setAdapter(mAdapter);
+        } catch (Exception e) {
+            MoinUtils.getReference().showMessage(DentPaintHome.this, "Problem Faced In Adding image");
+        }
+
 
     }
 
@@ -206,9 +224,9 @@ public class DentPaintHome extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             startActivity(new Intent(DentPaintHome.this, LoginNew.class));
-        }else{
+        } else {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -249,19 +267,19 @@ public class DentPaintHome extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            if (data.size() == 0){
+            if (data.size() == 0) {
                 return 1;
-            }else{
+            } else {
                 return data.size();
             }
         }
 
         @Override
         public Object getItem(int pos) {
-            try{
+            try {
                 return data.get(pos);
-            }catch (Exception e){
-                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.image_1);
+            } catch (Exception e) {
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.frost);
                 return largeIcon;
             }
         }
@@ -288,16 +306,15 @@ public class DentPaintHome extends AppCompatActivity {
 
             ViewHolder holder = (ViewHolder) rowView.getTag();
 
-            try{
+            try {
                 holder.image.setAlpha(1.0f);
+                holder.image.setImageBitmap(null);
                 holder.image.setImageBitmap(data.get(position));
-            }catch (Exception e){
+            } catch (Exception e) {
                 holder.image.setAlpha(0.0f);
-                holder.image.setImageResource(R.drawable.image_1);
             }
             return rowView;
         }
-
 
         class ViewHolder {
             public ImageView image;

@@ -17,6 +17,9 @@ import java.util.ArrayList;
  */
 public class DataSingelton {
 
+    public static DataSingelton my_SingeltonData;
+
+
     public static String baseUrl = "http://178.62.10.40:3000";
     public static String getCustomeServices = baseUrl + "/getCustomServices";
     public static String getSupportInformation = baseUrl + "/getSupportInformation";
@@ -31,7 +34,14 @@ public class DataSingelton {
     public static String getAllbooking = baseUrl + "/getAllBookings";
     public static String cancelBooking = baseUrl + "/cancelBooking";
     public static String rescheduleAppointment = baseUrl + "/rescheduleAppointment";
-    public static DataSingelton my_SingeltonData;
+    public static String getNotificationList = baseUrl + "/getNotificationList";
+    public static String reportBreakdown = baseUrl + "/reportBreakdown";
+    public static String reportDentPaint = baseUrl + "/reportDentPaint";
+    public static String uploadImageUrl = "http://66.85.152.27:8080/SmartCar/dentpaintImagesupload/";
+    public static String supportUrl = baseUrl + "/support";
+
+
+
     public int selectionOfScreen;
     public int screenHeight;
     public String userName;
@@ -52,12 +62,14 @@ public String userId;
     public Double myLat, myLong;
     public ArrayList<Bitmap> imagesSelected;
     public String breakdownReason;
+
     // data For Custom Services
     public String customServicetitle;
     public String customServicesubTitle;
     public String customServiceTaxType;
     public Double customServiceTaxPercentage;
     public Double customServiceCost;
+
     //data For Reg Service + AMC
     public String regServiceTaskId;
     public String regServicetitle;
@@ -65,6 +77,7 @@ public String userId;
     public String regServiceTaxType;
     public Double regServiceTaxPercentage;
     public Double regServiceCost;
+
     public CarInfoStr CarSelecetd;
     public Double AmmountToPay;
     public int paymentSelection;
@@ -75,6 +88,11 @@ public String userId;
     public UpCommingStr MyBookingData;
     public Boolean UpCommingOrOther;
     public int cancelledOrRescheduled;
+    public String signUpSuccess;
+
+    public String signUpOrAdd;
+
+    public int notificationCount;
 
     private DataSingelton() {
         userName = "";

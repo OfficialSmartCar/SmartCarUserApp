@@ -64,6 +64,8 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
     private Double finalCost = 0.0;
     private View BottomView;
     private TextView bookTextView;
+    private View bookingLayout;
+    private boolean bookingDisabled;
 
 //    private RecyclerAdapter adapter;
 
@@ -85,6 +87,10 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
 
         BottomView = findViewById(R.id.payLayout);
         BottomView.setAlpha(0.0f);
+
+        bookingLayout = findViewById(R.id.bookingLayout);
+        bookingLayout.setAlpha(0.0f);
+        bookingDisabled = true;
 
         costTextView = (TextView)findViewById(R.id.costTextView);
 
@@ -139,17 +145,19 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
         costTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(RegularServiceListing.this, BookingMain.class);
-                mySingelton.paymentSelection = 1;
-                String ammount = costTextView.getText().toString();
-                ammount = ammount.substring(0, ammount.length() - 2);
-                mySingelton.AmmountToPay = Double.parseDouble(ammount);
-                mySingelton.regularServiceSelection = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    mySingelton.regularServiceSelection.add(data.get(i));
+                if (bookingDisabled != true) {
+                    Intent myIntent = new Intent(RegularServiceListing.this, BookingMain.class);
+                    mySingelton.paymentSelection = 1;
+                    String ammount = costTextView.getText().toString();
+                    ammount = ammount.substring(0, ammount.length() - 2);
+                    mySingelton.AmmountToPay = Double.parseDouble(ammount);
+                    mySingelton.regularServiceSelection = new ArrayList<>();
+                    for (int i = 0; i < data.size(); i++) {
+                        mySingelton.regularServiceSelection.add(data.get(i));
+                    }
+                    startActivity(myIntent);
+                    overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
                 }
-                startActivity(myIntent);
-                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
             }
         });
 
@@ -157,17 +165,19 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
         bookTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(RegularServiceListing.this, BookingMain.class);
-                mySingelton.paymentSelection = 1;
-                String ammount = costTextView.getText().toString();
-                ammount = ammount.substring(0, ammount.length() - 2);
-                mySingelton.AmmountToPay = Double.parseDouble(ammount);
-                mySingelton.regularServiceSelection = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    mySingelton.regularServiceSelection.add(data.get(i));
+                if (bookingDisabled != true) {
+                    Intent myIntent = new Intent(RegularServiceListing.this, BookingMain.class);
+                    mySingelton.paymentSelection = 1;
+                    String ammount = costTextView.getText().toString();
+                    ammount = ammount.substring(0, ammount.length() - 2);
+                    mySingelton.AmmountToPay = Double.parseDouble(ammount);
+                    mySingelton.regularServiceSelection = new ArrayList<>();
+                    for (int i = 0; i < data.size(); i++) {
+                        mySingelton.regularServiceSelection.add(data.get(i));
+                    }
+                    startActivity(myIntent);
+                    overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
                 }
-                startActivity(myIntent);
-                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
             }
         });
     }
@@ -243,6 +253,10 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
             costTextView.setText("Rs. " + total + " ");
             hideLoading();
             myAdapter.notifyDataSetChanged();
+            if (data.size() > 0) {
+                bookingLayout.setAlpha(1.0f);
+                bookingDisabled = false;
+            }
         }catch (Exception e){
             hideLoadingWithMessage(getString(R.string.dataInconsistent));
         }

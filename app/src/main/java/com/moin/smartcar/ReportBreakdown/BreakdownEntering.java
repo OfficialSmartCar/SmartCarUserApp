@@ -7,18 +7,31 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.lguipeng.library.animcheckbox.AnimCheckBox;
+import com.moin.smartcar.Booking.BookingSuccess;
 import com.moin.smartcar.Custom.LocationAddress;
+import com.moin.smartcar.Network.VolleySingelton;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Utility.MoinUtils;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -77,6 +90,26 @@ public class BreakdownEntering extends AppCompatActivity {
                 validateAndUpdate();
             }
         });
+
+        alternateContactNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 10) {
+                    addressEditText.requestFocus();
+                    addressEditText.append("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @OnClick(R.id.termsOfUseTextFeild)
@@ -90,13 +123,11 @@ public class BreakdownEntering extends AppCompatActivity {
     }
 
     private void validateAndUpdate(){
-
         if (mySingelton.myLat == 0.0){
             if (addressEditText.getText().toString().length() == 0){
                 MoinUtils.getReference().showMessage(BreakdownEntering.this, "Please Enter Address");
             }
         }
-
         if (commentsEditText.getText().toString().length() == 0){
             MoinUtils.getReference().showMessage(BreakdownEntering.this, "Please Enter Some Comments");
             commentsEditText.requestFocus();
@@ -104,10 +135,62 @@ public class BreakdownEntering extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(BreakdownEntering.this,"Start Sending Data",Toast.LENGTH_LONG).show();
+        if (!checkBox.isChecked()) {
+            MoinUtils.getReference().showMessage(BreakdownEntering.this, "You need to accept terms and condition");
+            return;
+        }
+        startSendingData();
+    }
 
+    private void startSendingData() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("mainCause", mySingelton.breakdownReason);
+            params.put("phoneNumber", contactNumberEditText.getText().toString());
+            params.put("alternateNumber", alternateContactNumberEditText.getText().toString());
+            params.put("location", addressEditText.getText().toString());
+            params.put("comments", commentsEditText.getText().toString());
+            params.put("userId", mySingelton.userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        JsonObjectRequest breakdownRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.reportBreakdown, params,
 
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+                                Intent myIntent = new Intent(BreakdownEntering.this, BookingSuccess.class);
+                                myIntent.putExtra("sourceIsBreakdown", "YES");
+                                startActivity(myIntent);
+                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+                            } else {
+                                hideLoadingWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingWithMessage("There was some problem please try again");
+//                            showError("There Was Some Problem Please Try Again After Some Time");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        breakdownRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(breakdownRequest);
     }
 
     private void getAddress(){
@@ -132,6 +215,15 @@ public class BreakdownEntering extends AppCompatActivity {
     private void showLoadingView() {
         loadingView.setVisibility(View.VISIBLE);
         loadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingWithMessage(String msg) {
+        hideLoadingView();
+        MoinUtils.getReference().showMessage(BreakdownEntering.this, msg);
+    }
+
+    private void showMessage(String msg) {
+        MoinUtils.getReference().showMessage(BreakdownEntering.this, msg);
     }
 
     private class GeocoderHandler extends Handler {

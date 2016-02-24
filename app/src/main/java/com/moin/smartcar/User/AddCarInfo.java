@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.Network.VolleySingelton;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
@@ -45,6 +46,7 @@ public class AddCarInfo extends AppCompatActivity {
     @Bind(R.id.CarNumberTextView) EditText carNumberEditText;
     @Bind(R.id.carNameTextView) EditText carNameTextView;
     @Bind(R.id.yearOfManufacture) EditText yearOfManufacture;
+    private String userName, useremail, password, mobilenumber, address;
     private ArrayAdapter<String> brandAdapter, modelAdapter, variantAdapter;
     private CarInfoStr recievedCarInfo = null;
     private int indexSelection = -1;
@@ -56,6 +58,7 @@ public class AddCarInfo extends AppCompatActivity {
 
     private Boolean newChange;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         enterFromBottomAnimation();
@@ -63,6 +66,17 @@ public class AddCarInfo extends AppCompatActivity {
         setContentView(R.layout.activity_add_car_info);
 
         ButterKnife.bind(this);
+
+        try {
+            userName = getIntent().getStringExtra("usernamePassed1");
+            useremail = getIntent().getStringExtra("emailIdPassed1");
+            password = getIntent().getStringExtra("passwordPassed1");
+            mobilenumber = getIntent().getStringExtra("mobilenumberpassed1");
+            address = getIntent().getStringExtra("addresspassed1");
+        } catch (Exception e) {
+        }
+
+
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("New Car");
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -412,70 +426,99 @@ public class AddCarInfo extends AppCompatActivity {
     }
 
     @OnClick(R.id.SaveButton)void inttiateSaveButton(){
-//        if (autoComplete.getText().toString().length() == 0){
-//            autoComplete.requestFocus();
-//            autoComplete.append("");
-//            showErr("Please Enter Car Name");
-//            return;
-//        }
-//
-//        if (carNumberEditText.getText().toString().length() == 0){
-//            carNumberEditText.requestFocus();
-//            carNumberEditText.append("");
-//            showErr("Please Enter Registration Number");
-//            return;
-//        }
-//
-//        if (carBarndEditText.getText().toString().length() == 0){
-//            carBarndEditText.requestFocus();
-//            carBarndEditText.append("");
-//            showErr("Please Enter Car Brand");
-//            return;
-//        }
-//        if (carTypeEditText.getText().toString().length() == 0){
-//            carTypeEditText.requestFocus();
-//            carTypeEditText.append("");
-//            showErr("Please Enter Car Type");
-//            return;
-//        }
-//        if (colorAutoCompleteTextView.getText().toString().length() == 0){
-//            colorAutoCompleteTextView.requestFocus();
-//            colorAutoCompleteTextView.append("");
-//            showErr("Please Enter Car Color");
-//            return;
-//        }
+        if (DataSingelton.getMy_SingeltonData_Reference().signUpOrAdd == "Add") {
+            int check = checkValidation();
+            if (check == 0) {
+                return;
+            } else {
+                DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
-        int check = checkValidation();
-        if (check == 0){
-            return;
-        }else{
-            DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
-
-            if(recievedCarInfo != null){
-                mySingelton.userCarList.get(indexSelection).carName = carNameTextView.getText().toString();
-                mySingelton.userCarList.get(indexSelection).carBrand = brandAutocompleteTextView.getText().toString();
-                mySingelton.userCarList.get(indexSelection).carModel = modelAutocompleteTextView.getText().toString();
-                mySingelton.userCarList.get(indexSelection).yearOfMaufacture = yearOfManufacture.getText().toString();
-                mySingelton.userCarList.get(indexSelection).carRegNo = carNumberEditText.getText().toString();
-                mySingelton.userCarList.get(indexSelection).carVariant = variantAutoCompleteTextView.getText().toString();
-                if (mySingelton.userCarList.get(indexSelection).status == 1){
-                    mySingelton.userCarList.get(indexSelection).status = 1;
+                if (recievedCarInfo != null) {
+                    mySingelton.userCarList.get(indexSelection).carName = carNameTextView.getText().toString();
+                    mySingelton.userCarList.get(indexSelection).carBrand = brandAutocompleteTextView.getText().toString();
+                    mySingelton.userCarList.get(indexSelection).carModel = modelAutocompleteTextView.getText().toString();
+                    mySingelton.userCarList.get(indexSelection).yearOfMaufacture = yearOfManufacture.getText().toString();
+                    mySingelton.userCarList.get(indexSelection).carRegNo = carNumberEditText.getText().toString();
+                    mySingelton.userCarList.get(indexSelection).carVariant = variantAutoCompleteTextView.getText().toString();
+                    if (mySingelton.userCarList.get(indexSelection).status == 1) {
+                        mySingelton.userCarList.get(indexSelection).status = 1;
+                    } else {
+                        mySingelton.userCarList.get(indexSelection).status = 2;
+                    }
                 }else{
-                    mySingelton.userCarList.get(indexSelection).status = 2;
+                    CarInfoStr myStr = new CarInfoStr();
+                    myStr.carName = carNameTextView.getText().toString();
+                    myStr.carBrand = brandAutocompleteTextView.getText().toString();
+                    myStr.carModel = modelAutocompleteTextView.getText().toString();
+                    myStr.yearOfMaufacture = yearOfManufacture.getText().toString();
+                    myStr.carRegNo = carNumberEditText.getText().toString();
+                    myStr.carVariant = variantAutoCompleteTextView.getText().toString();
+                    myStr.status = 1;
+                    DataSingelton.getMy_SingeltonData_Reference().userCarList.add(myStr);
                 }
-            }else{
-                CarInfoStr myStr = new CarInfoStr();
-                myStr.carName = carNameTextView.getText().toString();
-                myStr.carBrand = brandAutocompleteTextView.getText().toString();
-                myStr.carModel = modelAutocompleteTextView.getText().toString();
-                myStr.yearOfMaufacture = yearOfManufacture.getText().toString();
-                myStr.carRegNo = carNumberEditText.getText().toString();
-                myStr.carVariant = variantAutoCompleteTextView.getText().toString();
-                myStr.status = 1;
-                DataSingelton.getMy_SingeltonData_Reference().userCarList.add(myStr);
             }
+            finish();
+        } else {
+            signUpTheUser();
         }
-        finish();
+    }
+
+    private void signUpTheUser() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("EmailId", useremail);
+            params.put("Password", password);
+            params.put("Address", address);
+            params.put("MobileNumber", mobilenumber);
+            params.put("Name", userName);
+            params.put("carName", carNameTextView.getText().toString());
+            params.put("carBrand", brandAutocompleteTextView.getText().toString());
+            params.put("carModel", modelAutocompleteTextView.getText().toString());
+            params.put("yearOfManufacture", yearOfManufacture.getText().toString());
+            params.put("carRegNumber", carNumberEditText.getText().toString());
+            params.put("carVariant", variantAutoCompleteTextView.getText().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.getMy_SingeltonData_Reference().SignUpUrl, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+//                                hideLoadingViewWithMessage("SignUp Success");
+                                DataSingelton.getMy_SingeltonData_Reference().signUpSuccess = "Confirm";
+                                startActivity(new Intent(AddCarInfo.this, LoginNew.class));
+                                overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
+                            } else {
+                                hideLoadingViewWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingViewWithMessage("There was some problem please try again");
+//                            showError("There Was Some Problem Please Try Again After Some Time");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingViewWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        signUpRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(signUpRequest);
     }
 
     private int checkValidation(){

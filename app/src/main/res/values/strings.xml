@@ -50,13 +50,7 @@
         <item>1:00 PM</item>
         <item>2:00 PM</item>
         <item>3:00 PM</item>
-        <item>3:00 PM</item>
         <item>4:00 PM</item>
-        <item>5:00 PM</item>
-        <item>6:00 PM</item>
-        <item>7:00 PM</item>
-        <item>8:00 PM</item>
-        <item>9:00 PM</item>
     </array>
 
     <string-array name="my_bookings_tabs">

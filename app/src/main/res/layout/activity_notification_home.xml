@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.moin.smartcar.Notification.NotificationHome">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <com.tuesda.walker.circlerefresh.CircleRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/discountView"
+                android:background="@android:color/transparent"
+                app:AniBackColor="#ff8b90af"
+                app:AniForeColor="@color/colorPrimary"
+                app:CircleSmaller="4">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/app_bar"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
+
+
+            <TextView
+                android:id="@+id/noInNotificationsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="40dp"
+                android:alpha="0"
+                android:gravity="center"
+                android:text="You do not have any notifications. "
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+
+            <RelativeLayout
+                android:id="@+id/loadignView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.75"
+                    android:background="@android:color/black" />
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"
+                    app:indicator="BallClipRotatePulse"
+                    app:indicator_color="#ff8b90af" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <fragment
+            android:id="@+id/navigationDrawer_fragment"
+            android:name="com.moin.smartcar.MyBookings.navUserBookings"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:layout="@layout/fragment_nav_user_bookings"
+            tools:layout="@layout/fragment_nav_user_bookings" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

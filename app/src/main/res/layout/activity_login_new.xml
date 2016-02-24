@@ -375,6 +375,20 @@
             android:layout_height="0dp"
             android:layout_weight="3.8">
 
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="90dp"
+                android:background="@android:color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="51dp"
+                android:background="@android:color/white" />
+
             <ImageView
                 android:id="@+id/logoImage"
                 android:layout_width="80dp"
@@ -384,25 +398,13 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/logo_2" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="90dp"
-                android:background="@android:color/white" />
-
-            <View
-                android:layout_width="20dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="51dp"
-                android:background="@android:color/white" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="50dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/half_circle" />
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginTop="50dp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@drawable/half_circle" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

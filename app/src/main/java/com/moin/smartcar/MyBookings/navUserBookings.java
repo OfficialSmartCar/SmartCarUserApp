@@ -2,12 +2,14 @@ package com.moin.smartcar.MyBookings;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import com.moin.smartcar.AMC.AMCListing;
 import com.moin.smartcar.DentPaint.DentingAndPainting;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.NavDrawer.NavigationDrawerRecyclerViewAdapter;
+import com.moin.smartcar.Notification.NotificationHome;
 import com.moin.smartcar.OwnServices.MyOwnService;
 import com.moin.smartcar.R;
 import com.moin.smartcar.RegService.RegularServiceListing;
@@ -217,6 +220,21 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                     worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
                 }
                 break;
+            case 6:
+                if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.notification))) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent myIntent = new Intent(getActivity(), NotificationHome.class);
+                            myIntent.putExtra("check", "1");
+                            startActivity(myIntent);
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
             case 5:
                 if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.AMC))) {
                     navigated = 1;
@@ -251,15 +269,31 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                 if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.support))) {
                     navigated = 1;
 
-                    Runnable openActivity = new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent myIntent = new Intent(getActivity(), LoginNew.class);
-                            myIntent.putExtra("check", "1");
-                            startActivity(myIntent);
-                        }
-                    };
-                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("")
+                            .setMessage("Are you sure you want to logout ?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Runnable openActivity = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent myIntent = new Intent(getActivity(), LoginNew.class);
+                                            myIntent.putExtra("check", "1");
+                                            startActivity(myIntent);
+                                        }
+                                    };
+                                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+
                 }
                 break;
             case 8:
@@ -277,12 +311,6 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                     worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
                 }
                 break;
-//            case 3:
-//                if (!this.myTitle.toString().equalsIgnoreCase("Gallery")) {
-//                    startActivity(new Intent(getActivity(), ActivityGallery.class));
-//                    getActivity().finish();
-//                }
-//                break;
 
             default:
                 Toast.makeText(getActivity(), "Not Created Yet", Toast.LENGTH_SHORT).show();

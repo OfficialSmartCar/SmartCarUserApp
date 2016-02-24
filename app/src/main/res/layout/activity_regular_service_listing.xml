@@ -68,6 +68,7 @@
             </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
 
             <RelativeLayout
+                android:id="@+id/bookingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_below="@+id/refresh_layout"

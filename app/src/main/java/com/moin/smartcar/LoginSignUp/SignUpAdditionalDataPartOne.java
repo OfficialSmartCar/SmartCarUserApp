@@ -1,14 +1,17 @@
 package com.moin.smartcar.LoginSignUp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.moin.smartcar.R;
+import com.moin.smartcar.User.AddCarInfo;
 import com.moin.smartcar.Utility.MoinUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -22,12 +25,12 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
     @Bind(R.id.newSignUpUsername)EditText userNameEditText;
     @Bind(R.id.newsignUpMobileEditText)EditText mobileEditText;
     @Bind(R.id.newsignUpAddressEditText)EditText addressEditText;
-
+    @Bind(R.id.loadignView)
+    View loadingView;
+    @Bind(R.id.loadingIndicator)
+    AVLoadingIndicatorView loadingIndicator;
     private Intent dataRecieved;
     private String passwordPassed;
-
-    @Bind(R.id.loadignView)View loadingView;
-    @Bind(R.id.loadingIndicator)AVLoadingIndicatorView loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,26 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
         MoinUtils.getReference().setGlassyBitmap(glassyImage);
 
         hideLoadingView();
+
+        mobileEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 10) {
+                    addressEditText.requestFocus();
+                    addressEditText.append("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -85,10 +108,10 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
             return;
         }
 
-        Intent myIntent = new Intent(SignUpAdditionalDataPartOne.this,SignUpAdditionalPartTwo.class);
-        myIntent.putExtra("emailIdPassed1",emailIdEditText.getText().toString());
+        Intent myIntent = new Intent(SignUpAdditionalDataPartOne.this, AddCarInfo.class);
+        myIntent.putExtra("emailIdPassed1", emailIdEditText.getText().toString());
         myIntent.putExtra("passwordPassed1",passwordPassed);
-        myIntent.putExtra("usernamePassed1",userNameEditText.getText().toString());
+        myIntent.putExtra("usernamePassed1", userNameEditText.getText().toString());
         myIntent.putExtra("mobilenumberpassed1",mobileEditText.getText().toString());
         myIntent.putExtra("addresspassed1",addressEditText.getText().toString());
         startActivity(myIntent);

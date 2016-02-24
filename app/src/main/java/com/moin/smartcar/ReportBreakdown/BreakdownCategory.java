@@ -2,6 +2,7 @@ package com.moin.smartcar.ReportBreakdown;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
+import com.moin.smartcar.Network.MyApplication;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 
@@ -48,6 +52,21 @@ public class BreakdownCategory extends AppCompatActivity {
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new BreakDownAdapter(this);
         myRecyclerView.setAdapter(myAdapter);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+                mySingelton.successWebView = new WebView(MyApplication.getAppContext());
+                mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+                mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                if (Build.VERSION.SDK_INT >= 11) {
+                    mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                }
+                mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
+                mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
+            }
+        }).run();
     }
 
     private void getData(){

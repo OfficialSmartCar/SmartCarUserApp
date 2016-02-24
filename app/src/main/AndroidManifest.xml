@@ -9,6 +9,25 @@
         android:name="android.permission.INTERNET"
         android:required="true" />
 
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.WAKE_LOCK"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.VIBRATE"
+        android:required="false" />
+    <uses-permission
+        android:name="com.google.android.c2dm.permission.RECEIVE"
+        android:required="false" />
+
+    <permission
+        android:name="com.moin.smartcar.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.moin.smartcar.permission.C2D_MESSAGE" />
+
     <!-- map permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -182,10 +201,58 @@
             android:name=".Booking.BookingMain"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".Booking.BookingSuccess" />
-        <activity android:name=".Booking.BookingDetailPartOne" />
-        <activity android:name=".MyBookings.RescheduleBooking" />
-        <activity android:name=".Booking.CodeUsage"></activity>
+        <activity
+            android:name=".Booking.BookingSuccess"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Booking.BookingDetailPartOne"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyBookings.RescheduleBooking"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Booking.CodeUsage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Notification.NotificationHome"
+            android:screenOrientation="portrait"></activity>
+
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+
+        <!-- [START gcm_listener] -->
+        <service
+            android:name=".Notification.SetUp.MyGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".Notification.SetUp.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
+        <service
+            android:name=".Notification.SetUp.RegistrationIntentService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

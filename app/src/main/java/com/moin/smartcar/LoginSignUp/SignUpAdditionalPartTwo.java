@@ -38,24 +38,19 @@ import butterknife.OnClick;
 
 public class SignUpAdditionalPartTwo extends AppCompatActivity {
 
-    private String userName, useremail, password, mobilenumber, address;
-
     ArrayList<String> carBrand = new ArrayList<>();
     ArrayList<String> carModel = new ArrayList<>();
     ArrayList<String> carVariants = new ArrayList<>();
-
-    private ArrayAdapter<String> brandAdapter, modelAdapter, variantAdapter;
     AutoCompleteTextView brandAutocompleteTextView, modelAutocompleteTextView, variantAutoCompleteTextView;
-
     @Bind(R.id.appbar) Toolbar myToolbar;
     @Bind(R.id.CarNumberTextView) EditText carNumberEditText;
     @Bind(R.id.carNameTextView) EditText carNameTextView;
     @Bind(R.id.yearOfManufacture) EditText yearOfManufacture;
     @Bind(R.id.loadignView) View loadingView;
     @Bind(R.id.loadingIndicator)AVLoadingIndicatorView loadingIndicator;
-
     @Bind(R.id.termsAndConditionsCheckBox)AnimCheckBox checkBox;
-
+    private String userName, useremail, password, mobilenumber, address;
+    private ArrayAdapter<String> brandAdapter, modelAdapter, variantAdapter;
     private ArrayList<CarBrand> serverList = new ArrayList<>();
 
     private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
@@ -134,7 +129,7 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
     private void getDataFromServer(){
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
-        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, mySingelton.getBrandAndModels,
+        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getBrandAndModels,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -177,11 +172,19 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
         for (int i=0;i<arr.length();i++){
             JSONObject myObj = arr.getJSONObject(i);
             CarBrand myStr = new CarBrand();
-            myStr.carBrand = myObj.getString("brand");
+            myStr.carBrand = myObj.getString("BrandName");
             myStr.carModelList = new ArrayList<>();
-            JSONArray internalArray = myObj.getJSONArray("models");
+            JSONArray internalArray = myObj.getJSONArray("ModelArr");
             for (int j=0;j<internalArray.length();j++){
-                myStr.carModelList.add(internalArray.get(j).toString());
+                CarModel myModel = new CarModel();
+                JSONObject internalObject = internalArray.getJSONObject(i);
+                myModel.carModel = internalObject.getString("ModelName");
+                JSONArray variantArray = internalObject.getJSONArray("models");
+                myModel.carVariantList = new ArrayList<>();
+                for (int k = 0; k < variantArray.length(); k++) {
+                    myModel.carVariantList.add(variantArray.get(k).toString());
+                }
+                myStr.carModelList.add(myModel);
             }
             serverList.add(myStr);
         }
@@ -215,7 +218,8 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
             CarBrand myBrand = serverList.get(index);
 
             for (int i=0;i<myBrand.carModelList.size();i++){
-                carModel.add(myBrand.carModelList.get(i));
+
+                carModel.add(myBrand.carModelList.get(i).carModel);
             }
 
             modelAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,carModel);
@@ -284,7 +288,7 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
             }
 
 
-            JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST, mySingelton.SignUpUrl, params,
+            JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.SignUpUrl, params,
 
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -294,6 +298,8 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
                                 String message = response.getString("ErrorMessage");
                                 if (!status.equalsIgnoreCase("Error")) {
                                     hideLoadingViewWithMessage("SignUp Success");
+                                    startActivity(new Intent(SignUpAdditionalPartTwo.this, LoginNew.class));
+                                    overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
                                 } else {
                                     hideLoadingViewWithMessage(message);
                                 }
@@ -357,6 +363,11 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
 
     private class CarBrand {
         public String carBrand;
-        public ArrayList<String> carModelList;
+        public ArrayList<CarModel> carModelList;
+    }
+
+    private class CarModel {
+        public String carModel;
+        public ArrayList<String> carVariantList;
     }
 }

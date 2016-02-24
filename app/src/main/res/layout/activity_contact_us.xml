@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -64,6 +65,7 @@
                     android:scrollIndicators="right" />
 
                 <Button
+                    android:id="@+id/submitBUtton"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="10dp"
@@ -207,6 +209,27 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/loadignView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:background="@android:color/black" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            app:indicator="BallClipRotatePulse"
+            app:indicator_color="#ff8b90af" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
