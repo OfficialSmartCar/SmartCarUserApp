@@ -1,9 +1,11 @@
 package com.moin.smartcar.MyBookings;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -176,9 +178,18 @@ public class RescheduleBooking extends AppCompatActivity {
                                 mySingelton.cancelledOrRescheduled = 2;
                                 finish();
                             } else {
-                                hideLoadingWithMessage(message);
+                                hideLoadingView();
+//                                hideLoadingWithMessage(message);
+                                new AlertDialog.Builder(RescheduleBooking.this)
+                                        .setTitle("Failure")
+                                        .setMessage(message)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .show();
                             }
-//                            hideLoadingView();
+                            hideLoadingView();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hideLoadingWithMessage("There was some problem please try again");

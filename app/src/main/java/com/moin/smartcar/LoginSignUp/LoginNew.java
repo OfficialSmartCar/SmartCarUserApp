@@ -414,4 +414,9 @@ public class LoginNew extends AppCompatActivity {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
+
+    public void navigateToAboutUsPage(View view) {
+        startActivity(new Intent(LoginNew.this, AboutUs.class));
+        overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+    }
 }

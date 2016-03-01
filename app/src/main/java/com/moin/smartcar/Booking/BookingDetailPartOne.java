@@ -92,9 +92,85 @@ public class BookingDetailPartOne extends AppCompatActivity {
             return;
         }
 
+        String dateString = mySingelton.MyBookingData.date;
+        String arr[] = dateString.split("/");
+        int month = Integer.parseInt(arr[1]) - 1;
+
+        String time[] = mySingelton.MyBookingData.time.split(":");
+        int hours = Integer.parseInt(time[0]);
+        String time1[] = time[1].split(" ");
+        if (time1[1].equalsIgnoreCase("PM")) {
+            if (hours != 12) {
+                hours += 12;
+            }
+        }
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("bookingId", mySingelton.MyBookingData.id);
+            params.put("year", arr[2]);
+            params.put("month", (month + ""));
+            params.put("date", arr[0]);
+            params.put("hours", (hours + ""));
+            params.put("min", (time1[0] + ""));
+            params.put("ampm", (time1[1] + ""));
+
+            params.put("type", mySingelton.MyBookingData.title);
+            params.put("userCarName", mySingelton.MyBookingData.carName);
+            params.put("userNotificationId", mySingelton.UserNotificationToken);
+            params.put("userId", mySingelton.userId);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest cancelbookingRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.getMy_SingeltonData_Reference().checkIfCanReschedule, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+                                navigateToReschedulePage();
+                            } else {
+                                new AlertDialog.Builder(BookingDetailPartOne.this)
+                                        .setTitle("Failure")
+                                        .setMessage(message)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .show();
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingWithMessage("There was some problem please try again");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        cancelbookingRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(cancelbookingRequest);
+
+
+    }
+
+    private void navigateToReschedulePage() {
         startActivity(new Intent(BookingDetailPartOne.this, RescheduleBooking.class));
         overridePendingTransition(R.anim.slide_right_in, R.anim.scalereduce);
-
     }
 
     @OnClick(R.id.cancelButton)

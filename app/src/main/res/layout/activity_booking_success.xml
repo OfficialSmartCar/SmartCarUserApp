@@ -11,7 +11,6 @@
         android:id="@+id/successWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
         android:background="#58427A"
         android:orientation="horizontal">
 

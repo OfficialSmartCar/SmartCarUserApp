@@ -395,6 +395,7 @@
                 android:layout_height="80dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:onClick="navigateToAboutUsPage"
                 android:scaleType="fitXY"
                 android:src="@drawable/logo_2" />
 

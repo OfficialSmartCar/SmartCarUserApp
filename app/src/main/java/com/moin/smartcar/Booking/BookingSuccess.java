@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,7 +39,9 @@ public class BookingSuccess extends AppCompatActivity {
         ButterKnife.bind(this);
         LinearLayout topLinearLayout = new LinearLayout(this);
         topLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        DataSingelton.getMy_SingeltonData_Reference().successWebView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         topLinearLayout.addView(DataSingelton.getMy_SingeltonData_Reference().successWebView);
+
         backgroundView.addView(topLinearLayout);
 
         fromBreakdown = "NO";

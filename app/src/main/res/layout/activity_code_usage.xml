@@ -10,9 +10,55 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/userguide" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/userguide123" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="left"
+                android:text="SmartCar is committed to provide high security of your vehicle and to ensure this security, we authenticate the unique codes that are generated at the time of booking. These codes are unique and doesn't corresponds to any user using the SmartCar. Once authenticated a notification is being sent to the user and the executive to pick up the vehicle for service."
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Steps are as follows:"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="left"
+                android:text="1. User punch his 1st code in the executive app. SmartCar authenticates.\n2. User punch his 2nd code to confirm the video and images on any dents taken / pre-service check done by executive\n3. User punch his 3rd code to confirm the delivery of the vehicle."
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/userguide" />-->
 
 </RelativeLayout>

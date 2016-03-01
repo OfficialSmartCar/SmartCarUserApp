@@ -8,7 +8,6 @@
     <uses-permission
         android:name="android.permission.INTERNET"
         android:required="true" />
-
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:required="false" />
@@ -215,8 +214,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Notification.NotificationHome"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -253,6 +251,7 @@
             android:name=".Notification.SetUp.RegistrationIntentService"
             android:exported="false" />
 
+        <activity android:name=".LoginSignUp.AboutUs"></activity>
     </application>
 
 </manifest>

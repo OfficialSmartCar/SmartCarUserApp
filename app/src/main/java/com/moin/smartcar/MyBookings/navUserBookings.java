@@ -266,8 +266,8 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                 }
                 break;
             case 12:
-                if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.support))) {
-                    navigated = 1;
+//                if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.support))) {
+//                    navigated = 1;
 
 
                     new AlertDialog.Builder(getActivity())
@@ -294,7 +294,7 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                             .show();
 
 
-                }
+//                }
                 break;
             case 8:
                 if (!this.myTitle.toString().equalsIgnoreCase(getResources().getString(R.string.support))) {

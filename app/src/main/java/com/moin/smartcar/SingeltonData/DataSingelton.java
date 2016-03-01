@@ -34,10 +34,11 @@ public class DataSingelton {
     public static String getAllbooking = baseUrl + "/getAllBookings";
     public static String cancelBooking = baseUrl + "/cancelBooking";
     public static String rescheduleAppointment = baseUrl + "/rescheduleAppointment";
+    public static String checkIfCanReschedule = baseUrl + "/checkIfCanReschedule";
     public static String getNotificationList = baseUrl + "/getNotificationList";
     public static String reportBreakdown = baseUrl + "/reportBreakdown";
     public static String reportDentPaint = baseUrl + "/reportDentPaint";
-    public static String uploadImageUrl = "http://66.85.152.27:8080/SmartCar/dentpaintImagesupload/";
+    public static String uploadImageUrl = "http://184.95.55.236:8080/SmartCar/dentpaintImagesupload/";
     public static String supportUrl = baseUrl + "/support";
 
 
