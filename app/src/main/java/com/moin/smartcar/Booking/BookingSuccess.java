@@ -44,12 +44,17 @@ public class BookingSuccess extends AppCompatActivity {
         backgroundView = (LinearLayout) findViewById(R.id.successWebView);
         DataSingelton.getMy_SingeltonData_Reference().successWebView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         WebView myWebView = DataSingelton.getMy_SingeltonData_Reference().successWebView1;
-        try{
-            backgroundView.addView(myWebView);
-        }catch (Exception e){
-            backgroundView.removeAllViews();
-            backgroundView.addView(myWebView);
-        }
+//        try{
+//            backgroundView.addView(myWebView);
+//        }catch (Exception e){
+//            backgroundView.removeAllViews();
+//            backgroundView.addView(myWebView);
+//        }
+
+        if(myWebView.getParent()!=null)
+            ((ViewGroup)myWebView.getParent()).removeView(myWebView);
+        backgroundView.addView(myWebView);
+
 
         fromBreakdown = "NO";
         fromDentPaint = "NO";
