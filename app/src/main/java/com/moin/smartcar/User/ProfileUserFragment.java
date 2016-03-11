@@ -45,6 +45,14 @@ public class ProfileUserFragment extends Fragment {
         return new ProfileUserFragment();
     }
 
+    private void setFonts(){
+        userName.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        emailId.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        mobileTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        addressTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,6 +93,8 @@ public class ProfileUserFragment extends Fragment {
 
             }
         });
+
+        setFonts();
 
         return view;
     }

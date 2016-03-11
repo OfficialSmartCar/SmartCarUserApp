@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -157,7 +158,8 @@ public class BreakdownGoogleMap extends FragmentActivity implements OnMapReadyCa
     private void validateUserLocationSending() {
 
         if (mySingelton.myLat == 0.0) {
-            MoinUtils.getReference().showMessage(MyApplication.getAppContext(), "Location Not Found");
+            MoinUtils.getReference().showMessage(BreakdownGoogleMap.this, "Location Not Found");
+//            Toast.makeText(BreakdownGoogleMap.this, "", Toast.LENGTH_SHORT).show();
         } else {
 
             startActivity(new Intent(BreakdownGoogleMap.this, BreakdownEntering.class));

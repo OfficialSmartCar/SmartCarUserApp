@@ -7,10 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.moin.smartcar.R;
+import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.User.AddCarInfo;
 import com.moin.smartcar.Utility.MoinUtils;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -25,12 +27,21 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
     @Bind(R.id.newSignUpUsername)EditText userNameEditText;
     @Bind(R.id.newsignUpMobileEditText)EditText mobileEditText;
     @Bind(R.id.newsignUpAddressEditText)EditText addressEditText;
-    @Bind(R.id.loadignView)
-    View loadingView;
-    @Bind(R.id.loadingIndicator)
-    AVLoadingIndicatorView loadingIndicator;
+    @Bind(R.id.loadignView) View loadingView;
+    @Bind(R.id.signUpButton)Button signUpButton;
+    @Bind(R.id.loadingIndicator) AVLoadingIndicatorView loadingIndicator;
     private Intent dataRecieved;
     private String passwordPassed;
+
+
+
+    private void setFonts(){
+        emailIdEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        userNameEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        mobileEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        addressEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        signUpButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +83,8 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
 
             }
         });
+
+        setFonts();
     }
 
     @Override

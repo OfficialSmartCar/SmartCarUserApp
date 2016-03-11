@@ -1,5 +1,7 @@
 package com.moin.smartcar.User;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -46,6 +49,7 @@ public class AddCarInfo extends AppCompatActivity {
     @Bind(R.id.CarNumberTextView) EditText carNumberEditText;
     @Bind(R.id.carNameTextView) EditText carNameTextView;
     @Bind(R.id.yearOfManufacture) EditText yearOfManufacture;
+    @Bind(R.id.SaveButton)Button SaveButton;
     private String userName, useremail, password, mobilenumber, address;
     private ArrayAdapter<String> brandAdapter, modelAdapter, variantAdapter;
     private CarInfoStr recievedCarInfo = null;
@@ -58,6 +62,16 @@ public class AddCarInfo extends AppCompatActivity {
 
     private Boolean newChange;
 
+
+    private void setFonts(){
+        brandAutocompleteTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        modelAutocompleteTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        variantAutoCompleteTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        carNumberEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        carNameTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        yearOfManufacture.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        SaveButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +87,7 @@ public class AddCarInfo extends AppCompatActivity {
             password = getIntent().getStringExtra("passwordPassed1");
             mobilenumber = getIntent().getStringExtra("mobilenumberpassed1");
             address = getIntent().getStringExtra("addresspassed1");
+
         } catch (Exception e) {
         }
 
@@ -225,10 +240,15 @@ public class AddCarInfo extends AppCompatActivity {
             variantAutoCompleteTextView.setText(recievedCarInfo.carVariant);
             carNameTextView.requestFocus();
             carNameTextView.append("");
+            getModelsForBrand();
+            getVariantForModel();
 
         }catch (Exception e){
             recievedCarInfo = null;
         }
+
+
+        setFonts();
 
     }
 
@@ -294,27 +314,27 @@ public class AddCarInfo extends AppCompatActivity {
     }
 
     private void getVariantForModel() {
-        String model = modelAutocompleteTextView.getText().toString();
+//        String model = modelAutocompleteTextView.getText().toString();
         try {
-            int index = -1;
-            CarBrand myBrand = new CarBrand();
-            CarModel myModel = new CarModel();
-            for (int i = 0; i < serverList.size(); i++) {
-                if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())) {
-                    myBrand = serverList.get(i);
-                }
-            }
+//            int index = -1;
+//            CarBrand myBrand = new CarBrand();
+//            CarModel myModel = new CarModel();
+//            for (int i = 0; i < serverList.size(); i++) {
+//                if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())) {
+//                    myBrand = serverList.get(i);
+//                }
+//            }
+//
+//            for (int i = 0; i < myBrand.carModelList.size(); i++) {
+//                if (myBrand.carModelList.get(i).carModel.equalsIgnoreCase(model)) {
+//                    myModel = myBrand.carModelList.get(i);
+//                }
+//            }
+//            carVariants = new ArrayList<>();
 
-            for (int i = 0; i < myBrand.carModelList.size(); i++) {
-                if (myBrand.carModelList.get(i).carModel.equalsIgnoreCase(model)) {
-                    myModel = myBrand.carModelList.get(i);
-                }
-            }
-            carVariants = new ArrayList<>();
-
-            for (int i = 0; i < myModel.carVariantList.size(); i++) {
-                carVariants.add(myModel.carVariantList.get(i));
-            }
+//            for (int i = 0; i < myModel.carVariantList.size(); i++) {
+//                carVariants.add(myModel.carVariantList.get(i));
+//            }
             variantAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carVariants);
             variantAutoCompleteTextView.setAdapter(variantAdapter);
             variantAutoCompleteTextView.setThreshold(1);
@@ -399,19 +419,23 @@ public class AddCarInfo extends AppCompatActivity {
             JSONArray internalArray = myObj.getJSONArray("ModelArr");
             for (int j=0;j<internalArray.length();j++){
                 CarModel myModel = new CarModel();
-                JSONObject internalObject = internalArray.getJSONObject(i);
+                JSONObject internalObject = internalArray.getJSONObject(j);
                 myModel.carModel = internalObject.getString("ModelName");
-                JSONArray variantArray = internalObject.getJSONArray("models");
-                myModel.carVariantList = new ArrayList<>();
-                for (int k = 0; k < variantArray.length(); k++) {
-                    myModel.carVariantList.add(variantArray.get(k).toString());
-                }
+                myModel.isPremium = Integer.parseInt(internalObject.getString("isPremium"));
                 myStr.carModelList.add(myModel);
             }
             serverList.add(myStr);
         }
+        JSONArray fueltypeArr = response.getJSONArray("fueltypes");
+        carVariants = new ArrayList<>();
+        for (int i=0;i<fueltypeArr.length();i++){
+            carVariants.add(fueltypeArr.get(i).toString());
+        }
+
         hideLoadingView();
         splitIntobrandArray();
+        getVariantForModel();
+
     }
 
     private void splitIntobrandArray(){
@@ -445,6 +469,19 @@ public class AddCarInfo extends AppCompatActivity {
                     } else {
                         mySingelton.userCarList.get(indexSelection).status = 2;
                     }
+                    int isPremium = 0;
+                    for (int i=0;i<serverList.size();i++){
+                        if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())){
+                            for (int j=0;j<serverList.get(i).carModelList.size();j++){
+                                if (serverList.get(i).carModelList.get(j).carModel.equalsIgnoreCase(modelAutocompleteTextView.getText().toString())){
+                                    if (serverList.get(i).carModelList.get(j).isPremium == 1){
+                                        isPremium = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    mySingelton.userCarList.get(indexSelection).isPremium = isPremium;
                 }else{
                     CarInfoStr myStr = new CarInfoStr();
                     myStr.carName = carNameTextView.getText().toString();
@@ -454,6 +491,20 @@ public class AddCarInfo extends AppCompatActivity {
                     myStr.carRegNo = carNumberEditText.getText().toString();
                     myStr.carVariant = variantAutoCompleteTextView.getText().toString();
                     myStr.status = 1;
+
+                    int isPremium = 0;
+                    for (int i=0;i<serverList.size();i++){
+                        if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())){
+                            for (int j=0;j<serverList.get(i).carModelList.size();j++){
+                                if (serverList.get(i).carModelList.get(j).carModel.equalsIgnoreCase(modelAutocompleteTextView.getText().toString())){
+                                    if (serverList.get(i).carModelList.get(j).isPremium == 1){
+                                        isPremium = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    myStr.isPremium = isPremium;
                     DataSingelton.getMy_SingeltonData_Reference().userCarList.add(myStr);
                 }
             }
@@ -477,6 +528,26 @@ public class AddCarInfo extends AppCompatActivity {
             params.put("yearOfManufacture", yearOfManufacture.getText().toString());
             params.put("carRegNumber", carNumberEditText.getText().toString());
             params.put("carVariant", variantAutoCompleteTextView.getText().toString());
+
+            int isPremium = 0;
+            for (int i=0;i<serverList.size();i++){
+                if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())){
+                    for (int j=0;j<serverList.get(i).carModelList.size();j++){
+                        if (serverList.get(i).carModelList.get(j).carModel.equalsIgnoreCase(modelAutocompleteTextView.getText().toString())){
+                            if (serverList.get(i).carModelList.get(j).isPremium == 1){
+                                isPremium = 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            DataSingelton.getMy_SingeltonData_Reference().userEmailId = useremail;
+            DataSingelton.getMy_SingeltonData_Reference().key = password;
+
+
+            params.put("isPremium", isPremium);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -536,7 +607,7 @@ public class AddCarInfo extends AppCompatActivity {
             return 0;
         }
         if(variantAutoCompleteTextView.getText().toString().length() == 0){
-            showErr("Please enter car variant");
+            showErr("Please enter fuel type");
             return 0;
         }
         if (carNumberEditText.getText().toString().length() == 0){
@@ -551,9 +622,43 @@ public class AddCarInfo extends AppCompatActivity {
             showErr("Please enter valid Reg Number");
             return 0;
         }
+        int check1 = 0;
+        for (int i=0;i<carModel.size();i++){
+            if (modelAutocompleteTextView.getText().toString().equalsIgnoreCase(carModel.get(i))){
+                check1 = 1;
+                break;
+            }
+        }
+        if (check1 == 0){
+            showAlert("Sorry , We Don't provide service for this model");
+            return 0;
+        }
+
+        check1 = 0;
+        for (int i=0;i<carVariants.size();i++){
+            if (variantAutoCompleteTextView.getText().toString().equalsIgnoreCase(carVariants.get(i))){
+                check1 = 1;
+                break;
+            }
+        }
+        if (check1 == 0){
+            showAlert("Sorry , We Don't provide service for this fuel type.");
+            return 0;
+        }
+
         return 1;
     }
 
+    private void showAlert(String msg){
+        new AlertDialog.Builder(AddCarInfo.this)
+                .setTitle("")
+                .setMessage(msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
 
 
     private void showErr(String msg){
@@ -607,6 +712,9 @@ public class AddCarInfo extends AppCompatActivity {
 
     private class CarModel {
         public String carModel;
-        public ArrayList<String> carVariantList;
+        public int isPremium;
+        public CarModel(){
+            this.isPremium = 0;
+        }
     }
 }

@@ -24,6 +24,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.moin.smartcar.Booking.BookingMain;
+import com.moin.smartcar.Booking.PremiumCar;
 import com.moin.smartcar.CarSelector.CarSelection;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
@@ -41,6 +42,9 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MyOwnService extends AppCompatActivity implements CarSelection.carSelectedInterface {
 
@@ -62,13 +66,19 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     private CarInfoStr selectedCar;
     private Double costWithTax;
 
+    @Bind(R.id.totalTextView)TextView totalTextView;
+
+    @Bind(R.id.bookTextView)TextView bookTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_own_service);
 
+        ButterKnife.bind(this);
+
         mySingelton.selectionOfScreen = 2;
+        mySingelton.PremiumSelection = 0;
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -130,6 +140,11 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             mySingelton.CarSelecetd = selectedCar;
             fragmentContainer = findViewById(R.id.fragmentContainer);
             fragmentContainer.setVisibility(View.GONE);
+            if (mySingelton.CarSelecetd.isPremium == 1){
+                startActivity(new Intent(MyOwnService.this,PremiumCar.class));
+                overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+                return;
+            }
             getData();
         }
 
@@ -152,6 +167,14 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             }
         });
 
+        setFonts();
+
+    }
+
+    private void setFonts(){
+        totalTextView.setTypeface(mySingelton.myCustomTypeface);
+        totalCostTextView.setTypeface(mySingelton.myCustomTypeface);
+        bookTextView.setTypeface(mySingelton.myCustomTypeface);
     }
 
     private void getData(){
@@ -386,6 +409,10 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
         mySingelton.customServiceTaxType = "";
         mySingelton.customServiceTaxPercentage = 0.0;
         mySingelton.customServiceCost = 0.0;
+        if (mySingelton.PremiumSelection == 1){
+            mySingelton.PremiumSelection = 0;
+            finish();
+        }
 
     }
 
@@ -401,10 +428,16 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
 
     @Override
     public void carSelectedAtIndex(int index) {
-        getData();
         fragmentContainer.setVisibility(View.GONE);
         selectedCar = mySingelton.userCarList.get(index);
 //        Toast.makeText(MyOwnService.this,selectedCar.carName + "",Toast.LENGTH_LONG).show();
+        if (selectedCar.isPremium == 1){
+            startActivity(new Intent(MyOwnService.this, PremiumCar.class));
+            overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+            return;
+        }
+        getData();
+
     }
 
 
@@ -479,6 +512,11 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
                     showMoreInfoForView(getAdapterPosition(), parentView);
                 }
             });
+
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            subTitleTextView.setTypeface(mySingelton.myCustomTypeface);
+            costTextView.setTypeface(mySingelton.myCustomTypeface);
+
         }
     }
 }

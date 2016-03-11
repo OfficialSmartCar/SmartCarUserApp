@@ -29,29 +29,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:elevation="3dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_marginBottom="3dp">
 
                 <TextView
 
                     android:id="@+id/carNameTextView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="Name Of Car"
                     android:textColor="@color/gradientBackColor"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp" />
 
                 <ImageView
                     android:id="@+id/deleteImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="22dp"
+                    android:layout_height="25dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/delete" />
+                    android:src="@drawable/delete"
+                    android:layout_marginRight="5dp" />
 
 
             </LinearLayout>
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/topSection"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="-5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,7 +75,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:text="Brand Name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/cellTitleHeight" />
@@ -85,7 +84,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:text="Model"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/cellTitleHeight" />
@@ -95,7 +93,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:text="Year Of Manufacture"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/cellTitleHeight" />
@@ -105,7 +102,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:text="MH26 AN 2306"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/cellTitleHeight" />
@@ -115,7 +111,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
                         android:text="Car Variant"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/cellTitleHeight" />

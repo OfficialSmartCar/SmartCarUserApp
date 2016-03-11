@@ -21,6 +21,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.moin.smartcar.Booking.BookingMain;
+import com.moin.smartcar.Booking.PremiumCar;
 import com.moin.smartcar.CarSelector.CarSelection;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
@@ -53,22 +54,18 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
             Executors.newSingleThreadScheduledExecutor();
     CarInfoStr selectedCar = new CarInfoStr();
     DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
-    @Bind(R.id.loadignView)
-    View loadingView;
-    @Bind(R.id.loadingIndicator)
-    AVLoadingIndicatorView loadingIndicator;
-    @Bind(R.id.refresh_layout)
-    CircleRefreshLayout mRefreshLayout;
-    @Bind(R.id.costTextView)
-    TextView costTextView;
-    @Bind(R.id.recycler)
-    RecyclerView myRecyclerView;
-    @Bind(R.id.fragmentContainer)
-    View fragmentContainer;
-    @Bind(R.id.bookLabel)
-    TextView bookingTextView;
-    @Bind(R.id.bookingLayout)
-    View bookingLayout;
+    @Bind(R.id.loadignView) View loadingView;
+    @Bind(R.id.loadingIndicator) AVLoadingIndicatorView loadingIndicator;
+    @Bind(R.id.refresh_layout) CircleRefreshLayout mRefreshLayout;
+    @Bind(R.id.costTextView) TextView costTextView;
+    @Bind(R.id.recycler) RecyclerView myRecyclerView;
+    @Bind(R.id.fragmentContainer) View fragmentContainer;
+    @Bind(R.id.bookLabel) TextView bookingTextView;
+    @Bind(R.id.bookingLayout) View bookingLayout;
+    @Bind(R.id.offerTextView)TextView offerTextView;
+
+    @Bind(R.id.totalTextView)TextView totalTextView;
+
     private ArrayList<AMCStr> data = new ArrayList<>();
     private Double total = 0.0;
     private ProfileCarFragment tempView;
@@ -77,11 +74,20 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
     private boolean bookingDisabled;
     private CarSelection fragmentPopUp;
 
+    private void setFonts(){
+        offerTextView.setTypeface(mySingelton.myCustomTypeface);
+        totalTextView.setTypeface(mySingelton.myCustomTypeface);
+        costTextView.setTypeface(mySingelton.myCustomTypeface);
+        bookingTextView.setTypeface(mySingelton.myCustomTypeface);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amclisting);
         ButterKnife.bind(this);
+
+        mySingelton.PremiumSelection = 0;
 
         bookingDisabled = true;
         bookingLayout.setAlpha(0.0f);
@@ -126,6 +132,11 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
             mySingelton.CarSelecetd = selectedCar;
             fragmentContainer = findViewById(R.id.fragmentContainer);
             fragmentContainer.setVisibility(View.GONE);
+            if (mySingelton.CarSelecetd.isPremium == 1){
+                startActivity(new Intent(AMCListing.this,PremiumCar.class));
+                overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+                return;
+            }
             getData();
         }
 
@@ -167,6 +178,8 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
                 }
             }
         });
+
+        setFonts();
     }
 
 //    @Override
@@ -188,6 +201,10 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
     protected void onResume() {
         super.onResume();
         fragmentPopUp.refreshHeader();
+        if (mySingelton.PremiumSelection == 1){
+            mySingelton.PremiumSelection = 0;
+            finish();
+        }
     }
 
     @Override
@@ -300,9 +317,15 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
 
     @Override
     public void carSelectedAtIndex(int index) {
-        getData();
         fragmentContainer.setVisibility(View.GONE);
         selectedCar = mySingelton.userCarList.get(index);
+        if (selectedCar.isPremium == 1){
+            startActivity(new Intent(AMCListing.this, PremiumCar.class));
+            overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+            return;
+        }
+        getData();
+
     }
 
     private void showMoreInfoForView(int position, View v) {
@@ -442,6 +465,10 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
                     showMoreInfoForView(getAdapterPosition(), v);
                 }
             });
+
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            subtitleTextView.setTypeface(mySingelton.myCustomTypeface);
+
         }
     }
 
@@ -453,6 +480,11 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
             orignalCostTextView = (TextView) itemView.findViewById(R.id.orignalCostTextView);
             discountTextView = (TextView) itemView.findViewById(R.id.discountTextView);
             finalCostTextView = (TextView) itemView.findViewById(R.id.finalCostTextView);
+
+            orignalCostTextView.setTypeface(mySingelton.myCustomTypeface);
+            discountTextView.setTypeface(mySingelton.myCustomTypeface);
+            finalCostTextView.setTypeface(mySingelton.myCustomTypeface);
+
 
         }
     }

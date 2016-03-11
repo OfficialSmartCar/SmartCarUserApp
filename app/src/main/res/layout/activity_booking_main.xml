@@ -40,31 +40,10 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/s_box"
+                    android:background="@android:color/white"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Initiate Booking"
-                        android:textColor="@color/gradientBackColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="for"
-                        android:textColor="@color/gradientBackColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/sourceTitleTextView"
@@ -75,19 +54,20 @@
                         android:text="Express Service"
                         android:textColor="@color/gradientBackColor"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="11dp"
-                        android:layout_weight="1.8">
+                        android:layout_weight="1">
 
                         <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                             android:id="@+id/horizontalScroll"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0dp"
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -101,7 +81,8 @@
                             android:text="Car Name"
                             android:textColor="@color/gradientBackColor"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginTop="10dp" />
 
 
                     </RelativeLayout>

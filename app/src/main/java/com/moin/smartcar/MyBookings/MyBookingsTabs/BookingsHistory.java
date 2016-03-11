@@ -86,6 +86,11 @@ public class BookingsHistory extends Fragment {
         } else {
             messageTextView.setAlpha(0.0f);
         }
+        try{
+            myAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -114,6 +119,9 @@ public class BookingsHistory extends Fragment {
                     public void completeRefresh() {
                     }
                 });
+
+
+        messageTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
 
         return view;
     }
@@ -198,6 +206,14 @@ public class BookingsHistory extends Fragment {
                     my_HistoryInterface.selectedHistory(data.get(getAdapterPosition()));
                 }
             });
+
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            dateTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            timeTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            costTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            carnameTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            cancelledTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
         }
     }
 

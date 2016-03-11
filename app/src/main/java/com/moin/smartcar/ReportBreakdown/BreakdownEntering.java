@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -49,6 +50,20 @@ public class BreakdownEntering extends AppCompatActivity {
     private AVLoadingIndicatorView loadingIndicator;
     private EditText contactNumberEditText,alternateContactNumberEditText,addressEditText,commentsEditText;
     private Button sendBreakdownButton;
+    @Bind(R.id.termsOfUseTextFeild)TextView termsOfUseTextFeild;
+    @Bind(R.id.landmarkTextView)TextView landmarkTextView;
+
+    private void setFonts(){
+        contactNumberEditText.setTypeface(mySingelton.myCustomTypeface);
+        alternateContactNumberEditText.setTypeface(mySingelton.myCustomTypeface);
+        addressEditText.setTypeface(mySingelton.myCustomTypeface);
+        commentsEditText.setTypeface(mySingelton.myCustomTypeface);
+        sendBreakdownButton.setTypeface(mySingelton.myCustomTypeface);
+        termsOfUseTextFeild.setTypeface(mySingelton.myCustomTypeface);
+        landmarkTextView.setTypeface(mySingelton.myCustomTypeface);
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +71,7 @@ public class BreakdownEntering extends AppCompatActivity {
         setContentView(R.layout.activity_breakdown_entering);
 
         ButterKnife.bind(this);
+
 
         Toolbar myToolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(myToolbar);
@@ -110,11 +126,14 @@ public class BreakdownEntering extends AppCompatActivity {
 
             }
         });
+
+        setFonts();
+
     }
 
     @OnClick(R.id.termsOfUseTextFeild)
     void showTermsOfUse(View view) {
-        String url = "ww.google.com";
+        String url = "http://officialsmartcar.com/terms.html";
         if (!url.startsWith("http://") && !url.startsWith("https://"))
             url = "http://" + url;
 

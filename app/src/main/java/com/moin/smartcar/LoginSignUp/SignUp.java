@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -28,6 +29,9 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SignUp extends AppCompatActivity {
 
@@ -45,11 +49,25 @@ public class SignUp extends AppCompatActivity {
     private View loadingView;
     private AVLoadingIndicatorView loadingIndicator;
 
+    @Bind(R.id.message1)TextView message1;
+    @Bind(R.id.message2)TextView message2;
+
+    private void setFonts(){
+        emailId.setTypeface(mySingelton.myCustomTypeface);
+        password.setTypeface(mySingelton.myCustomTypeface);
+        confirmPassword.setTypeface(mySingelton.myCustomTypeface);
+
+        signUpButton.setTypeface(mySingelton.myCustomTypeface);
+        message1.setTypeface(mySingelton.myCustomTypeface);
+        message2.setTypeface(mySingelton.myCustomTypeface);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        ButterKnife.bind(this);
         Toolbar myToolbar = (Toolbar)findViewById(R.id.signUpAppBar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.signUpText));
@@ -88,6 +106,8 @@ public class SignUp extends AppCompatActivity {
                 finish();
             }
         });
+
+        setFonts();
     }
 
     private void showPasswordEditText(){

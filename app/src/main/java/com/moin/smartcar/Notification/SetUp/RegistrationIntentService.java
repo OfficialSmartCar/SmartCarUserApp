@@ -28,7 +28,6 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         try {
             // [START register_for_gcm]
             // Initially this call goes out to the network to retrieve the token, subsequent calls
@@ -37,7 +36,8 @@ public class RegistrationIntentService extends IntentService {
             // See https://developers.google.com/cloud-messaging/android/start for details on this file.
             // [START get_token]
 
-            String authorizedEntity = "245954779961";
+//            String authorizedEntity = "245954779961";591065935860
+            String authorizedEntity = "591065935860";
 
             InstanceID instanceID = InstanceID.getInstance(this);
             String token = instanceID.getToken(authorizedEntity,

@@ -51,6 +51,7 @@ public class InProgress extends Fragment {
         for (int i = 0; i < serverData.size(); i++) {
             data.add(serverData.get(i));
         }
+
         if (data.size() == 0) {
             messageTextView.setAlpha(1.0f);
         } else {
@@ -98,6 +99,9 @@ public class InProgress extends Fragment {
                     public void completeRefresh() {
                     }
                 });
+
+        messageTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
         return view;
     }
 
@@ -109,6 +113,11 @@ public class InProgress extends Fragment {
             messageTextView.setAlpha(1.0f);
         } else {
             messageTextView.setAlpha(0.0f);
+        }
+        try{
+            myAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+
         }
     }
 
@@ -184,6 +193,12 @@ public class InProgress extends Fragment {
                     my_ImProgressInterface.selectedInprogressBooking(data.get(getAdapterPosition()));
                 }
             });
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            dateTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            timeTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            costTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            carnameTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
         }
     }
 

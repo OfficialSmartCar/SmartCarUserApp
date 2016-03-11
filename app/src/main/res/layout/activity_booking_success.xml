@@ -11,9 +11,8 @@
         android:id="@+id/successWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#58427A"
+        android:background="@color/successBackground"
         android:orientation="horizontal">
-
     </LinearLayout>
 
     <TextView
@@ -31,6 +30,7 @@
 
 
     <Button
+        android:id="@+id/goHomeButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

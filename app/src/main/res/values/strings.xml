@@ -4,6 +4,11 @@
     <string name="signUpText">Sign Up</string>
     <string name="getStarted">Get Started</string>
 
+    <!--<string name="facebook_app_id">1979694205590129</string>-->
+    <string name="facebook_app_id">580404685456787</string>
+
+    <string name="server_client_id">591065935860-kcqt2n11ahoamtskp46td2gg01pnk956.apps.googleusercontent.com
+</string>
 
     <string name="drawer_open">OPEN</string>
     <string name="drawer_close">CLOSE</string>

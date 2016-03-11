@@ -25,16 +25,24 @@ import com.moin.smartcar.SingeltonData.DataSingelton;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class BreakdownCategory extends AppCompatActivity {
 
     private ArrayList<String> data = new ArrayList<>();
     private RecyclerView myRecyclerView;
     private BreakDownAdapter myAdapter;
 
+    private TextView kindOfBreakdown;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breakdown_category);
+
+
 
         Toolbar myToolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(myToolbar);
@@ -44,7 +52,8 @@ public class BreakdownCategory extends AppCompatActivity {
 
         navUserBookings navFragment = (navUserBookings) getSupportFragmentManager().findFragmentById(R.id.navigationDrawer_fragment);
         navFragment.setUp(R.id.navigationDrawer_fragment, (DrawerLayout) findViewById(R.id.drawerLayout), myToolbar, getResources().getString(R.string.reportbreakdown));
-
+        kindOfBreakdown = (TextView)findViewById(R.id.kindOfBreakdown);
+        kindOfBreakdown.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
 
         getData();
 
@@ -136,12 +145,15 @@ public class BreakdownCategory extends AppCompatActivity {
         public BreakDownCell(View itemView) {
             super(itemView);
             titletextView = (TextView) itemView.findViewById(R.id.faqTitle);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     navigateWithIndex(getAdapterPosition());
                 }
             });
+
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
         }
     }
 }

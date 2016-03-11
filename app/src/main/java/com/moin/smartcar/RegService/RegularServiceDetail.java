@@ -93,6 +93,17 @@ public class RegularServiceDetail extends AppCompatActivity {
                 }
             });
         }
+
+        setFonts();
+    }
+
+    private void setFonts(){
+
+        titleTextView.setTypeface(mySingelton.myCustomTypeface);
+        subTitleTextView.setTypeface(mySingelton.myCustomTypeface);
+        taxType.setTypeface(mySingelton.myCustomTypeface);
+        costTextView.setTypeface(mySingelton.myCustomTypeface);
+
     }
 
     private void runEnterAnimation(){

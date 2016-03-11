@@ -3,6 +3,7 @@ package com.moin.smartcar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -14,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,7 @@ import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Support.SupportHome;
 import com.moin.smartcar.User.Profile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -60,6 +65,19 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     private TextView userNameTextView;
     private TextView userCar;
     private SliderLayout mDemoSlider;
+
+    @Bind(R.id.textView1)TextView textView1;
+    @Bind(R.id.textView2)TextView textView2;
+    @Bind(R.id.textView3)TextView textView3;
+    @Bind(R.id.textView4)TextView textView4;
+    @Bind(R.id.textView5)TextView textView5;
+    @Bind(R.id.textView6)TextView textView6;
+    @Bind(R.id.textView7)TextView textView7;
+    @Bind(R.id.textView8)TextView textView8;
+    @Bind(R.id.textView9)TextView textView9;
+
+    DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+
 
     @Override
     protected void onResume() {
@@ -87,6 +105,30 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
+        mySingelton.successWebView = new WebView(this);
+        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (Build.VERSION.SDK_INT >= 11) {
+            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
+        mySingelton.successWebView.loadUrl("file:///android_asset/myhtml/index.html");
+
+        //
+        mySingelton.successWebView1 = null;
+        mySingelton.successWebView1 = new WebView(this);
+        mySingelton.successWebView1.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView1.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mySingelton.successWebView1.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView1.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (Build.VERSION.SDK_INT >= 11) {
+            mySingelton.successWebView1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mySingelton.successWebView1.getSettings().setJavaScriptEnabled(true);
+        mySingelton.successWebView1.loadUrl("file:///android_asset/myhtml/index.html");
+
         userNameTextView = (TextView) findViewById(R.id.textView);
         userNameTextView.setText(DataSingelton.getMy_SingeltonData_Reference().userName);
 
@@ -109,6 +151,21 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
 
         getTheScreenHeight();
 
+        setFonts();
+
+    }
+
+    private void setFonts(){
+        textView1.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView2.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView3.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView4.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView5.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView6.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView7.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView8.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        textView9.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
     }
 
     private void getTheScreenHeight() {
@@ -120,24 +177,52 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     }
 
     private void loadSlider() {
-        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("25% Off", R.drawable.banner1);
-        file_maps.put("25% + 10% Off", R.drawable.banner2);
-        file_maps.put("30% Off", R.drawable.banner3);
+//        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+//        file_maps.put("25% Off", R.drawable.banner1);
+//        file_maps.put("25% + 10% Off", R.drawable.banner2);
+//        file_maps.put("30% Off", R.drawable.banner3);
 
-        for (String name : file_maps.keySet()) {
+        HashMap<String,String> url_maps = new HashMap<String, String>();
+        url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner1.jpg");
+        url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner2.jpg");
+        url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner3.jpg");
+
+
+//        for (String name : url_maps.keySet()) {
+//            TextSliderView textSliderView = new TextSliderView(this);
+//            // initialize a SliderLayout
+//            textSliderView
+//                    .description(name)
+//                    .image(url_maps.get(name))
+//                    .setScaleType(BaseSliderView.ScaleType.Fit)
+//                    .setOnSliderClickListener(this);
+//
+//            //add your extra information
+//            textSliderView.bundle(new Bundle());
+//            textSliderView.getBundle()
+//                    .putString("extra", name);
+//
+//            mDemoSlider.addSlider(textSliderView);
+//        }
+
+        ArrayList<String> urls1 = new ArrayList<>();
+        urls1.add("http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner1.jpg");
+        urls1.add("http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner2.jpg");
+        urls1.add("http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner3.jpg");
+
+        for (int i=0;i<urls1.size();i++){
+
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
+                    .description("We Operate Only In Mumbai")
+                    .image(urls1.get(i))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
-            //add your extra information
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
-                    .putString("extra", name);
+                    .putString("extra","We Operate Only In Mumbai");
 
             mDemoSlider.addSlider(textSliderView);
         }
@@ -150,12 +235,6 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         mDemoSlider.setPresetTransformer("ZoomOut");
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.logoutmenu, menu);
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -373,7 +452,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        Toast.makeText(HomePage.this, "Banner Selected", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(HomePage.this, "Banner Selected", Toast.LENGTH_SHORT).show();
     }
 
     @Override

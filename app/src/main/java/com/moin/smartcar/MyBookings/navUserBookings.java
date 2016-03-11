@@ -1,10 +1,12 @@
 package com.moin.smartcar.MyBookings;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +25,7 @@ import com.moin.smartcar.AMC.AMCListing;
 import com.moin.smartcar.DentPaint.DentingAndPainting;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.NavDrawer.NavigationDrawerRecyclerViewAdapter;
+import com.moin.smartcar.Network.MyApplication;
 import com.moin.smartcar.Notification.NotificationHome;
 import com.moin.smartcar.OwnServices.MyOwnService;
 import com.moin.smartcar.R;
@@ -306,6 +309,60 @@ public class navUserBookings extends Fragment implements NavigationDrawerRecycle
                             Intent myIntent = new Intent(getActivity(),SupportHome.class);
                             myIntent.putExtra("check","1");
                             startActivity(myIntent);
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
+            case 9:
+                if (!this.myTitle.toString().equalsIgnoreCase("Terms Of Use")) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            String url = "http://officialsmartcar.com/terms.html";
+                            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                                url = "http://" + url;
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(browserIntent);
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
+            case 10:
+                if (!this.myTitle.toString().equalsIgnoreCase("Terms Of Use")) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            String shareBody = "http://officialsmartcar.com";
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Smart Car Application");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                        }
+                    };
+                    worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);
+                }
+                break;
+            case 11:
+                if (!this.myTitle.toString().equalsIgnoreCase("Terms Of Use")) {
+                    navigated = 1;
+
+                    Runnable openActivity = new Runnable() {
+                        @Override
+                        public void run() {
+                            Uri uri = Uri.parse("market://details?id=com.moin.smartcar");
+                            Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                            try {
+                                startActivity(myAppLinkToMarket);
+                            } catch (ActivityNotFoundException e) {
+                                Toast.makeText(MyApplication.getAppContext(), " unable to find market app", Toast.LENGTH_LONG).show();
+                            }
                         }
                     };
                     worker.schedule(openActivity, 400, TimeUnit.MILLISECONDS);

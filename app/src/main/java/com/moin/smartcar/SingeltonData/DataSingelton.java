@@ -1,7 +1,10 @@
 package com.moin.smartcar.SingeltonData;
 
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.webkit.WebView;
 
 import com.moin.smartcar.AMC.AMCStr;
@@ -85,15 +88,23 @@ public String userId;
     public ArrayList<RegServiceStr> regularServiceSelection;
     public ArrayList<OwnServiceStr> customServiceSelection;
     public ArrayList<AMCStr> amcServiceSelection;
-    public WebView successWebView;
+    public WebView successWebView,successWebView1;
     public UpCommingStr MyBookingData;
     public Boolean UpCommingOrOther;
     public int cancelledOrRescheduled;
     public String signUpSuccess;
 
     public String signUpOrAdd;
+    public int PremiumSelection;
 
     public int notificationCount;
+
+    public int FacebookLogin;
+    public String key;
+
+    public Typeface myCustomTypeface;
+    public int bookingChanged;
+
 
     private DataSingelton() {
         userName = "";
@@ -111,5 +122,8 @@ public String userId;
         }
         return my_SingeltonData;
     }
+
+    public FragmentManager myFragmentManager;
+    public Context myContext;
 
 }

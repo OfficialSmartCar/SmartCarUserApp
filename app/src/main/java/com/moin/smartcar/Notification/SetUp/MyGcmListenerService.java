@@ -1,10 +1,14 @@
 package com.moin.smartcar.Notification.SetUp;
 
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.moin.smartcar.HomePage;
 import com.moin.smartcar.MainActivity;
+import com.moin.smartcar.Network.MyApplication;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 
@@ -47,33 +52,49 @@ public class MyGcmListenerService extends GcmListenerService {
             // normal downstream message.
         }
         try {
-            if (data.getString("gcm.notification.title").equalsIgnoreCase("newmessage")) {
+            if (data.getString("message").equalsIgnoreCase("Executive Verified")) {
                 NewMessageStr str = new NewMessageStr();
-                str.senderId = data.getString("senderid");
-                str.Actualmessage = data.getString("message");
+                str.BookingId = data.getString("userId");
+                str.Actualmessage = "Executive Verified";
+                str.status = 1;
                 EventBus.getDefault().post(str);
+//                showAlert("Executive Verified");
+            }
+            if (data.getString("message").equalsIgnoreCase("Car Ready For PickUp")) {
+                NewMessageStr str = new NewMessageStr();
+                str.BookingId = data.getString("userId");
+                str.Actualmessage = "Car Ready For PickUp";
+                str.status = 2;
+                EventBus.getDefault().post(str);
+//                showAlert("Car Ready For PickUp");
+
+            }
+            if (data.getString("message").equalsIgnoreCase("Car Successfully Delivered")) {
+                NewMessageStr str = new NewMessageStr();
+                str.BookingId = data.getString("userId");
+                str.Actualmessage = "Car Successfully Delivered";
+                str.status = 3;
+                EventBus.getDefault().post(str);
+//                showAlert("Car Successfully Delivered");
+
             }
         } catch (Exception e) {
             Log.d("some err", e.toString());
         }
 
-
-        // [START_EXCLUDE]
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
         sendNotification(message);
-        // [END_EXCLUDE]
     }
-    // [END receive_message]
+
+    private void showAlert(String message){
+        new AlertDialog.Builder(MyApplication.getAppContext())
+                .setTitle("Failure")
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
 
     /**
      * Create and show a simple notification containing the received GCM message.
@@ -129,10 +150,14 @@ public class MyGcmListenerService extends GcmListenerService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+//        Bitmap imageBitmap = BitmapDrawable()
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification)
                 .setContentTitle("Smart Car")
                 .setContentText(message)
+//                .setLargeIcon(getResources().getDrawable(R.drawable.bg))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

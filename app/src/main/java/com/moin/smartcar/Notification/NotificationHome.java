@@ -43,16 +43,11 @@ public class NotificationHome extends AppCompatActivity {
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
-    @Bind(R.id.recycler)
-    RecyclerView myRecyclerView;
-    @Bind(R.id.refresh_layout)
-    CircleRefreshLayout mRefreshLayout;
-    @Bind(R.id.loadignView)
-    View loadingView;
-    @Bind(R.id.loadingIndicator)
-    AVLoadingIndicatorView loadingIndicator;
-    @Bind(R.id.noInNotificationsTextView)
-    TextView noInNotificationsTextView;
+    @Bind(R.id.recycler) RecyclerView myRecyclerView;
+    @Bind(R.id.refresh_layout) CircleRefreshLayout mRefreshLayout;
+    @Bind(R.id.loadignView) View loadingView;
+    @Bind(R.id.loadingIndicator) AVLoadingIndicatorView loadingIndicator;
+    @Bind(R.id.noInNotificationsTextView) TextView noInNotificationsTextView;
     private ArrayList<NotificationStr> data = new ArrayList<>();
     private NotificationAdapter myAdapter;
 
@@ -89,6 +84,8 @@ public class NotificationHome extends AppCompatActivity {
         myRecyclerView.setAdapter(myAdapter);
 
         getData();
+
+        noInNotificationsTextView.setTypeface(mySingelton.myCustomTypeface);
 
     }
 
@@ -348,6 +345,11 @@ public class NotificationHome extends AppCompatActivity {
             mainMessage = (TextView) itemView.findViewById(R.id.mainMessageTextView);
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             parentContainer = itemView.findViewById(R.id.parentContainer);
+
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            mainMessage.setTypeface(mySingelton.myCustomTypeface);
+            dateTextView.setTypeface(mySingelton.myCustomTypeface);
+
         }
     }
 
@@ -362,6 +364,9 @@ public class NotificationHome extends AppCompatActivity {
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             parentContainer = itemView.findViewById(R.id.parentContainer);
 
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            mainMessage.setTypeface(mySingelton.myCustomTypeface);
+            dateTextView.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 
@@ -376,6 +381,10 @@ public class NotificationHome extends AppCompatActivity {
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             parentContainer = itemView.findViewById(R.id.parentContainer);
 
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            mainMessage.setTypeface(mySingelton.myCustomTypeface);
+            dateTextView.setTypeface(mySingelton.myCustomTypeface);
+
         }
     }
 
@@ -389,6 +398,8 @@ public class NotificationHome extends AppCompatActivity {
             mainMessage = (TextView) itemView.findViewById(R.id.mainMessageTextView);
             parentContainer = itemView.findViewById(R.id.parentContainer);
 
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            mainMessage.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 
@@ -402,7 +413,8 @@ public class NotificationHome extends AppCompatActivity {
             mainMessage = (TextView) itemView.findViewById(R.id.mainMessageTextView);
             parentContainer = itemView.findViewById(R.id.parentContainer);
 
-
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            mainMessage.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 

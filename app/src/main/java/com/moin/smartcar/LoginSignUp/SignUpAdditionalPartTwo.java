@@ -147,7 +147,6 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hideLoadingViewWithMessage("There was some problem please try again");
-//                            showError("There Was Some Problem Please Try Again After Some Time");
                         }
                     }
                 },
@@ -178,6 +177,7 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
             for (int j=0;j<internalArray.length();j++){
                 CarModel myModel = new CarModel();
                 JSONObject internalObject = internalArray.getJSONObject(i);
+                myModel.isPremium = Integer.parseInt( internalObject.getString("isPremium"));
                 myModel.carModel = internalObject.getString("ModelName");
                 JSONArray variantArray = internalObject.getJSONArray("models");
                 myModel.carVariantList = new ArrayList<>();
@@ -218,7 +218,6 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
             CarBrand myBrand = serverList.get(index);
 
             for (int i=0;i<myBrand.carModelList.size();i++){
-
                 carModel.add(myBrand.carModelList.get(i).carModel);
             }
 
@@ -245,7 +244,7 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
             return 0;
         }
         if(variantAutoCompleteTextView.getText().toString().length() == 0){
-            showErr("Please enter car variant");
+            showErr("Please enter fuel type");
             return 0;
         }
         if (carNumberEditText.getText().toString().length() == 0){
@@ -271,6 +270,10 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
         }else{
             JSONObject params = new JSONObject();
             try {
+
+                mySingelton.userEmailId = useremail;
+                mySingelton.key = password;
+
                 params.put("EmailId", useremail);
                 params.put("Password", password);
                 params.put("Address", address);
@@ -282,6 +285,21 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
                 params.put("yearOfManufacture", yearOfManufacture.getText().toString());
                 params.put("carRegNumber", carNumberEditText.getText().toString());
                 params.put("carVariant", variantAutoCompleteTextView.getText().toString());
+
+                int isPremium = 0;
+                for (int i=0;i<serverList.size();i++){
+                    if (serverList.get(i).carBrand.equalsIgnoreCase(brandAutocompleteTextView.getText().toString())){
+                        for (int j=0;j<serverList.get(i).carModelList.size();j++){
+                            if (serverList.get(i).carModelList.get(j).carModel.equalsIgnoreCase(modelAutocompleteTextView.getText().toString())){
+                                if (serverList.get(i).carModelList.get(j).isPremium == 1){
+                                    isPremium = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                params.put("isPremium", isPremium);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -368,6 +386,11 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
 
     private class CarModel {
         public String carModel;
+        public int isPremium;
         public ArrayList<String> carVariantList;
+
+        public CarModel(){
+            this.isPremium = 0;
+        }
     }
 }

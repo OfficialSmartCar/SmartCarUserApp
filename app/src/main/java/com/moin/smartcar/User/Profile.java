@@ -165,7 +165,6 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
             }
         });
 
-        synchronizeButton = (ViewGroup)findViewById(R.id.changesConfirmedLayout);
 
         loadingView = findViewById(R.id.loadignView);
         loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.loadingIndicator);
@@ -180,6 +179,8 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
         });
 
         backUpData();
+
+        changesUpdateButton.setTypeface(mySingelton.myCustomTypeface);
     }
 
     private void getAllArrays() throws JSONException {
@@ -204,6 +205,8 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
                 params.put("YearOfManufacture",mySingelton.userCarList.get(i).yearOfMaufacture);
                 params.put("RegNumber",mySingelton.userCarList.get(i).carRegNo);
                 params.put("Variant",mySingelton.userCarList.get(i).carVariant);
+                params.put("isPremium",mySingelton.userCarList.get(i).isPremium);
+
                 addArrJSON.put(params);
 
             }
@@ -216,6 +219,8 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
                 params.put("RegNumber",mySingelton.userCarList.get(i).carRegNo);
                 params.put("Variant",mySingelton.userCarList.get(i).carVariant);
                 params.put("CarId",mySingelton.userCarList.get(i).carId);
+                params.put("isPremium",mySingelton.userCarList.get(i).isPremium);
+
                 updateArrJSON.put(params);
             }
         }
@@ -329,6 +334,7 @@ public class Profile extends AppCompatActivity implements SheetLayout.OnFabAnima
             myStr.yearOfMaufacture = obj.getString("YearOfManufacture");
             myStr.carRegNo = obj.getString("CarRegNumber");
             myStr.carVariant = obj.getString("Variant");
+            myStr.isPremium = Integer.parseInt(obj.getString("isPremium"));
             myStr.status = 0;
             mySingelton.userCarList.add(myStr);
         }

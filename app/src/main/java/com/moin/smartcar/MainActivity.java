@@ -1,6 +1,12 @@
 package com.moin.smartcar;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.graphics.Typeface;
+import android.util.Base64;
+import android.util.Log;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.moin.smartcar.Database.DatabaseManager;
@@ -11,6 +17,8 @@ import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,10 +49,30 @@ public class MainActivity extends AwesomeSplash {
 
     }
 
+//    private void getCOde(){
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.moin.smartcar",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("MOin KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//                Log.d("MOin KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Log.d("MOin KeyHash:", "no");
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.d("MOin KeyHash:", "no");
+//        }
+//    }
 
     @Override
     public void animationsFinished() {
 
+//        getCOde();
+        Typeface myCustomTypeface = Typeface.createFromAsset(getAssets(),"fonts/arial.ttf");
+        DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface = myCustomTypeface;
 
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
         mySingelton.signUpSuccess = "";

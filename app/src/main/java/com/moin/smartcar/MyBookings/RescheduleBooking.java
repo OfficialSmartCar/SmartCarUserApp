@@ -109,6 +109,14 @@ public class RescheduleBooking extends AppCompatActivity {
                 }
             }
         });
+
+        setFonts();
+    }
+
+    private void setFonts(){
+        dateTextView.setTypeface(mySingelton.myCustomTypeface);
+        changeDateTextView.setTypeface(mySingelton.myCustomTypeface);
+        rescheduleButton.setTypeface(mySingelton.myCustomTypeface);
     }
 
     private Boolean checkValidations() {
@@ -392,6 +400,7 @@ public class RescheduleBooking extends AppCompatActivity {
                     timeSlotSelected(getAdapterPosition());
                 }
             });
+            timeTextView.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 

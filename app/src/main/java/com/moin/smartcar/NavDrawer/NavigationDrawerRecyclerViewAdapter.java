@@ -2,6 +2,7 @@ package com.moin.smartcar.NavDrawer;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,16 +201,21 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter {
                     var_ClickListener.ItemClicked(v, position);
                 }
             });
+            textView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
         }
     }
 
     public class MyViewHolder2 extends RecyclerView.ViewHolder {
         TextView textView;
+        TextView welcomeTextView;
 
 
         public MyViewHolder2(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.textView123);
+            welcomeTextView = (TextView) itemView.findViewById(R.id.textView6);
+            welcomeTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            textView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
         }
     }
 }

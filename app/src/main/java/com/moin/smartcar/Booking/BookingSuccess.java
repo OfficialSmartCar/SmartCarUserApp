@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,10 +27,10 @@ public class BookingSuccess extends AppCompatActivity {
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
-    @Bind(R.id.successWebView)
-    LinearLayout backgroundView;
+    private LinearLayout backgroundView;
     @Bind(R.id.textView2)
     TextView messageTextView;
+    @Bind(R.id.goHomeButton)Button goHomeButton;
     private String fromBreakdown = "NO";
     private String fromDentPaint = "NO";
     private String sourceIsContactUs = "NO";
@@ -37,12 +40,16 @@ public class BookingSuccess extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_success);
         ButterKnife.bind(this);
-        LinearLayout topLinearLayout = new LinearLayout(this);
-        topLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        DataSingelton.getMy_SingeltonData_Reference().successWebView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        topLinearLayout.addView(DataSingelton.getMy_SingeltonData_Reference().successWebView);
 
-        backgroundView.addView(topLinearLayout);
+        backgroundView = (LinearLayout) findViewById(R.id.successWebView);
+        DataSingelton.getMy_SingeltonData_Reference().successWebView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        WebView myWebView = DataSingelton.getMy_SingeltonData_Reference().successWebView1;
+        try{
+            backgroundView.addView(myWebView);
+        }catch (Exception e){
+            backgroundView.removeAllViews();
+            backgroundView.addView(myWebView);
+        }
 
         fromBreakdown = "NO";
         fromDentPaint = "NO";
@@ -91,6 +98,8 @@ public class BookingSuccess extends AppCompatActivity {
 
         }
 
+        messageTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        goHomeButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
     }
 
     public void goBackToHome(View view) {
@@ -100,9 +109,11 @@ public class BookingSuccess extends AppCompatActivity {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+//                DataSingelton.getMy_SingeltonData_Reference().successWebView = null;
                 finish();
             }
         };
+
 
         worker.schedule(task, 2000, TimeUnit.MILLISECONDS);
 

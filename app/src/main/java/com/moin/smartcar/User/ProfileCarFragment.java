@@ -116,12 +116,12 @@ public class ProfileCarFragment extends Fragment {
         @Override
         public void onBindViewHolder(ProfileCarCell holder, int position) {
             CarInfoStr myStr = data.get(position);
-            holder.carName.setText(myStr.carName);
-            holder.carBrand.setText(myStr.carBrand);
-            holder.carModel.setText(myStr.carModel);
-            holder.carYearOfReg.setText(myStr.yearOfMaufacture);
-            holder.RegNumber.setText(myStr.carRegNo);
-            holder.carVariant.setText(myStr.carVariant);
+            holder.carName.setText("Car Name : "+myStr.carName);
+            holder.carBrand.setText("Brand : "+myStr.carBrand);
+            holder.carModel.setText("Model : "+myStr.carModel);
+            holder.carYearOfReg.setText("Year : "+myStr.yearOfMaufacture);
+            holder.RegNumber.setText("Reg No. : "+myStr.carRegNo);
+            holder.carVariant.setText("Fuel Type :"+myStr.carVariant);
         }
 
         @Override
@@ -146,6 +146,14 @@ public class ProfileCarFragment extends Fragment {
             carVariant = (TextView) itemView.findViewById(R.id.carVariantTextView);
             deleteImage = (ImageView) itemView.findViewById(R.id.deleteImage);
             mainView = itemView.findViewById(R.id.card_view);
+
+            carName.setTypeface(mySingelton.myCustomTypeface);
+            carBrand.setTypeface(mySingelton.myCustomTypeface);
+            carModel.setTypeface(mySingelton.myCustomTypeface);
+            carYearOfReg.setTypeface(mySingelton.myCustomTypeface);
+            RegNumber.setTypeface(mySingelton.myCustomTypeface);
+            carVariant.setTypeface(mySingelton.myCustomTypeface);
+
 
             mainView.setOnClickListener(new View.OnClickListener() {
                 @Override

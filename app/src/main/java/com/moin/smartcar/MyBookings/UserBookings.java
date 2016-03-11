@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -26,6 +27,7 @@ import com.moin.smartcar.MyBookings.MyBookingsTabs.BookingsHistory;
 import com.moin.smartcar.MyBookings.MyBookingsTabs.InProgress;
 import com.moin.smartcar.MyBookings.MyBookingsTabs.UpCommingBookings;
 import com.moin.smartcar.Network.VolleySingelton;
+import com.moin.smartcar.Notification.SetUp.NewMessageStr;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Tabs.CustomPager;
@@ -43,18 +45,15 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class UserBookings extends AppCompatActivity implements UpCommingBookings.UpCommingInterface, InProgress.ImProgressInterface, BookingsHistory.HistoryInterface {
 
     private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-    @Bind(R.id.viewPagerHome)
-    CustomPager mPager;
-    @Bind(R.id.slidingtabLayout)
-    SlidingTabLayout myTabLayout;
-    @Bind(R.id.loadingIndicator)
-    AVLoadingIndicatorView loadingIndicator;
-    @Bind(R.id.loadignView)
-    View loadingView;
+    @Bind(R.id.viewPagerHome) CustomPager mPager;
+    @Bind(R.id.slidingtabLayout) SlidingTabLayout myTabLayout;
+    @Bind(R.id.loadingIndicator) AVLoadingIndicatorView loadingIndicator;
+    @Bind(R.id.loadignView) View loadingView;
     private UpCommingBookings frg1;
     private InProgress frg2;
     private BookingsHistory frg3;
@@ -69,7 +68,7 @@ public class UserBookings extends AppCompatActivity implements UpCommingBookings
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_bookings);
-
+        mySingelton.bookingChanged = 0;
         ButterKnife.bind(this);
 
         mySingelton.cancelledOrRescheduled = 0;
@@ -146,7 +145,14 @@ public class UserBookings extends AppCompatActivity implements UpCommingBookings
             showLoadingView();
             getData();
         }
+        if (mySingelton.bookingChanged == 1){
+            mySingelton.bookingChanged = 0;
+            showLoadingView();
+            getData();
+        }
     }
+
+
 
     private void getData() {
         JSONObject params = new JSONObject();
@@ -362,6 +368,83 @@ public class UserBookings extends AppCompatActivity implements UpCommingBookings
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    public void onEvent(NewMessageStr event){
+//        AllData.add()
+
+        try{
+            switch (event.status){
+                case 1 :
+                    mySingelton.bookingChanged = 1;
+                    int indexFound = -1;
+                    for (int i=0;i<list1.size();i++){
+                        if (list1.get(i).id == event.BookingId){
+                            list1.get(i).status = "InProgress";
+                            indexFound = 1;
+                        }
+                    }
+                    if (indexFound != -1){
+                        UpCommingStr myStr = list1.get(indexFound);
+                        myStr.completionStatus = 1;
+                        list1.remove(indexFound);
+                        list2.add(0,myStr);
+                    }
+                    frg1.updateData(list1);
+                    frg2.updateData(list2);
+
+                    break;
+                case 2 :
+                    mySingelton.bookingChanged = 1;
+
+                    int indexFound1 = -1;
+                    for (int i=0;i<list2.size();i++){
+                        if (list2.get(i).id == event.BookingId){
+                            list2.get(i).status = "InProgress";
+                            indexFound1 = i;
+                        }
+                    }
+                    if (indexFound1 != -1){
+                        UpCommingStr myStr = list2.get(indexFound1);
+                        myStr.completionStatus = 2;
+                        list2.remove(indexFound1);
+                        list3.add(0,myStr);
+                    }
+                    frg2.updateData(list2);
+                    frg3.updateData(list3);
+                    break;
+                case 3:
+                    mySingelton.bookingChanged = 1;
+
+                    int indexFound2 = -1;
+                    for (int i=0;i<list3.size();i++){
+                        if (list3.get(i).id == event.BookingId){
+                            list3.get(i).status = "History";
+                            indexFound2 = i;
+                        }
+                    }
+                    if (indexFound2 != -1){
+                        UpCommingStr myStr = list3.get(indexFound2);
+                        myStr.completionStatus = 3;
+                    }
+                    frg3.updateData(list3);
+                    break;
+            }
+        }catch (Exception e){
+
+        }
+
+    }
 
 
 }

@@ -41,6 +41,13 @@ public class OwnServiceDetail extends AppCompatActivity {
 
     private OwnServiceStr myStr;
 
+    private void setFonts(){
+        titleTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        subTitleTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        taxType.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        costTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +99,8 @@ public class OwnServiceDetail extends AppCompatActivity {
                 }
             });
         }
+
+        setFonts();
 
     }
 

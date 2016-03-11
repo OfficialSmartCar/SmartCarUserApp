@@ -6,7 +6,8 @@ package com.moin.smartcar.Notification.SetUp;
 
 
 public class NewMessageStr {
-    public String senderId;
+    public String BookingId;
     public String Actualmessage;
+    public int status;
 }
 

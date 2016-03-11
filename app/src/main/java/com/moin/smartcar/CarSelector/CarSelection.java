@@ -76,8 +76,15 @@ public class CarSelection extends Fragment {
         carSelectionHeading = (TextView) view.findViewById(R.id.carSelectionHeading);
         bottomMessage = (TextView) view.findViewById(R.id.bottomMessage);
 
+        setFonts();
 
         return view;
+    }
+
+    private void setFonts(){
+        carSelectionHeading.setTypeface(mySingelton.myCustomTypeface);
+        bottomMessage.setTypeface(mySingelton.myCustomTypeface);
+
     }
 
     public void refreshHeader() {
@@ -146,6 +153,10 @@ public class CarSelection extends Fragment {
                     carSelected(getAdapterPosition());
                 }
             });
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            brand.setTypeface(mySingelton.myCustomTypeface);
+            model.setTypeface(mySingelton.myCustomTypeface);
+
         }
     }
 

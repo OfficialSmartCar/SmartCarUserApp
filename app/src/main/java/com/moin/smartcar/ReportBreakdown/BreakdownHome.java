@@ -2,6 +2,7 @@ package com.moin.smartcar.ReportBreakdown;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.moin.smartcar.BreakdownGoogleMap;
@@ -32,6 +35,7 @@ public class BreakdownHome extends AppCompatActivity {
     int check = 0;
     int closignAnimationStarted = 0;
     private int REQUEST_CODE = 109;
+    DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,14 @@ public class BreakdownHome extends AppCompatActivity {
         DataSingelton.getMy_SingeltonData_Reference().myLat = 0.0;
 
 
+        mySingelton.successWebView = new WebView(this);
+        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if (Build.VERSION.SDK_INT >= 11) {
+            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
+        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
     }
 
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.moin.smartcar.R;
+import com.moin.smartcar.SingeltonData.DataSingelton;
 
 import java.util.ArrayList;
 
@@ -108,6 +109,7 @@ public class FAQPartTwo extends AppCompatActivity {
                     navigateWithIndex(getAdapterPosition());
                 }
             });
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
         }
     }
 

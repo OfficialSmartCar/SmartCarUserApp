@@ -20,6 +20,7 @@
     <uses-permission
         android:name="com.google.android.c2dm.permission.RECEIVE"
         android:required="false" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <permission
         android:name="com.moin.smartcar.permission.C2D_MESSAGE"
@@ -61,6 +62,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LoginSignUp.Login"
             android:launchMode="singleTask"
@@ -143,9 +154,6 @@
             android:name=".ReportBreakdown.BreakdownHome"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReportBreakdown.BreakdownMap"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ReportBreakdown.BreakdownEntering"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -160,6 +168,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".BreakdownGoogleMap"
@@ -215,6 +226,9 @@
         <activity
             android:name=".Notification.NotificationHome"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginSignUp.AboutUs"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -251,7 +265,10 @@
             android:name=".Notification.SetUp.RegistrationIntentService"
             android:exported="false" />
 
-        <activity android:name=".LoginSignUp.AboutUs"></activity>
+        <activity android:name=".Booking.PremiumCar" />
+        <activity android:name=".PayU.ProductCheckoutActivity" />
+        <activity android:name=".PayU.PaymentConfirmationActivity" />
+        <activity android:name=".PaymentActivity"></activity>
     </application>
 
 </manifest>

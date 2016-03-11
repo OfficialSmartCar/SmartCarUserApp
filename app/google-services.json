@@ -1,17 +1,18 @@
 {
   "project_info": {
-    "project_id": "smart-car-1",
-    "project_number": "245954779961",
-    "name": "Smart Car 1"
+    "project_id": "smartcar-1203",
+    "project_number": "591065935860",
+    "name": "SmartCar"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:245954779961:android:f53eac276fd7e71d",
+        "mobilesdk_app_id": "1:591065935860:android:f53eac276fd7e71d",
         "client_id": "android:com.moin.smartcar",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "com.moin.smartcar"
+          "package_name": "com.moin.smartcar",
+          "certificate_hash": []
         }
       },
       "oauth_client": [],

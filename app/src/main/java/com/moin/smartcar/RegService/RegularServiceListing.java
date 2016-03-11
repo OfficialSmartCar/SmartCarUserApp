@@ -21,6 +21,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.moin.smartcar.Booking.BookingMain;
+import com.moin.smartcar.Booking.PremiumCar;
 import com.moin.smartcar.CarSelector.CarSelection;
 import com.moin.smartcar.LoginSignUp.LoginNew;
 import com.moin.smartcar.MyBookings.navUserBookings;
@@ -66,6 +67,7 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
     private TextView bookTextView;
     private View bookingLayout;
     private boolean bookingDisabled;
+    private TextView discountTextView,totalTextView;
 
 //    private RecyclerAdapter adapter;
 
@@ -76,6 +78,7 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
         setContentView(R.layout.activity_regular_service_listing);
 
         mySingelton.selectionOfScreen = 1;
+        mySingelton.PremiumSelection = 0;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -91,6 +94,9 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
         bookingLayout = findViewById(R.id.bookingLayout);
         bookingLayout.setAlpha(0.0f);
         bookingDisabled = true;
+
+        discountTextView = (TextView)findViewById(R.id.discountTextView);
+        totalTextView = (TextView)findViewById(R.id.totalTextView);
 
         costTextView = (TextView)findViewById(R.id.costTextView);
 
@@ -139,6 +145,11 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
             mySingelton.CarSelecetd = selectedCar;
             fragmentContainer = findViewById(R.id.fragmentContainer);
             fragmentContainer.setVisibility(View.GONE);
+            if (mySingelton.CarSelecetd.isPremium == 1){
+                startActivity(new Intent(RegularServiceListing.this,PremiumCar.class));
+                overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+                return;
+            }
             getData();
         }
 
@@ -180,6 +191,16 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
                 }
             }
         });
+
+
+        setFonts();
+    }
+
+    private void setFonts(){
+        discountTextView.setTypeface(mySingelton.myCustomTypeface);
+        totalTextView.setTypeface(mySingelton.myCustomTypeface);
+        costTextView.setTypeface(mySingelton.myCustomTypeface);
+        bookTextView.setTypeface(mySingelton.myCustomTypeface);
     }
 
     private void setCarList(){
@@ -192,6 +213,10 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
     protected void onResume() {
         super.onResume();
         fragmentPopUp.refreshHeader();
+        if (mySingelton.PremiumSelection == 1){
+            mySingelton.PremiumSelection = 0;
+            finish();
+        }
     }
 
     private void getData(){
@@ -286,10 +311,16 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
 
     @Override
     public void carSelectedAtIndex(int index) {
-        getData();
         fragmentContainer.setVisibility(View.GONE);
         selectedCar = mySingelton.userCarList.get(index);
         mySingelton.CarSelecetd = selectedCar;
+        if (mySingelton.CarSelecetd.isPremium == 1){
+            startActivity(new Intent(RegularServiceListing.this, PremiumCar.class));
+            overridePendingTransition(R.anim.slide_right_in,R.anim.scalereduce);
+            return;
+        }
+        getData();
+
     }
 
     private void showMoreInfoForView(int position, View v) {
@@ -458,6 +489,9 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
                     showMoreInfoForView(getAdapterPosition(), v);
                 }
             });
+
+            titletextView.setTypeface(mySingelton.myCustomTypeface);
+            subtitleTextView.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 
@@ -469,6 +503,10 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
             orignalCostTextView = (TextView) itemView.findViewById(R.id.orignalCostTextView);
             discountTextView = (TextView) itemView.findViewById(R.id.discountTextView);
             finalCostTextView = (TextView) itemView.findViewById(R.id.finalCostTextView);
+
+            orignalCostTextView.setTypeface(mySingelton.myCustomTypeface);
+            discountTextView.setTypeface(mySingelton.myCustomTypeface);
+            finalCostTextView.setTypeface(mySingelton.myCustomTypeface);
 
         }
     }

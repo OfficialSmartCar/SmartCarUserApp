@@ -79,6 +79,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/OrTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -122,6 +123,7 @@
                                 android:src="@drawable/contact_us" />
 
                             <TextView
+                                android:id="@+id/phone1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/img1"
@@ -152,6 +154,7 @@
                                 android:src="@drawable/contact_us" />
 
                             <TextView
+                                android:id="@+id/phone2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/img2"
@@ -187,6 +190,7 @@
                             android:src="@drawable/contact_us" />
 
                         <TextView
+                            android:id="@+id/phone3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/img3"

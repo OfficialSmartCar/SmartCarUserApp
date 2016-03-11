@@ -44,10 +44,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String TABLE_CARYearOfManufacture = "YearOfManufacture";
     private static final String TABLE_CarRegNumber = "CarRegNumber";
     private static final String TABLE_CARVariant = "Variant";
+    private static final String TABLE_CARisPremium = "IsPremium";
+
     private static final String CREATE_TABLE_CAR = "CREATE TABLE "
             + TABLE_CAR + "(" + TABLE_CarId + " TEXT," + TABLE_CarName
             + " TEXT," + TABLE_CarBrand + " TEXT," + TABLE_CarModel + " TEXT," + TABLE_CARYearOfManufacture
-            + " TEXT," + TABLE_CarRegNumber + " TEXT," + TABLE_CARVariant + " TEXT" + ")";
+            + " TEXT," + TABLE_CarRegNumber + " TEXT," + TABLE_CARisPremium + " TEXT," + TABLE_CARVariant + " TEXT" + ")";
     DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
 
@@ -149,6 +151,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
             values.put(TABLE_CARYearOfManufacture, currentStr.yearOfMaufacture);
             values.put(TABLE_CarRegNumber, currentStr.carRegNo);
             values.put(TABLE_CARVariant, currentStr.carVariant);
+            values.put(TABLE_CARisPremium, currentStr.isPremium + "");
+
             // insert row
             todo_id = db.insert(TABLE_CAR, null, values);
             if (todo_id == -1) {
@@ -182,6 +186,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 obj.carRegNo = (c.getString(c.getColumnIndex(TABLE_CarRegNumber)));
                 obj.carVariant = (c.getString(c.getColumnIndex(TABLE_CARVariant)));
                 obj.carVariant = (c.getString(c.getColumnIndex(TABLE_CarBrand)));
+                obj.isPremium = Integer.parseInt((c.getString(c.getColumnIndex(TABLE_CARisPremium))));
                 list.add(obj);
             } while (c.moveToNext());
             db.close();

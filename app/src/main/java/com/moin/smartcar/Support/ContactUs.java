@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -44,7 +46,11 @@ public class ContactUs extends AppCompatActivity {
     @Bind(R.id.alternatePhoneNumberEditText)EditText alternatePhoneNumber;
     @Bind(R.id.emailEditText)EditText emailEditText;
     @Bind(R.id.mainQueryEditText)EditText mainQueryEditText;
-
+    @Bind(R.id.submitBUtton)Button submitBUtton;
+    @Bind(R.id.OrTextView)TextView OrTextView;
+    @Bind(R.id.phone1)TextView phone1;
+    @Bind(R.id.phone2)TextView phone2;
+    @Bind(R.id.phone3)TextView phone3;
 
     @Bind(R.id.loadignView)
     View loadingView;
@@ -56,6 +62,20 @@ public class ContactUs extends AppCompatActivity {
 
 
     private DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+
+
+    private void setFonts(){
+        phoneNumber.setTypeface(mySingelton.myCustomTypeface);
+        alternatePhoneNumber.setTypeface(mySingelton.myCustomTypeface);
+        emailEditText.setTypeface(mySingelton.myCustomTypeface);
+        mainQueryEditText.setTypeface(mySingelton.myCustomTypeface);
+        submitBUtton.setTypeface(mySingelton.myCustomTypeface);
+        OrTextView.setTypeface(mySingelton.myCustomTypeface);
+        phone1.setTypeface(mySingelton.myCustomTypeface);
+        phone2.setTypeface(mySingelton.myCustomTypeface);
+        phone3.setTypeface(mySingelton.myCustomTypeface);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +135,8 @@ public class ContactUs extends AppCompatActivity {
 
             }
         });
+
+        setFonts();
 
     }
 

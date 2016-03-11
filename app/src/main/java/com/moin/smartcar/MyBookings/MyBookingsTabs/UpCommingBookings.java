@@ -85,7 +85,13 @@ public class UpCommingBookings extends Fragment {
                     }
                 });
 
+        setFonts();
+
         return view;
+    }
+
+    private void setFonts(){
+        messageTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
     }
 
 
@@ -122,6 +128,11 @@ public class UpCommingBookings extends Fragment {
             messageTextView.setAlpha(1.0f);
         } else {
             messageTextView.setAlpha(0.0f);
+        }
+        try{
+            myAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+
         }
     }
 
@@ -197,6 +208,13 @@ public class UpCommingBookings extends Fragment {
                     }
                 }
             });
+
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            dateTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            timeTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            costTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            carnameTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
         }
     }
 }

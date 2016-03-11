@@ -14,11 +14,13 @@ public class CarInfoStr implements Parcelable{
     public String carRegNo;
     public String carVariant;
     public String carId;
+    public int isPremium;
     public int status;
 
     public CarInfoStr(){
 
     }
+
 
     protected CarInfoStr(Parcel in) {
         carName = in.readString();
@@ -28,6 +30,7 @@ public class CarInfoStr implements Parcelable{
         carRegNo = in.readString();
         carVariant = in.readString();
         carId = in.readString();
+        isPremium = in.readInt();
         status = in.readInt();
     }
 
@@ -57,6 +60,7 @@ public class CarInfoStr implements Parcelable{
         dest.writeString(carRegNo);
         dest.writeString(carVariant);
         dest.writeString(carId);
+        dest.writeInt(isPremium);
         dest.writeInt(status);
     }
 }

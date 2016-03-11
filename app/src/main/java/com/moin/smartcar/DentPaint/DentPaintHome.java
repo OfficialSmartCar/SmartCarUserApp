@@ -45,11 +45,21 @@ public class DentPaintHome extends AppCompatActivity {
 
     private Button ContinueButton;
 
+    private void setFonts(){
+        hintTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
+        CameraButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        GalleryButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        ContinueButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        deleteButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dent_paint_home);
-
+        setFonts();
 
         android.support.v7.widget.Toolbar myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(myToolbar);

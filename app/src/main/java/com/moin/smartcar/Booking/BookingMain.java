@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,11 +24,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -44,6 +47,8 @@ import com.wang.avi.AVLoadingIndicatorView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,32 +60,21 @@ import butterknife.OnClick;
 
 public class BookingMain extends AppCompatActivity {
 
-    @Bind(R.id.sourceTitleTextView)
-    TextView sourceTitleTextView;
-    @Bind(R.id.payableAmmountTextView)
-    TextView payableAmmountTextView;
-    @Bind(R.id.horizontalScroll)
-    HorizontalScrollView scrollviewParent;
-    @Bind(R.id.CarSelectionAutoComplete)
-    AutoCompleteTextView carSelectionAutoComplete;
-    @Bind(R.id.phoneNumberEditText)
-    EditText phoneNumberEditText;
-    @Bind(R.id.alternatephoneNumberEditText)
-    EditText alternatephoneNumberEditText;
-    @Bind(R.id.LocationEditText)
-    EditText LocationEditText;
-    @Bind(R.id.dateTextView)
-    TextView dateTextView;
-    @Bind(R.id.changeDateTextView)
-    TextView changeDateTextView;
-    @Bind(R.id.time_recycler)
-    RecyclerView myRecycler;
-    @Bind(R.id.loadingIndicator)
-    AVLoadingIndicatorView loadingIndicator;
-    @Bind(R.id.loadignView)
-    View loadingView;
-    @Bind(R.id.carNameTextView)
-    TextView carNameTextView;
+    @Bind(R.id.sourceTitleTextView) TextView sourceTitleTextView;
+    @Bind(R.id.payableAmmountTextView) TextView payableAmmountTextView;
+    @Bind(R.id.horizontalScroll) HorizontalScrollView scrollviewParent;
+    @Bind(R.id.CarSelectionAutoComplete) AutoCompleteTextView carSelectionAutoComplete;
+    @Bind(R.id.phoneNumberEditText) EditText phoneNumberEditText;
+    @Bind(R.id.alternatephoneNumberEditText) EditText alternatephoneNumberEditText;
+    @Bind(R.id.LocationEditText) EditText LocationEditText;
+    @Bind(R.id.dateTextView) TextView dateTextView;
+    @Bind(R.id.changeDateTextView) TextView changeDateTextView;
+    @Bind(R.id.time_recycler) RecyclerView myRecycler;
+    @Bind(R.id.loadingIndicator) AVLoadingIndicatorView loadingIndicator;
+    @Bind(R.id.loadignView) View loadingView;
+    @Bind(R.id.carNameTextView) TextView carNameTextView;
+    @Bind(R.id.proceedToPaymentButton)Button proceedToPaymentButton;
+
     ArrayList<String> userCarNames = new ArrayList<>();
     private TimeAdapter myAdapter;
     private ArrayAdapter<String> carNameAdapter;
@@ -106,15 +100,6 @@ public class BookingMain extends AppCompatActivity {
 
         hideLoadingView();
 
-        mySingelton.successWebView = new WebView(this);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        if (Build.VERSION.SDK_INT >= 11) {
-            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
-
 
         payableAmmountTextView.setText("Payable Amount : " + mySingelton.AmmountToPay);
 
@@ -131,7 +116,23 @@ public class BookingMain extends AppCompatActivity {
         myAdapter = new TimeAdapter(BookingMain.this);
         myRecycler.setAdapter(myAdapter);
 
-        carNameTextView.setText("of " + mySingelton.CarSelecetd.carName);
+        carNameTextView.setText("for " + mySingelton.CarSelecetd.carName);
+
+        setFonts();
+
+    }
+
+    private void setFonts(){
+        payableAmmountTextView.setTypeface(mySingelton.myCustomTypeface);
+        sourceTitleTextView.setTypeface(mySingelton.myCustomTypeface);
+        carNameTextView.setTypeface(mySingelton.myCustomTypeface);
+        dateTextView.setTypeface(mySingelton.myCustomTypeface);
+        changeDateTextView.setTypeface(mySingelton.myCustomTypeface);
+        carSelectionAutoComplete.setTypeface(mySingelton.myCustomTypeface);
+        phoneNumberEditText.setTypeface(mySingelton.myCustomTypeface);
+        alternatephoneNumberEditText.setTypeface(mySingelton.myCustomTypeface);
+        proceedToPaymentButton.setTypeface(mySingelton.myCustomTypeface);
+        LocationEditText.setTypeface(mySingelton.myCustomTypeface);
 
     }
 
@@ -139,7 +140,7 @@ public class BookingMain extends AppCompatActivity {
         ServiceIdentifiersSelected = new ArrayList<>();
         switch (mySingelton.paymentSelection) {
             case 1:
-                sourceTitleTextView.setText("Regular Service");
+                sourceTitleTextView.setText("Initiate "+"Regular Service Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.regularServiceSelection.size(); i++) {
                     topServicesList.add(mySingelton.regularServiceSelection.get(i).NameOfTask);
@@ -151,7 +152,7 @@ public class BookingMain extends AppCompatActivity {
                 }
                 break;
             case 2:
-                sourceTitleTextView.setText("Custom Service");
+                sourceTitleTextView.setText("Initiate "+"Custom Service Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.customServiceSelection.size(); i++) {
                     topServicesList.add(mySingelton.customServiceSelection.get(i).title);
@@ -163,7 +164,7 @@ public class BookingMain extends AppCompatActivity {
                 }
                 break;
             case 3:
-                sourceTitleTextView.setText("Annual Maintenance Contract");
+                sourceTitleTextView.setText("Initiate "+"Annual Maintenance Contract Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.amcServiceSelection.size(); i++) {
                     topServicesList.add(mySingelton.amcServiceSelection.get(i).NameOfTask);
@@ -296,11 +297,22 @@ public class BookingMain extends AppCompatActivity {
         return 1;
     }
 
-    @OnClick(R.id.proceedToPaymentButton)
-    void proceed(View view) {
+
+
+    @OnClick(R.id.proceedToPaymentButton) void proceed(View view) {
         if (checkAllValidations() == 0) {
             return;
         }
+
+
+//        String productName = sourceTitleTextView.getText().toString().replace("Initiate","");
+//        Product myProductToBook = new Product();
+//        myProductToBook.setName(sourceTitleTextView.getText().toString().replaceAll("Initiate ", ""));
+//        myProductToBook.setPrice(mySingelton.AmmountToPay);
+//        Log.d("Buy product %s", myProductToBook + "");
+//        ProductCheckoutActivity.doCheckout(this, myProductToBook);
+
+//        UniversalWebViewFragment myFrg = new UniversalWebViewFragment("https://www.payumoney.com/paybypayumoney/#/BCDCEAE6A98116CB48BDE55C440BC69D",false);
 
         JSONObject params = new JSONObject();
         try {
@@ -323,7 +335,9 @@ public class BookingMain extends AppCompatActivity {
                 }
             }
 
-            params.put("type", sourceTitleTextView.getText().toString());
+            String truncated = sourceTitleTextView.getText().toString().replaceAll("Initiate ","");
+
+            params.put("type", truncated);
             params.put("date", dateTextView.getText().toString());
             params.put("time", timeSelected);
             params.put("userName", mySingelton.userName);
@@ -377,7 +391,6 @@ public class BookingMain extends AppCompatActivity {
         bookingRequest.setRetryPolicy(policy);
         VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(bookingRequest);
 
-//        navigate to payment screen
     }
 
     @Override
@@ -527,11 +540,27 @@ public class BookingMain extends AppCompatActivity {
                     timeSlotSelected(getAdapterPosition());
                 }
             });
+            timeTextView.setTypeface(mySingelton.myCustomTypeface);
         }
     }
 
     private class TimeStr {
         public String time;
         public Boolean active;
+    }
+
+    public void toggleControlPanel(boolean shouldShowControl) {
+
+        if (shouldShowControl) {
+            Toast.makeText(this,"Positive I think",Toast.LENGTH_LONG).show();
+//            findViewById(R.id.controlls_root).setVisibility(View.VISIBLE);
+//            findViewById(R.id.frag_root).setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this,"-ve I think",Toast.LENGTH_LONG).show();
+
+//            findViewById(R.id.controlls_root).setVisibility(View.GONE);
+//            findViewById(R.id.frag_root).setVisibility(View.VISIBLE);
+        }
+
     }
 }

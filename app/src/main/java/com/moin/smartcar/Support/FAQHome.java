@@ -180,6 +180,7 @@ public class FAQHome extends AppCompatActivity {
                     navigateWithIndex(getAdapterPosition());
                 }
             });
+            titletextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
         }
     }
 

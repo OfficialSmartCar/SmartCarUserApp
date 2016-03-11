@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.moin.smartcar.R;
+import com.moin.smartcar.SingeltonData.DataSingelton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +33,10 @@ public class faqFinal extends AppCompatActivity {
         Intent recieveingIntent = getIntent();
         questionTextView.setText(recieveingIntent.getStringExtra("faqQuestion"));
         answerTextView.setText(recieveingIntent.getStringExtra("faqAnswer"));
+
+
+        questionTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        answerTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
 
     }
 

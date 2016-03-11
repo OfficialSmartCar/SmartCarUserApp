@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,14 +52,10 @@ import butterknife.ButterKnife;
 
 public class DentingAndPainting extends AppCompatActivity {
 
-    @Bind(R.id.checkBox1)
-    ImageView checkBox1;
-    @Bind(R.id.checkBox2)
-    ImageView checkBox2;
-    @Bind(R.id.checkBox3)
-    ImageView checkBox3;
-    @Bind(R.id.checkBox4)
-    ImageView checkBox4;
+    @Bind(R.id.checkBox1) ImageView checkBox1;
+    @Bind(R.id.checkBox2) ImageView checkBox2;
+    @Bind(R.id.checkBox3) ImageView checkBox3;
+    @Bind(R.id.checkBox4) ImageView checkBox4;
     @Bind(R.id.check1)View checkSelector1;
     @Bind(R.id.check2)View checkSelector2;
     @Bind(R.id.check3)View checkSelector3;
@@ -77,6 +74,26 @@ public class DentingAndPainting extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private String dentId;
+    DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
+
+    @Bind(R.id.carckTextView)TextView carckTextView;
+    @Bind(R.id.dentTextView)TextView dentTextView;
+    @Bind(R.id.scratchTextView)TextView scratchTextView;
+    @Bind(R.id.paintChipTextView)TextView paintChipTextView;
+
+    @Bind(R.id.attachImageTextView)TextView attachImageTextView;
+    @Bind(R.id.sendButton)Button sendButton;
+
+    private void setFonts(){
+        dentTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        carckTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        scratchTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        paintChipTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        locationOfDamage.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        attachImageTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        moreInfoEditText.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        sendButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +174,16 @@ public class DentingAndPainting extends AppCompatActivity {
             }
         });
 
+        setFonts();
+
+        mySingelton.successWebView = new WebView(this);
+        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (Build.VERSION.SDK_INT >= 11) {
+            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
+        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
     }
 
     private void setValueForCheckBox1() {
