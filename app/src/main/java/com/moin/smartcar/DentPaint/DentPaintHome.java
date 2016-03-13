@@ -46,12 +46,17 @@ public class DentPaintHome extends AppCompatActivity {
     private Button ContinueButton;
 
     private void setFonts(){
-        hintTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
 
-        CameraButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
-        GalleryButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
-        ContinueButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
-        deleteButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        try{
+            CameraButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            GalleryButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            ContinueButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            deleteButton.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+            hintTextView.setTypeface(DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface);
+        }catch (Exception e){
+
+        }
+
 
     }
 
