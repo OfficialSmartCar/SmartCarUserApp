@@ -266,8 +266,6 @@
             android:exported="false" />
 
         <activity android:name=".Booking.PremiumCar" />
-        <activity android:name=".PayU.ProductCheckoutActivity" />
-        <activity android:name=".PayU.PaymentConfirmationActivity" />
         <activity android:name=".PaymentActivity"></activity>
     </application>
 

@@ -3,6 +3,7 @@ package com.moin.smartcar.RegService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -312,7 +313,7 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
             Double truncatedDouble = new BigDecimal(costWithoutDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             Double truncatedDouble2 = new BigDecimal(costWithDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             finalCost = truncatedDouble2;
-            costTextView.setText(truncatedDouble2 + "/-");
+            costTextView.setText(truncatedDouble2.intValue() + "/-");
 
         }catch (Exception e){
 
@@ -447,7 +448,7 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
                 case 0:
                     UserBookingsCell holder1 = (UserBookingsCell) holder;
                     holder1.titletextView.setText(data.get(position).NameOfTask);
-                    holder1.subtitleTextView.setText("Rs." + data.get(position).CostOfTask);
+                    holder1.subtitleTextView.setText("Rs." + data.get(position).CostOfTask.intValue());
                     int max = data.size() - 1;
                     holder1.backView.setBackgroundResource(R.drawable.s_box);
 //                    if (position == 0){
@@ -477,16 +478,15 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
                     Double truncatedDouble = new BigDecimal(costWithoutDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     Double truncatedDouble2 = new BigDecimal(costWithDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
-                    holder2.orignalCostTextView.setText(truncatedDouble + "/-");
+                    holder2.orignalCostTextView.setText(truncatedDouble.intValue() + "/-");
                     holder2.discountTextView.setText("25%");
-                    holder2.finalCostTextView.setText(truncatedDouble2 + "/-");
+                    holder2.finalCostTextView.setText(truncatedDouble2.intValue() + "/-");
 
                     finalCost = truncatedDouble2;
-                    costTextView.setText(truncatedDouble2 + "/-");
+                    costTextView.setText(truncatedDouble2.intValue() + "/-");
 
                     break;
             }
-
         }
 
         @Override

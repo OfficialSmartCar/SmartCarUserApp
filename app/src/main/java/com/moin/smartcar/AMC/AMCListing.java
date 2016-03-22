@@ -311,7 +311,7 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
             Double truncatedDouble2 = new BigDecimal(costWithDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
             finalCost = truncatedDouble2;
-            costTextView.setText(truncatedDouble2 + "/-");
+            costTextView.setText(truncatedDouble2.intValue() + "/-");
         }catch (Exception e){
 
         }
@@ -428,7 +428,7 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
                 case 0:
                     MainDisplayCell holder1 = (MainDisplayCell) holder;
                     holder1.titletextView.setText(data.get(position).NameOfTask);
-                    holder1.subtitleTextView.setText("Rs." + data.get(position).CostOfTask);
+                    holder1.subtitleTextView.setText("Rs." + data.get(position).CostOfTask.intValue());
                     int max = data.size() - 1;
                     holder1.backView.setBackgroundResource(R.drawable.s_box);
 //                    if (position == 0){
@@ -461,12 +461,12 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
 //                    truncatedDouble = truncatedDouble * 3;
 //                    truncatedDouble2 = truncatedDouble2 * 3;
 
-                    holder2.orignalCostTextView.setText(truncatedDouble + "/-");
+                    holder2.orignalCostTextView.setText(truncatedDouble.intValue() + "/-");
                     holder2.discountTextView.setText("35%");
-                    holder2.finalCostTextView.setText(truncatedDouble2 + "/-");
+                    holder2.finalCostTextView.setText(truncatedDouble2.intValue() + "/-");
 
                     finalCost = truncatedDouble2;
-                    costTextView.setText(truncatedDouble2 + "/-");
+                    costTextView.setText(truncatedDouble2.intValue() + "/-");
 
                     break;
             }

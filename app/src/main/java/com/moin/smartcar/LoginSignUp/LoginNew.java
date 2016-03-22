@@ -48,8 +48,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+//import com.google.android.gms.plus.Plus;
+//import com.google.android.gms.plus.model.people.Person;
 import com.moin.smartcar.Database.DatabaseManager;
 import com.moin.smartcar.HomePage;
 import com.moin.smartcar.Network.VolleySingelton;
@@ -718,22 +718,22 @@ public class LoginNew extends AppCompatActivity {
                 }
 
                 try {
-                    if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                        Person person = Plus.PeopleApi
-                                .getCurrentPerson(mGoogleApiClient);
-                        String personName = person.getDisplayName();
-                        String personPhotoUrl = person.getImage().getUrl();
-                        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-//                tvName.setText(personName);
-                        emailIdEditTExt.setText(email);
-
-                        Toast.makeText(getApplicationContext(),
-                                "You are Logged In " + personName,             Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldnt Get the Person Info", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+//                        Person person = Plus.PeopleApi
+//                                .getCurrentPerson(mGoogleApiClient);
+//                        String personName = person.getDisplayName();
+//                        String personPhotoUrl = person.getImage().getUrl();
+//                        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+//
+////                tvName.setText(personName);
+//                        emailIdEditTExt.setText(email);
+//
+//                        Toast.makeText(getApplicationContext(),
+//                                "You are Logged In " + personName,             Toast.LENGTH_LONG).show();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(),
+//                                "Couldnt Get the Person Info", Toast.LENGTH_SHORT).show();
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -756,7 +756,7 @@ public class LoginNew extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 //            emailIdEditTExt.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
-            emailIdEditTExt.setText(getString(R.string.loginText,acct.getEmail()));
+//            emailIdEditTExt.setText(getString(R.string.loginText,acct.getEmail()));
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.

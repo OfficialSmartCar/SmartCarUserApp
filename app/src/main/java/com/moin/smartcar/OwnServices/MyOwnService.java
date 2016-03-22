@@ -382,7 +382,7 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             }
         }
 
-        totalCostTextView.setText(" Rs. " + costWithTax + " ");
+        totalCostTextView.setText(" Rs. " + costWithTax.intValue() + " ");
     }
 
     private void showMoreInfoForView(int position, View v){
@@ -476,7 +476,7 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             OwnServiceStr myStr = data.get(position);
             holder.titletextView.setText(myStr.title);
             holder.subTitleTextView.setText(myStr.subTitle);
-            holder.costTextView.setText("Rs " + myStr.cost.toString());
+            holder.costTextView.setText("Rs " + myStr.cost.intValue());
 
             if (myStr.isActive) {
                 holder.parentView.setBackgroundColor(getResources().getColor(R.color.lightGrey));

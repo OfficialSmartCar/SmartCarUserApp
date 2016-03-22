@@ -113,8 +113,7 @@ public class BookingMain extends AppCompatActivity {
 
         hideLoadingView();
 
-
-        payableAmmountTextView.setText("Payable Amount : " + mySingelton.AmmountToPay);
+        payableAmmountTextView.setText("Payable Amount : " + mySingelton.AmmountToPay.intValue());
 
         checkSource();
 
