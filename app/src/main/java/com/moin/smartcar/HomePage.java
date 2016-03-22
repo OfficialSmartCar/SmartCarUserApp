@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -22,6 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -31,24 +39,37 @@ import com.moin.smartcar.AMC.AMCListing;
 import com.moin.smartcar.Database.DatabaseManager;
 import com.moin.smartcar.DentPaint.DentingAndPainting;
 import com.moin.smartcar.LoginSignUp.LoginNew;
+import com.moin.smartcar.MyBookings.DataStr.UpCommingStr;
 import com.moin.smartcar.MyBookings.UserBookings;
 import com.moin.smartcar.MyBookings.navUserBookings;
+import com.moin.smartcar.Network.VolleySingelton;
 import com.moin.smartcar.Notification.NotificationHome;
+import com.moin.smartcar.Notification.SetUp.NewMessageStr;
 import com.moin.smartcar.OwnServices.MyOwnService;
 import com.moin.smartcar.RegService.RegularServiceListing;
 import com.moin.smartcar.ReportBreakdown.BreakdownCategory;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Support.SupportHome;
+import com.moin.smartcar.User.CarInfoStr;
 import com.moin.smartcar.User.Profile;
+import com.moin.smartcar.Utility.MoinUtils;
+import com.wang.avi.AVLoadingIndicatorView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class HomePage extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
@@ -76,6 +97,9 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     @Bind(R.id.textView8)TextView textView8;
     @Bind(R.id.textView9)TextView textView9;
 
+    private View loadingView;
+    private AVLoadingIndicatorView loadingIndicator;
+
     DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
 
 
@@ -92,7 +116,111 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
             notificationCountTextView123.setAlpha(1.0f);
         }
 
+        try{
+            if (mySingelton.imagesSelected != null){
+                if (mySingelton.imagesSelected.size()>0){
+                    for (int i=0;i<mySingelton.imagesSelected.size();i++){
+                        mySingelton.imagesSelected.get(i).recycle();
+                    }
+                }
+            }
+        }catch (Exception e){
+            Log.d("Some Exception", "images not recycled");
+        }
 
+        if (mySingelton.firstLogin_moin == 0){
+            mySingelton.firstLogin_moin = 1;
+            getUserDetails();
+        }
+
+        mySingelton.moinTextView = notificationCountTextView123;
+
+    }
+
+    private void getUserDetails(){
+        showLoadingView();
+        JSONObject params = new JSONObject();
+        try {
+            params.put("UserId", mySingelton.userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.getUserDetails, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+//                                hideLoadingWithMessage("User Details Updated");
+                                parseResponse(response);
+                            } else {
+//                                goBackToBackedUpData();
+                                hideLoadingWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            goBackToBackedUpData();
+                            hideLoadingWithMessage("There was some problem please try again");
+//                            showError("There Was Some Problem Please Try Again After Some Time");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        goBackToBackedUpData();
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        updateRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(updateRequest);
+    }
+
+    private void parseResponse(JSONObject response) throws JSONException {
+        mySingelton.userName = response.getString("UserName");
+        mySingelton.address = response.getString("Address");
+        mySingelton.mobileNumber = response.getString("MobileNumber");
+        mySingelton.userEmailId = response.getString("EmailId");
+        mySingelton.userId = response.getString("UserId");
+
+        mySingelton.backUpMobileNUmber = mySingelton.mobileNumber;
+        mySingelton.backUpAdress = mySingelton.address;
+        mySingelton.backUpName = mySingelton.userName;
+
+        mySingelton.userCarList = new ArrayList<>();
+        JSONArray arr = response.getJSONArray("carList");
+        for (int i=0;i<arr.length();i++){
+            JSONObject obj = arr.getJSONObject(i);
+            CarInfoStr myStr = new CarInfoStr();
+            myStr.carName = obj.getString("CarName");
+            myStr.carId = obj.getString("CarId");
+            myStr.carBrand = obj.getString("CarBrand");
+            myStr.carModel = obj.getString("CarModel");
+            myStr.yearOfMaufacture = obj.getString("YearOfManufacture");
+            myStr.carRegNo = obj.getString("CarRegNumber");
+            myStr.carVariant = obj.getString("Variant");
+            myStr.isPremium = Integer.parseInt(obj.getString("isPremium"));
+            myStr.status = 0;
+            mySingelton.userCarList.add(myStr);
+        }
+        int count = Integer.parseInt(response.getString("notificationCount"));
+        mySingelton.notificationCount = response.getInt("notificationCount");
+        notificationCountTextView123.setText(DataSingelton.getMy_SingeltonData_Reference().notificationCount + "");
+        if (DataSingelton.getMy_SingeltonData_Reference().notificationCount == 0) {
+            notificationCountTextView123.setAlpha(0.0f);
+        } else {
+            notificationCountTextView123.setAlpha(1.0f);
+        }
     }
 
     @Override
@@ -100,22 +228,15 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         ButterKnife.bind(this);
+//        DataSingelton.getMy_SingeltonData_Reference().notificationCount = 0;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.homeappbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        mySingelton.successWebView = new WebView(this);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        if (Build.VERSION.SDK_INT >= 11) {
-            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-        mySingelton.successWebView.loadUrl("file:///android_asset/myhtml/index.html");
-
+        loadingView = findViewById(R.id.loadignView);
+        loadingIndicator = (AVLoadingIndicatorView) findViewById(R.id.loadingIndicator);
+        hideLoadingView();
         //
         mySingelton.successWebView1 = null;
         mySingelton.successWebView1 = new WebView(this);
@@ -152,7 +273,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         getTheScreenHeight();
 
         setFonts();
-
+        startingUp();
     }
 
     private void setFonts(){
@@ -186,7 +307,6 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner1.jpg");
         url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner2.jpg");
         url_maps.put("We Operate Only In Mumbai", "http://184.95.55.236:8080/SmartCar/resources/mytheme/images/banner3.jpg");
-
 
 //        for (String name : url_maps.keySet()) {
 //            TextSliderView textSliderView = new TextSliderView(this);
@@ -233,7 +353,6 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
         mDemoSlider.setPresetTransformer("ZoomOut");
-
     }
 
     @Override
@@ -251,6 +370,7 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
     @Override
     public void finish() {
         super.finish();
+//        mySingelton.
         overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
     }
 
@@ -480,4 +600,51 @@ public class HomePage extends AppCompatActivity implements BaseSliderView.OnSlid
         worker.schedule(task23, 2000, TimeUnit.MILLISECONDS);
     }
 
+    private void hideLoadingView() {
+        loadingView.setVisibility(View.GONE);
+        loadingIndicator.setVisibility(View.GONE);
+    }
+
+    private void showLoadingView() {
+        loadingView.setVisibility(View.VISIBLE);
+        loadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingWithMessage(String msg) {
+        hideLoadingView();
+//        MoinUtils.getReference().showMessage(HomePage.this, msg);
+    }
+
+    private void showMessage(String msg) {
+//        MoinUtils.getReference().showMessage(HomePage.this, msg);
+    }
+
+
+    private void startingUp() {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try{
+                    //do your code here
+                    //also call the same runnable
+
+                    notificationCountTextView123.setText(DataSingelton.getMy_SingeltonData_Reference().notificationCount + "");
+                    if (DataSingelton.getMy_SingeltonData_Reference().notificationCount == 0) {
+                        notificationCountTextView123.setAlpha(0.0f);
+                    } else {
+                        notificationCountTextView123.setAlpha(1.0f);
+                    }
+
+                    handler.postDelayed(this, 2000);
+                }
+                catch (Exception e) {
+                    // TODO: handle exception
+                }
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+
+    }
 }

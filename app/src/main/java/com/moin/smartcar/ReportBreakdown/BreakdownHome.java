@@ -78,15 +78,6 @@ public class BreakdownHome extends AppCompatActivity {
         DataSingelton.getMy_SingeltonData_Reference().myLong = 0.0;
         DataSingelton.getMy_SingeltonData_Reference().myLat = 0.0;
 
-
-        mySingelton.successWebView = new WebView(this);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        if (Build.VERSION.SDK_INT >= 11) {
-            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
     }
 
 

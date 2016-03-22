@@ -61,21 +61,6 @@ public class BreakdownCategory extends AppCompatActivity {
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new BreakDownAdapter(this);
         myRecyclerView.setAdapter(myAdapter);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
-                mySingelton.successWebView = new WebView(MyApplication.getAppContext());
-                mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-                mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-                if (Build.VERSION.SDK_INT >= 11) {
-                    mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                }
-                mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-                mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
-            }
-        }).run();
     }
 
     private void getData(){

@@ -9,5 +9,6 @@ public class NewMessageStr {
     public String BookingId;
     public String Actualmessage;
     public int status;
+    public int count;
 }
 

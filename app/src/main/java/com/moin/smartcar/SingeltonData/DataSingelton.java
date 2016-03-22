@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.moin.smartcar.AMC.AMCStr;
 import com.moin.smartcar.MyBookings.DataStr.UpCommingStr;
@@ -21,9 +22,8 @@ import java.util.ArrayList;
 public class DataSingelton {
 
     public static DataSingelton my_SingeltonData;
-
-
-    public static String baseUrl = "http://178.62.10.40:3000";
+//    public static String baseUrl = "http://178.62.10.40:3000";
+    public static String baseUrl = "http://178.62.84.115:3000";
     public static String getCustomeServices = baseUrl + "/getCustomServices";
     public static String getSupportInformation = baseUrl + "/getSupportInformation";
     public static String LoginUrl = baseUrl + "/userAuthentication";
@@ -43,7 +43,17 @@ public class DataSingelton {
     public static String reportDentPaint = baseUrl + "/reportDentPaint";
     public static String uploadImageUrl = "http://184.95.55.236:8080/SmartCar/dentpaintImagesupload/";
     public static String supportUrl = baseUrl + "/support";
+    public static String forgotPasswordURL = baseUrl + "/forgotPasswordURL";
+    public static String resetPassword = baseUrl + "/resetPassword";
+    public static String getUserDetails = baseUrl + "/getUserDetails";
+    public static String checkIfCanBook = baseUrl + "/checkIfCanBook";
 
+    public TextView moinTextView = null;
+
+    public int firstLogin_moin;
+
+    public String forgotPasswordEmailId;
+    public int passwordReset;
 
 
     public int selectionOfScreen;
@@ -88,7 +98,7 @@ public String userId;
     public ArrayList<RegServiceStr> regularServiceSelection;
     public ArrayList<OwnServiceStr> customServiceSelection;
     public ArrayList<AMCStr> amcServiceSelection;
-    public WebView successWebView,successWebView1;
+    public WebView successWebView1;
     public UpCommingStr MyBookingData;
     public Boolean UpCommingOrOther;
     public int cancelledOrRescheduled;

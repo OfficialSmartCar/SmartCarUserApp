@@ -269,8 +269,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.7"
-        android:background="@android:color/black" />
+        android:alpha="0.5"
+        android:background="@android:color/transparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -304,9 +304,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_alignTop="@+id/textView5"
-                android:layout_toRightOf="@+id/textView4"
-                android:layout_toEndOf="@+id/textView4"
-                android:layout_marginLeft="20dp" />
+                android:layout_centerHorizontal="true" />
 
 
             <TextView
@@ -334,7 +332,8 @@
                 android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold">
+                android:textStyle="bold"
+                android:alpha="0">
 
 
             </TextView>
@@ -347,7 +346,9 @@
                 android:layout_alignRight="@+id/textView5"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="25dp"
-                android:src="@drawable/fb1" />
+                android:src="@drawable/fb1"
+                android:alpha="0"
+                />
 
         </RelativeLayout>
 

@@ -180,8 +180,16 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
     private void getData(){
 
 //        hintTextView.setAlpha(1.0f);
+        JSONObject params = new JSONObject();
+        try {
+            params.put("carBrand", mySingelton.CarSelecetd.carBrand);
+            params.put("carModel", mySingelton.CarSelecetd.carModel);
+            params.put("carFuelType", mySingelton.CarSelecetd.carVariant);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getCustomeServices,
+        JsonObjectRequest getServcesList = new JsonObjectRequest(Request.Method.POST, DataSingelton.getCustomeServices,params,
 
                 new Response.Listener<JSONObject>() {
                     @Override

@@ -221,7 +221,16 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
 
     private void getData(){
         finalCost = 0.0;
-        JsonObjectRequest getExpressServcesList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getExpressService,
+        JSONObject params = new JSONObject();
+        try {
+            params.put("carBrand", mySingelton.CarSelecetd.carBrand);
+            params.put("carModel", mySingelton.CarSelecetd.carModel);
+            params.put("carFuelType", mySingelton.CarSelecetd.carVariant);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest getExpressServcesList = new JsonObjectRequest(Request.Method.POST, DataSingelton.getExpressService,params,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -239,7 +248,6 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hideLoadingWithMessage("There was some problem please try again");
-//                            showError("There Was Some Problem Please Try Again After Some Time");
                         }
                     }
                 },
@@ -285,13 +293,31 @@ public class RegularServiceListing extends AppCompatActivity implements CarSelec
         }catch (Exception e){
             hideLoadingWithMessage(getString(R.string.dataInconsistent));
         }
-    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.logoutmenu,menu);
-//        return true;
-//    }
+        try{
+            Double costWithoutDiscount = 0.0;
+            Double costWithDiscount = 0.0;
+            for (int i = 0; i < data.size(); i++) {
+                Double cost = data.get(i).CostOfTask;
+                cost = cost + ((data.get(i).TaxPercentage / 100) * cost);
+                costWithoutDiscount += cost;
+            }
+            for (int i = 0; i < data.size(); i++) {
+                Double cost = data.get(i).CostOfTask;
+                cost = cost - ((25.0 / 100.0) * cost);
+                cost = cost + ((data.get(i).TaxPercentage / 100) * cost);
+                costWithDiscount += cost;
+            }
+
+            Double truncatedDouble = new BigDecimal(costWithoutDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            Double truncatedDouble2 = new BigDecimal(costWithDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            finalCost = truncatedDouble2;
+            costTextView.setText(truncatedDouble2 + "/-");
+
+        }catch (Exception e){
+
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

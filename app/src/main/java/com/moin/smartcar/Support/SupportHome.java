@@ -1,6 +1,8 @@
 package com.moin.smartcar.Support;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -31,9 +33,12 @@ public class SupportHome extends AppCompatActivity{
     @Bind(R.id.BottomClick)View bottomView;
     int navigationDestination = 0;
     @Bind(R.id.outerImageView)ImageView imgView;
+    @Bind(R.id.innerImageView)ImageView innerImage;
     int check = 0;
     int closignAnimationStarted = 0;
     private int REQUEST_CODE = 109;
+    Bitmap bitmapOuter,bitmapInner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,11 @@ public class SupportHome extends AppCompatActivity{
                 BottomSelection();
             }
         });
+
+        bitmapOuter = BitmapFactory.decodeResource(getResources(), R.drawable.outer_ring);
+        imgView.setImageBitmap(bitmapOuter);
+        bitmapInner = BitmapFactory.decodeResource(getResources(), R.drawable.support_icons);
+        innerImage.setImageBitmap(bitmapInner);
     }
 
     private void startAnimationOuterExpand() {
@@ -151,6 +161,15 @@ public class SupportHome extends AppCompatActivity{
 
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        imgView.setImageDrawable(null);
+        innerImage.setImageDrawable(null);
+        bitmapOuter.recycle();
+        bitmapOuter.recycle();
     }
 
     private void topSelection(){

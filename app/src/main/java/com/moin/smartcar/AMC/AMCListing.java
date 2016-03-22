@@ -214,9 +214,19 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
     }
 
     private void getData() {
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("carBrand", mySingelton.CarSelecetd.carBrand);
+            params.put("carModel", mySingelton.CarSelecetd.carModel);
+            params.put("carFuelType", mySingelton.CarSelecetd.carVariant);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         costTextView.setText("");
         finalCost = 0.0;
-        JsonObjectRequest getAMCList = new JsonObjectRequest(Request.Method.GET, DataSingelton.getAMC,
+        JsonObjectRequest getAMCList = new JsonObjectRequest(Request.Method.POST, DataSingelton.getAMC,params,
 
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -280,6 +290,30 @@ public class AMCListing extends AppCompatActivity implements CarSelection.carSel
 //            mRefreshLayout.finishRefreshing();
         } catch (Exception e) {
             hideLoadingWithMessage(getString(R.string.dataInconsistent));
+        }
+
+        try{
+            Double costWithoutDiscount = 0.0;
+            Double costWithDiscount = 0.0;
+            for (int i = 0; i < data.size(); i++) {
+                Double cost = data.get(i).CostOfTask * 3;
+                cost = cost + ((data.get(i).TaxPercentage / 100) * cost);
+                costWithoutDiscount += cost;
+            }
+            for (int i = 0; i < data.size(); i++) {
+                Double cost = data.get(i).CostOfTask * 3;
+                cost = cost - ((35.0 / 100.0) * cost);
+                cost = cost + ((data.get(i).TaxPercentage / 100) * cost);
+                costWithDiscount += cost;
+            }
+
+            Double truncatedDouble = new BigDecimal(costWithoutDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            Double truncatedDouble2 = new BigDecimal(costWithDiscount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+            finalCost = truncatedDouble2;
+            costTextView.setText(truncatedDouble2 + "/-");
+        }catch (Exception e){
+
         }
     }
 

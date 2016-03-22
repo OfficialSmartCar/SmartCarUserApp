@@ -158,7 +158,7 @@ public class LoginNew extends AppCompatActivity {
         FBLOginImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(LoginNew.this, Arrays.asList("public_profile", "user_friends", "email"));
+//                LoginManager.getInstance().logInWithReadPermissions(LoginNew.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
 
@@ -218,6 +218,7 @@ public class LoginNew extends AppCompatActivity {
                                             String email = object.getString("email");
                                             emailIdEditTExt.setText("" + email);
                                             mySingelton.key = "passkey@123_m";
+//                                            checkPresenceInServer();
                                             performLogin(email, "passkey@123_m");
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -242,6 +243,54 @@ public class LoginNew extends AppCompatActivity {
                     }
                 });
     }
+
+    private void checkPresenceInServer(){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("EmailId", emailIdEditTExt.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest checkEmailPresence = new JsonObjectRequest(Request.Method.POST, mySingelton.CheckEmailPresence, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (status.equalsIgnoreCase("Ok")) {
+                                Intent myIntent = new Intent(LoginNew.this,SignUpAdditionalDataPartOne.class);
+                                myIntent.putExtra("emailIdPassed",emailIdEditTExt.getText().toString());
+                                myIntent.putExtra("passwordIdPassed","passkey@123_m");
+                                startActivity(myIntent);
+                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+                            } else {
+                                hideLoadingWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingWithMessage("There was some problem please try again");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        checkEmailPresence.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(checkEmailPresence);
+    }
+
     protected void onStop() {
         super.onStop();
 //        if (mGoogleApiClient.isConnected()) {
@@ -295,7 +344,6 @@ public class LoginNew extends AppCompatActivity {
     private void getAllDataForNotifications() {
         PrintHashKey();
         LoadNotificationsDetails();
-
     }
 
     public void PrintHashKey() {
@@ -415,7 +463,6 @@ public class LoginNew extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.LoginUrl, params,
 
                 new Response.Listener<JSONObject>() {
@@ -426,22 +473,17 @@ public class LoginNew extends AppCompatActivity {
                             String message = response.getString("ErrorMessage");
                             if (!status.equalsIgnoreCase("Error")) {
                                 saveUserInfoToDB(response,key);
+                                hideLoadingView();
                             } else {
                                 if (key.equalsIgnoreCase("passkey@123_m")){
-                                    Intent myIntent = new Intent(LoginNew.this,SignUpAdditionalDataPartOne.class);
-                                    myIntent.putExtra("emailIdPassed",useremailId);
-                                    myIntent.putExtra("passwordIdPassed",key);
-                                    startActivity(myIntent);
-                                    overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+                                    checkPresenceInServer();
                                 }else{
                                     hideLoadingWithMessage(message);
                                 }
                             }
-                            hideLoadingView();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hideLoadingWithMessage("There was some problem please try again");
-//                            showError("There Was Some Problem Please Try Again After Some Time");
                         }
                     }
                 },
@@ -526,9 +568,7 @@ public class LoginNew extends AppCompatActivity {
                     hideLoadingView();
                     startActivity(new Intent(LoginNew.this, HomePage.class));
                     overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
-
                     killSelf();
-
                 }
             }).run();
         } catch (Exception e) {
@@ -579,9 +619,8 @@ public class LoginNew extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        mySingelton.notificationCount = 0;
         mySingelton.signUpOrAdd = "signUp";
-
         try {
             DatabaseManager db = new DatabaseManager(LoginNew.this);
             db.deleteAllCars();
@@ -708,7 +747,6 @@ public class LoginNew extends AppCompatActivity {
         }catch (Exception e){
 
         }
-
 
     }
 

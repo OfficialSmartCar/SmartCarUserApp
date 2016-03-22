@@ -286,7 +286,7 @@ public class NotificationHome extends AppCompatActivity {
                     AppointmentCancelledHolder holder1 = (AppointmentCancelledHolder) holder;
                     holder1.titletextView.setText("Appointment Cancelled");
                     holder1.dateTextView.setText(myStr.date);
-                    String message1 = myStr.category + " appointment for your car " + "\'" + myStr.carName + "\' has been booked for " + myStr.date + " at " + myStr.time;
+                    String message1 = myStr.category + " appointment for your car " + "\'" + myStr.carName + "\' has been cancelled for date " + myStr.date + " at " + myStr.time;
                     holder1.mainMessage.setText(message1);
                     if (myStr.readUnRead == 1) {
                         holder1.parentContainer.setBackgroundColor(getResources().getColor(R.color.lightGrey));
@@ -298,7 +298,7 @@ public class NotificationHome extends AppCompatActivity {
                     AppointmentRescheduledHolder holder2 = (AppointmentRescheduledHolder) holder;
                     holder2.titletextView.setText("Appointment Rescheduled");
                     holder2.dateTextView.setText(myStr.date);
-                    String message2 = myStr.category + " appointment for your car " + "\'" + myStr.carName + "\' has been booked for " + myStr.date + " at " + myStr.time;
+                    String message2 = myStr.category + " appointment for your car " + "\'" + myStr.carName + "\' has been rescheduled to " + myStr.date + " at " + myStr.time;
                     holder2.mainMessage.setText(message2);
                     if (myStr.readUnRead == 1) {
                         holder2.parentContainer.setBackgroundColor(getResources().getColor(R.color.lightGrey));
@@ -318,7 +318,7 @@ public class NotificationHome extends AppCompatActivity {
                     break;
                 case 4:
                     DentAndPaintHolder holder4 = (DentAndPaintHolder) holder;
-                    holder4.titletextView.setText("Dent And Paint");
+                    holder4.titletextView.setText(myStr.subject);
                     holder4.mainMessage.setText(myStr.message);
                     if (myStr.readUnRead == 1) {
                         holder4.parentContainer.setBackgroundColor(getResources().getColor(R.color.lightGrey));

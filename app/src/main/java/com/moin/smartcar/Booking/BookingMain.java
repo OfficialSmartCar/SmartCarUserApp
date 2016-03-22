@@ -1,13 +1,14 @@
 package com.moin.smartcar.Booking;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -42,21 +41,26 @@ import com.moin.smartcar.Network.VolleySingelton;
 import com.moin.smartcar.R;
 import com.moin.smartcar.SingeltonData.DataSingelton;
 import com.moin.smartcar.Utility.MoinUtils;
+import com.payUMoney.sdk.PayUmoneySdkInitilizer;
+import com.payUMoney.sdk.SdkConstants;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+
 
 public class BookingMain extends AppCompatActivity {
 
@@ -86,6 +90,15 @@ public class BookingMain extends AppCompatActivity {
 
     private String selectedServiceString = "";
 
+    public final int RESULT_FAILED = 90;
+    public final int RESULT_BACK = 8;
+
+    private String keyForPayU = "0ut3csFe";
+    private String merchantIdForPayU = "5419473";
+    private String productNameForPayU = "";
+    private String saltKeyFromPayU = "KkZobfRBws";
+    private String failureUrlPayU = "http://184.95.55.236:8080/SmartCar/paymentfail";
+    private String successUrlPayU = "http://184.95.55.236:8080/SmartCar/paymentsuccess";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +153,7 @@ public class BookingMain extends AppCompatActivity {
         ServiceIdentifiersSelected = new ArrayList<>();
         switch (mySingelton.paymentSelection) {
             case 1:
+                productNameForPayU = "Regular Service";
                 sourceTitleTextView.setText("Initiate "+"Regular Service Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.regularServiceSelection.size(); i++) {
@@ -152,6 +166,7 @@ public class BookingMain extends AppCompatActivity {
                 }
                 break;
             case 2:
+                productNameForPayU = "Custom Service";
                 sourceTitleTextView.setText("Initiate "+"Custom Service Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.customServiceSelection.size(); i++) {
@@ -164,6 +179,7 @@ public class BookingMain extends AppCompatActivity {
                 }
                 break;
             case 3:
+                productNameForPayU = "Annual Maintenance Service";
                 sourceTitleTextView.setText("Initiate "+"Annual Maintenance Contract Booking");
                 topServicesList = new ArrayList<>();
                 for (int i = 0; i < mySingelton.amcServiceSelection.size(); i++) {
@@ -304,92 +320,90 @@ public class BookingMain extends AppCompatActivity {
             return;
         }
 
+        checkIfCanBook();
 
-//        String productName = sourceTitleTextView.getText().toString().replace("Initiate","");
-//        Product myProductToBook = new Product();
-//        myProductToBook.setName(sourceTitleTextView.getText().toString().replaceAll("Initiate ", ""));
-//        myProductToBook.setPrice(mySingelton.AmmountToPay);
-//        Log.d("Buy product %s", myProductToBook + "");
-//        ProductCheckoutActivity.doCheckout(this, myProductToBook);
+//        makePayment();
 
-//        UniversalWebViewFragment myFrg = new UniversalWebViewFragment("https://www.payumoney.com/paybypayumoney/#/BCDCEAE6A98116CB48BDE55C440BC69D",false);
-
-        JSONObject params = new JSONObject();
-        try {
-
-            String timeSelected = "";
-
-            for (int i = 0; i < data.size(); i++) {
-                if (data.get(i).active) {
-                    timeSelected = data.get(i).time;
-                }
-            }
-
-            String serviceIdentifiersStrign = "";
-
-            for (int i = 0; i < ServiceIdentifiersSelected.size(); i++) {
-                if (i == 0) {
-                    serviceIdentifiersStrign = ServiceIdentifiersSelected.get(i);
-                } else {
-                    serviceIdentifiersStrign += ServiceIdentifiersSelected.get(i);
-                }
-            }
-
-            String truncated = sourceTitleTextView.getText().toString().replaceAll("Initiate ","");
-
-            params.put("type", truncated);
-            params.put("date", dateTextView.getText().toString());
-            params.put("time", timeSelected);
-            params.put("userName", mySingelton.userName);
-            params.put("userId", mySingelton.userId);
-            params.put("userPhoneNumber", phoneNumberEditText.getText().toString());
-            params.put("userAlternateNumber", alternatephoneNumberEditText.getText().toString());
-            params.put("userAddress", LocationEditText.getText().toString());
-            params.put("userCarId", mySingelton.CarSelecetd.carId);
-            params.put("servicesSelected", selectedServiceString);
-            params.put("servicesId", serviceIdentifiersStrign);
-            params.put("cost", mySingelton.AmmountToPay + "");
-            params.put("userCarName", mySingelton.CarSelecetd.carName);
-            params.put("userNotificationId", mySingelton.UserNotificationToken);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        JsonObjectRequest bookingRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.booking, params,
-
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String status = response.getString("Status");
-                            String message = response.getString("ErrorMessage");
-                            if (!status.equalsIgnoreCase("Error")) {
-                                hideLoadingView();
-                                startActivity(new Intent(BookingMain.this, BookingSuccess.class));
-                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
-                            } else {
-                                hideLoadingWithMessage(message);
-                            }
-                            hideLoadingView();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            hideLoadingWithMessage("There was some problem please try again");
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        hideLoadingWithMessage("You Are Offline");
-                    }
-                }
-        );
-        showLoadingView();
-        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        bookingRequest.setRetryPolicy(policy);
-        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(bookingRequest);
+//        JSONObject params = new JSONObject();
+//        try {
+//
+//            String timeSelected = "";
+//
+//            for (int i = 0; i < data.size(); i++) {
+//                if (data.get(i).active) {
+//                    timeSelected = data.get(i).time;
+//                }
+//            }
+//
+//            String serviceIdentifiersStrign = "";
+//
+//            for (int i = 0; i < ServiceIdentifiersSelected.size(); i++) {
+//                if (i == 0) {
+//                    serviceIdentifiersStrign = ServiceIdentifiersSelected.get(i);
+//                } else {
+//                    serviceIdentifiersStrign += ServiceIdentifiersSelected.get(i);
+//                }
+//            }
+//
+//            String truncated = sourceTitleTextView.getText().toString().replaceAll("Initiate ","");
+//            truncated = truncated.replaceAll(" Booking","");
+//
+//            params.put("type", truncated);
+//            params.put("date", dateTextView.getText().toString());
+//            params.put("time", timeSelected);
+//            params.put("userName", mySingelton.userName);
+//            params.put("userId", mySingelton.userId);
+//            params.put("userPhoneNumber", phoneNumberEditText.getText().toString());
+//            params.put("userAlternateNumber", alternatephoneNumberEditText.getText().toString());
+//            params.put("userAddress", LocationEditText.getText().toString());
+//            params.put("userCarId", mySingelton.CarSelecetd.carId);
+//            params.put("servicesSelected", selectedServiceString);
+//            params.put("servicesId", serviceIdentifiersStrign);
+//            params.put("cost", mySingelton.AmmountToPay + "");
+//            params.put("userCarName", mySingelton.CarSelecetd.carName);
+//            params.put("userCarBrand", mySingelton.CarSelecetd.carBrand);
+//            params.put("userCarModel", mySingelton.CarSelecetd.carModel);
+//            params.put("userCarFuelType", mySingelton.CarSelecetd.carVariant);
+//            params.put("userNotificationId", mySingelton.UserNotificationToken);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        JsonObjectRequest bookingRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.booking, params,
+//
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//                            String status = response.getString("Status");
+//                            String message = response.getString("ErrorMessage");
+//                            if (!status.equalsIgnoreCase("Error")) {
+//                                hideLoadingView();
+//                                startActivity(new Intent(BookingMain.this, BookingSuccess.class));
+//                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+//                            } else {
+//                                hideLoadingWithMessage(message);
+//                            }
+//                            hideLoadingView();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            hideLoadingWithMessage("There was some problem please try again");
+//                        }
+//                    }
+//                },
+//
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        hideLoadingWithMessage("You Are Offline");
+//                    }
+//                }
+//        );
+//        showLoadingView();
+//        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//        bookingRequest.setRetryPolicy(policy);
+//        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(bookingRequest);
 
     }
 
@@ -549,18 +563,348 @@ public class BookingMain extends AppCompatActivity {
         public Boolean active;
     }
 
-    public void toggleControlPanel(boolean shouldShowControl) {
+    public void makePayment() {
+//
+//        private String keyForPayU = "0ut3csFe";
+//        private String merchantIdForPayU = "5419473";
+//        private String productNameForPayU = "";
+//        private String saltKeyFromPayU = "KkZobfRBws";
+//        private String failureUrlPayU = "http://184.95.55.236:8080/SmartCar/paymentfail";
+//        private String successUrlPayU = "http://184.95.55.236:8080/SmartCar/paymentsuccess";
 
-        if (shouldShowControl) {
-            Toast.makeText(this,"Positive I think",Toast.LENGTH_LONG).show();
-//            findViewById(R.id.controlls_root).setVisibility(View.VISIBLE);
-//            findViewById(R.id.frag_root).setVisibility(View.GONE);
+        String m_amountToPay = payableAmmountTextView.getText().toString().replace("Payable Amount : ","");
+
+        Random r = new Random();
+        int i1 = r.nextInt(9000 - 10) + 10;
+        String TnxId = i1 + "" + System.currentTimeMillis();
+
+        Double amount = Double.parseDouble(m_amountToPay);
+        if(isDouble(amount.toString())){
+            amount = Double.parseDouble(amount.toString());
+        }else{
+            Toast.makeText(getApplicationContext(), "Enter correct amount", Toast.LENGTH_LONG).show();
+            return ;
+        }
+        if (amount <= 0.0) {
+            Toast.makeText(getApplicationContext(), "Enter Some amount", Toast.LENGTH_LONG).show();
+        } else if (amount > 1000000.00) {
+            Toast.makeText(getApplicationContext(), "Amount exceeding the limit : 1000000.00 ", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this,"-ve I think",Toast.LENGTH_LONG).show();
 
-//            findViewById(R.id.controlls_root).setVisibility(View.GONE);
-//            findViewById(R.id.frag_root).setVisibility(View.VISIBLE);
+            PayUmoneySdkInitilizer.PaymentParam.Builder builder = new PayUmoneySdkInitilizer.PaymentParam.Builder(  );
+
+            builder.setKey(keyForPayU); //Put your live KEY here
+            builder.setSalt(saltKeyFromPayU); //Put your live SALT here
+            builder.setMerchantId(merchantIdForPayU); //Put your live MerchantId here
+
+
+            builder.setAmount(amount);
+//            builder.setAmount(1);
+            builder.setTnxId(TnxId);
+            builder.setPhone(mySingelton.mobileNumber);
+            builder.setProductName(productNameForPayU);
+            builder.setFirstName(mySingelton.userName);
+            builder.setEmail(mySingelton.userEmailId);
+            builder.setsUrl("https://mobiletest.payumoney.com/mobileapp/payumoney/success.php");
+//            builder.setsUrl(successUrlPayU);
+            builder.setfUrl("https://mobiletest.payumoney.com/mobileapp/payumoney/failure.php");
+//            builder.setfUrl(failureUrlPayU);
+            builder.setUdf1("");
+            builder.setUdf2("");
+            builder.setUdf3("");
+            builder.setUdf4("");
+            builder.setUdf5("");
+
+
+            PayUmoneySdkInitilizer.PaymentParam paymentParam = builder.build();
+
+            PayUmoneySdkInitilizer.startPaymentActivityForResult(this,paymentParam);
+
         }
 
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+
+            if (resultCode == RESULT_OK) {
+//                Log.i(TAG, "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+                showDialogMessage("Successful ","Payment Success Transaction Id : " + paymentId);
+                callBookingAPIForMoinServer(paymentId);
+            }
+            else if (resultCode == RESULT_CANCELED) {
+//                Log.i(TAG, "failure");
+                showDialogMessage("Payment Cancelled","Dont Worry We Provide Awesome Services For The Charges We Take");
+            }else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+                Log.i("app_activity", "failure");
+
+                if (data != null) {
+                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
+
+                    } else {
+                        showDialogMessage("Failure","We Failed To Complete Payment");
+                    }
+                }
+                //Write your code if there's no result
+            }
+
+            else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+//                Log.i(TAG, "User returned without login");
+                showDialogMessage("Incomplete","You Need To Login To Proceed With Payments");
+            }
+        }
+
+    }
+
+    private boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+//    public static String hashCal(String str) {
+//        byte[] hashseq = str.getBytes();
+//        StringBuilder hexString = new StringBuilder();
+//        try {
+//            MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
+//            algorithm.reset();
+//            algorithm.update(hashseq);
+//            byte messageDigest[] = algorithm.digest();
+//            for (byte aMessageDigest : messageDigest) {
+//                String hex = Integer.toHexString(0xFF & aMessageDigest);
+//                if (hex.length() == 1) {
+//                    hexString.append("0");
+//                }
+//                hexString.append(hex);
+//            }
+//        } catch (NoSuchAlgorithmException ignored) {
+//        }
+//        return hexString.toString();
+//    }
+
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//
+//        if (requestCode == PayUmoneySdkInitilizer.PAYU_SDK_PAYMENT_REQUEST_CODE) {
+//
+//            if (resultCode == RESULT_OK) {
+//                Log.i("moin", "Success - Payment ID : " + data.getStringExtra(SdkConstants.PAYMENT_ID));
+//                String paymentId = data.getStringExtra(SdkConstants.PAYMENT_ID);
+////                showDialogMessage( "Payment Success Id : " + paymentId);
+//                callBookingAPIForMoinServer();
+//
+//            }
+//            else if (resultCode == RESULT_CANCELED) {
+//                Log.i("failed", "failure");
+//                showDialogMessage("Payment Cancelled","Dont Worry We Provide Awesome Services For The Charges We Take");
+//            }else if (resultCode == PayUmoneySdkInitilizer.RESULT_FAILED) {
+//                Log.i("app_activity", "failure");
+//
+//                if (data != null) {
+//                    if (data.getStringExtra(SdkConstants.RESULT).equals("cancel")) {
+//
+//                    } else {
+//                        showDialogMessage("Failure","We Failed To Complete Payment");
+//                    }
+//                }
+//                //Write your code if there's no result
+//            }
+//
+//            else if (resultCode == PayUmoneySdkInitilizer.RESULT_BACK) {
+////                Log.i(TAG, "User returned without login");
+//                showDialogMessage("Incomplete","You Need To Login To Proceed With Payments");
+//            }
+//        }
+//
+//    }
+
+    private void showDialogMessage(String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void callBookingAPIForMoinServer(String PaymentId){
+        showLoadingView();
+        JSONObject params = new JSONObject();
+        try {
+
+            String timeSelected = "";
+
+            for (int i = 0; i < data.size(); i++) {
+                if (data.get(i).active) {
+                    timeSelected = data.get(i).time;
+                }
+            }
+
+            String serviceIdentifiersStrign = "";
+
+            for (int i = 0; i < ServiceIdentifiersSelected.size(); i++) {
+                if (i == 0) {
+                    serviceIdentifiersStrign = ServiceIdentifiersSelected.get(i);
+                } else {
+                    serviceIdentifiersStrign += ServiceIdentifiersSelected.get(i);
+                }
+            }
+
+            String truncated = sourceTitleTextView.getText().toString().replaceAll("Initiate ","");
+            truncated = truncated.replaceAll(" Booking","");
+
+            params.put("PaymentId",PaymentId);
+            params.put("type", truncated);
+            params.put("date", dateTextView.getText().toString());
+            params.put("time", timeSelected);
+            params.put("userName", mySingelton.userName);
+            params.put("userId", mySingelton.userId);
+            params.put("userPhoneNumber", phoneNumberEditText.getText().toString());
+            params.put("userAlternateNumber", alternatephoneNumberEditText.getText().toString());
+            params.put("userAddress", LocationEditText.getText().toString());
+            params.put("userCarId", mySingelton.CarSelecetd.carId);
+            params.put("servicesSelected", selectedServiceString);
+            params.put("servicesId", serviceIdentifiersStrign);
+            params.put("cost", mySingelton.AmmountToPay + "");
+            params.put("userCarName", mySingelton.CarSelecetd.carName);
+            params.put("userCarBrand", mySingelton.CarSelecetd.carBrand);
+            params.put("userCarModel", mySingelton.CarSelecetd.carModel);
+            params.put("userCarFuelType", mySingelton.CarSelecetd.carVariant);
+            params.put("userNotificationId", mySingelton.UserNotificationToken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest bookingRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.booking, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+                                hideLoadingView();
+                                startActivity(new Intent(BookingMain.this, BookingSuccess.class));
+                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+                            } else {
+                                hideLoadingWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingWithMessage("There was some problem please try again");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        bookingRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(bookingRequest);
+    }
+
+    private void checkIfCanBook(){
+        JSONObject params = new JSONObject();
+        try {
+
+            String timeSelected = "";
+
+            for (int i = 0; i < data.size(); i++) {
+                if (data.get(i).active) {
+                    timeSelected = data.get(i).time;
+                }
+            }
+
+            String serviceIdentifiersStrign = "";
+
+            for (int i = 0; i < ServiceIdentifiersSelected.size(); i++) {
+                if (i == 0) {
+                    serviceIdentifiersStrign = ServiceIdentifiersSelected.get(i);
+                } else {
+                    serviceIdentifiersStrign += ServiceIdentifiersSelected.get(i);
+                }
+            }
+
+            String truncated = sourceTitleTextView.getText().toString().replaceAll("Initiate ","");
+            truncated = truncated.replaceAll(" Booking","");
+
+            params.put("type", truncated);
+            params.put("date", dateTextView.getText().toString());
+            params.put("time", timeSelected);
+            params.put("userName", mySingelton.userName);
+            params.put("userId", mySingelton.userId);
+            params.put("userPhoneNumber", phoneNumberEditText.getText().toString());
+            params.put("userAlternateNumber", alternatephoneNumberEditText.getText().toString());
+            params.put("userAddress", LocationEditText.getText().toString());
+            params.put("userCarId", mySingelton.CarSelecetd.carId);
+            params.put("servicesSelected", selectedServiceString);
+            params.put("servicesId", serviceIdentifiersStrign);
+            params.put("cost", mySingelton.AmmountToPay + "");
+            params.put("userCarName", mySingelton.CarSelecetd.carName);
+            params.put("userCarBrand", mySingelton.CarSelecetd.carBrand);
+            params.put("userCarModel", mySingelton.CarSelecetd.carModel);
+            params.put("userCarFuelType", mySingelton.CarSelecetd.carVariant);
+            params.put("userNotificationId", mySingelton.UserNotificationToken);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest checkIfCanBookRequest = new JsonObjectRequest(Request.Method.POST, DataSingelton.checkIfCanBook, params,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String status = response.getString("Status");
+                            String message = response.getString("ErrorMessage");
+                            if (!status.equalsIgnoreCase("Error")) {
+                                hideLoadingView();
+                                makePayment();
+//                                callBookingAPIForMoinServer("Moin1");
+//                                startActivity(new Intent(BookingMain.this, BookingSuccess.class));
+//                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
+                            } else {
+                                hideLoadingWithMessage(message);
+                            }
+                            hideLoadingView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideLoadingWithMessage("There was some problem please try again");
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideLoadingWithMessage("You Are Offline");
+                    }
+                }
+        );
+        showLoadingView();
+        RetryPolicy policy = new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        checkIfCanBookRequest.setRetryPolicy(policy);
+        VolleySingelton.getMy_Volley_Singelton_Reference().getRequestQueue().add(checkIfCanBookRequest);
     }
 }

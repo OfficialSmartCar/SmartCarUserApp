@@ -44,11 +44,19 @@ public class SignUpAdditionalDataPartOne extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (DataSingelton.getMy_SingeltonData_Reference().signUpSuccess.equalsIgnoreCase("Confirm")){
+            finish();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_additional_data_part_one);
         ButterKnife.bind(SignUpAdditionalDataPartOne.this);
-
+        DataSingelton.getMy_SingeltonData_Reference().signUpSuccess = "";
         Toolbar myToolbar = (Toolbar)findViewById(R.id.signUpAppBar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.signUpText));

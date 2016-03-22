@@ -175,7 +175,7 @@ public class UpCommingBookings extends Fragment {
             holder.carnameTextView.setText(data.get(position).carName);
 
             holder.cell_background.setBackgroundColor(Color.WHITE);
-            if (data.get(position).isActive == 0) {
+            if (data.get(position).isActive != 1) {
                 holder.cell_background.setBackgroundColor(getResources().getColor(R.color.lightGrey));
             }
         }

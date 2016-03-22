@@ -107,21 +107,6 @@ public class DentingAndPainting extends AppCompatActivity {
         hideLoadingView();
         DataSingelton.getMy_SingeltonData_Reference().imagesSelected = new ArrayList<>();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
-                mySingelton.successWebView = new WebView(MyApplication.getAppContext());
-                mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-                mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-                if (Build.VERSION.SDK_INT >= 11) {
-                    mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                }
-                mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-                mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
-            }
-        }).run();
-
         DataSingelton.getMy_SingeltonData_Reference().imagesSelected = new ArrayList<>();
 
         android.support.v7.widget.Toolbar myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
@@ -169,21 +154,24 @@ public class DentingAndPainting extends AppCompatActivity {
         attachImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DentingAndPainting.this,DentPaintHome.class));
+                startActivity(new Intent(DentingAndPainting.this, DentPaintHome.class));
                 overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
             }
         });
 
         setFonts();
 
-        mySingelton.successWebView = new WebView(this);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        if (Build.VERSION.SDK_INT >= 11) {
-            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        try{
+            if (mySingelton.imagesSelected != null){
+                if (mySingelton.imagesSelected.size()>0){
+                    for (int i=0;i<mySingelton.imagesSelected.size();i++){
+                        mySingelton.imagesSelected.get(i).recycle();
+                    }
+                }
+            }
+        }catch (Exception e){
+            Log.d("Some Exception", "images not recycled");
         }
-        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
     }
 
     private void setValueForCheckBox1() {
@@ -426,7 +414,7 @@ public class DentingAndPainting extends AppCompatActivity {
                 Log.d("Done", "Done");
             } catch (Exception e) {
                 Log.d("Moin", "Some Error");
-                progressDialog.setMessage("Error Occured");
+//                progressDialog.setMessage("Error Occured");
             }
 
 //            }
@@ -511,7 +499,7 @@ public class DentingAndPainting extends AppCompatActivity {
                 Log.d("Done", "Done");
             } catch (Exception e) {
                 Log.d("Moin", "Some Error");
-                progressDialog.setMessage("Error Occured");
+//                progressDialog.setMessage("Error Occured");
             }
 
 //            }
@@ -595,7 +583,7 @@ public class DentingAndPainting extends AppCompatActivity {
                 Log.d("Done", "Done");
             } catch (Exception e) {
                 Log.d("Moin", "Some Error");
-                progressDialog.setMessage("Error Occured");
+//                progressDialog.setMessage("Error Occured");
             }
 
 //            }
@@ -679,7 +667,7 @@ public class DentingAndPainting extends AppCompatActivity {
                 Log.d("Done", "Done");
             } catch (Exception e) {
                 Log.d("Moin", "Some Error");
-                progressDialog.setMessage("Error Occured");
+//                progressDialog.setMessage("Error Occured");
             }
 
 //            }

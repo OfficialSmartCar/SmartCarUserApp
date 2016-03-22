@@ -137,11 +137,11 @@ public class RescheduleBooking extends AppCompatActivity {
         String time[] = mySingelton.MyBookingData.time.split(":");
         int hours = Integer.parseInt(time[0]);
         String time1[] = time[1].split(" ");
-        if (time1[1].equalsIgnoreCase("PM")) {
-            if (hours != 12) {
-                hours += 12;
-            }
-        }
+//        if (time1[1].equalsIgnoreCase("PM")) {
+//            if (hours != 12) {
+//                hours += 12;
+//            }
+//        }
 
         String timeSelected = "";
 
@@ -188,14 +188,19 @@ public class RescheduleBooking extends AppCompatActivity {
                             } else {
                                 hideLoadingView();
 //                                hideLoadingWithMessage(message);
-                                new AlertDialog.Builder(RescheduleBooking.this)
-                                        .setTitle("Failure")
-                                        .setMessage(message)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        })
-                                        .show();
+                                try{
+                                    new AlertDialog.Builder(RescheduleBooking.this)
+                                            .setTitle("Failure")
+                                            .setMessage(message)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            })
+                                            .show();
+                                }catch (Exception e){
+
+                                }
+
                             }
                             hideLoadingView();
                         } catch (JSONException e) {

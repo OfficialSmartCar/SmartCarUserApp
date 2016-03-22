@@ -8,9 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -40,6 +43,21 @@ public class MyGcmListenerService extends GcmListenerService {
 
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
         mySingelton.notificationCount++;
+//        NewMessageStr moin_str = new NewMessageStr();
+//        moin_str.count = 1;
+//        EventBus.getDefault().post(moin_str);
+
+
+//        try{
+//            mySingelton.moinTextView.setText(mySingelton.notificationCount + "");
+//            if (mySingelton.notificationCount == 0) {
+//                mySingelton.moinTextView.setAlpha(0.0f);
+//            } else {
+//                mySingelton.moinTextView.setAlpha(1.0f);
+//            }
+//        }catch (Exception e){
+//            Log.d("m","m");
+//        }
 
         String message = data.getString("message");
         Log.d(TAG, "From: " + from);
@@ -58,30 +76,26 @@ public class MyGcmListenerService extends GcmListenerService {
                 str.Actualmessage = "Executive Verified";
                 str.status = 1;
                 EventBus.getDefault().post(str);
-//                showAlert("Executive Verified");
-            }
-            if (data.getString("message").equalsIgnoreCase("Car Ready For PickUp")) {
-                NewMessageStr str = new NewMessageStr();
-                str.BookingId = data.getString("userId");
-                str.Actualmessage = "Car Ready For PickUp";
-                str.status = 2;
-                EventBus.getDefault().post(str);
-//                showAlert("Car Ready For PickUp");
-
-            }
-            if (data.getString("message").equalsIgnoreCase("Car Successfully Delivered")) {
-                NewMessageStr str = new NewMessageStr();
-                str.BookingId = data.getString("userId");
-                str.Actualmessage = "Car Successfully Delivered";
-                str.status = 3;
-                EventBus.getDefault().post(str);
-//                showAlert("Car Successfully Delivered");
-
+            }else{
+                if (data.getString("message").equalsIgnoreCase("Car Ready For PickUp")) {
+                    NewMessageStr str = new NewMessageStr();
+                    str.BookingId = data.getString("userId");
+                    str.Actualmessage = "Car Ready For PickUp";
+                    str.status = 2;
+                    EventBus.getDefault().post(str);
+                }else{
+                    if (data.getString("message").equalsIgnoreCase("Car Successfully Delivered")) {
+                        NewMessageStr str = new NewMessageStr();
+                        str.BookingId = data.getString("userId");
+                        str.Actualmessage = "Car Successfully Delivered";
+                        str.status = 3;
+                        EventBus.getDefault().post(str);
+                    }
+                }
             }
         } catch (Exception e) {
             Log.d("some err", e.toString());
         }
-
         sendNotification(message);
     }
 
@@ -144,28 +158,72 @@ public class MyGcmListenerService extends GcmListenerService {
             intent = new Intent(this, MainActivity.class);
         }
 
-
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-//        Bitmap imageBitmap = BitmapDrawable()
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.notification)
-                .setContentTitle("Smart Car")
-                .setContentText(message)
-//                .setLargeIcon(getResources().getDrawable(R.drawable.bg))
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+//                .setSmallIcon(R.drawable.notification_moin)
+            notificationBuilder.setContentTitle("Smart Car");
+//                .setColor(getResources().getColor(R.color.colorPrimary))
+//                .setColor(0x352a46FF)
+//        notificationBuilder.setColor(getResources().getColor(R.color.gradientBackColor));
+            notificationBuilder.setSmallIcon(getNotificationIcon(notificationBuilder));
+            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notification_moin));
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+//                .setSmallIcon(R.drawable.notification_moin)
+            notificationBuilder.setContentText(message);
+            notificationBuilder.setAutoCancel(true);
+            notificationBuilder.setSound(defaultSoundUri);
+            notificationBuilder.setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }else{
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+            notificationBuilder.setSmallIcon(R.drawable.notification_moin);
+            notificationBuilder.setContentTitle("Smart Car");
+//                .setColor(getResources().getColor(R.color.colorPrimary))
+//                .setColor(0x352a46FF)
+//        notificationBuilder.setColor(getResources().getColor(R.color.gradientBackColor));
+//            notificationBuilder.setSmallIcon(getNotificationIcon(notificationBuilder));
+//            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+//                .setSmallIcon(R.drawable.notification_moin)
+            notificationBuilder.setContentText(message);
+            notificationBuilder.setAutoCancel(true);
+            notificationBuilder.setSound(defaultSoundUri);
+            notificationBuilder.setContentIntent(pendingIntent);
+
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
+
+
     }
+
+    private int getNotificationIcon(NotificationCompat.Builder notificationBuilder) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            notificationBuilder.setColor(getResources().getColor(R.color.gradientBackColor));
+            return R.drawable.sm1;
+
+        } else {
+            return R.drawable.notification_moin;
+        }
+    }
+
+//    private int getNotificationIcon() {
+//        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+//        return useWhiteIcon ? R.drawable.transport : R.drawable.notification_moin;
+//    }
 
 }

@@ -68,6 +68,8 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        signUpCheck = 0;
+        mySingelton.signUpSuccess = "";
         Toolbar myToolbar = (Toolbar)findViewById(R.id.signUpAppBar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.signUpText));
@@ -188,6 +190,14 @@ public class SignUp extends AppCompatActivity {
             startActivity(myIntent);
             overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
 
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mySingelton.signUpSuccess.equalsIgnoreCase("Confirm")){
+            finish();
         }
     }
 

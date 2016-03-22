@@ -44,13 +44,12 @@
                         <ImageView
                             android:id="@+id/outerImageView"
                             android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:src="@drawable/outer_ring"/>
+                            android:layout_height="250dp"/>
 
                         <ImageView
+                            android:id="@+id/innerImageView"
                             android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:src="@drawable/support_icons"/>
+                            android:layout_height="250dp"/>
 
                         <LinearLayout
                             android:layout_width="250dp"

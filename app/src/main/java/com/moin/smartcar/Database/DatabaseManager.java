@@ -29,10 +29,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String TABLE_USER_USERID = "UserID";
     private static final String TABLE_USER_MobileNumber = "UserMobile";
     private static final String TABLE_USER_Address = "UserAddess";
+    private static final String TABLE_USER_Notification = "UserNotification";
     private static final String CREATE_TABLE_USER = "CREATE TABLE "
             + TABLE_USER + "(" + TABLE_USER_USERNAME + " TEXT," + TABLE_USER_USEREMAILID
             + " TEXT," + TABLE_USER_MobileNumber + " TEXT," + TABLE_USER_Address
-            + " TEXT," + TABLE_USER_USERIMAGEURL + " TEXT," + TABLE_USER_USERID + " TEXT" + ")";
+            + " TEXT," + TABLE_USER_Notification + " TEXT," + TABLE_USER_USERIMAGEURL + " TEXT," + TABLE_USER_USERID + " TEXT" + ")";
     private static final String TABLE_CAR = "car_table";
 
 
@@ -96,6 +97,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put(TABLE_USER_USERID, mySingelton.userId);
         values.put(TABLE_USER_MobileNumber, mySingelton.mobileNumber);
         values.put(TABLE_USER_Address, mySingelton.address);
+        values.put(TABLE_USER_Notification, mySingelton.UserNotificationToken);
 
         // insert row
         long todo_id = db.insert(TABLE_USER, null, values);
@@ -120,6 +122,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             mySingelton.userImageLink = c.getString(c.getColumnIndex(TABLE_USER_USERIMAGEURL));
             mySingelton.mobileNumber = c.getString(c.getColumnIndex(TABLE_USER_MobileNumber));
             mySingelton.address = c.getString(c.getColumnIndex(TABLE_USER_Address));
+            mySingelton.UserNotificationToken = c.getString(c.getColumnIndex(TABLE_USER_Notification));
             db.close();
             return true;
         } catch (Exception e) {

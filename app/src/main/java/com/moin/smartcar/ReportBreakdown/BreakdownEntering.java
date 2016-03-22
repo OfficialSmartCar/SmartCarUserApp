@@ -164,6 +164,7 @@ public class BreakdownEntering extends AppCompatActivity {
     private void startSendingData() {
         JSONObject params = new JSONObject();
         try {
+            params.put("userName", mySingelton.userName);
             params.put("mainCause", mySingelton.breakdownReason);
             params.put("phoneNumber", contactNumberEditText.getText().toString());
             params.put("alternateNumber", alternateContactNumberEditText.getText().toString());
@@ -312,7 +313,8 @@ public class BreakdownEntering extends AppCompatActivity {
                 }
 
 
-                mySingelton.address = moinAddress;
+
+//                mySingelton.address = moinAddress;
 
 
                 addressEditText.setText(moinAddress);

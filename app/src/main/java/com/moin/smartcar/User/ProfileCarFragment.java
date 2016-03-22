@@ -116,12 +116,12 @@ public class ProfileCarFragment extends Fragment {
         @Override
         public void onBindViewHolder(ProfileCarCell holder, int position) {
             CarInfoStr myStr = data.get(position);
-            holder.carName.setText("Car Name : "+myStr.carName);
-            holder.carBrand.setText("Brand : "+myStr.carBrand);
-            holder.carModel.setText("Model : "+myStr.carModel);
-            holder.carYearOfReg.setText("Year : "+myStr.yearOfMaufacture);
-            holder.RegNumber.setText("Reg No. : "+myStr.carRegNo);
-            holder.carVariant.setText("Fuel Type :"+myStr.carVariant);
+            holder.carName.setText("Car Name : " + myStr.carName);
+            holder.carBrand.setText("Brand : " + myStr.carBrand);
+            holder.carModel.setText("Model : " + myStr.carModel);
+            holder.carYearOfReg.setText("Year : " + myStr.yearOfMaufacture);
+            holder.RegNumber.setText("Reg No. : " + myStr.carRegNo);
+            holder.carVariant.setText("Fuel Type :" + myStr.carVariant);
         }
 
         @Override
@@ -167,23 +167,36 @@ public class ProfileCarFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    new AlertDialog.Builder(myContext)
-                            .setTitle("Remove Car Confirmation")
-                            .setMessage("Are you sure you want to delete this car ?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mySingelton.deletedCars.add(data.get(getAdapterPosition()));
-                                    data.remove(getAdapterPosition());
-                                    myAdapter.notifyDataSetChanged();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    if (data.size() == 1) {
+                        new AlertDialog.Builder(myContext)
+                                .setTitle("Invalid Selection")
+                                .setMessage("We need at least one car information to serve your queries")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else {
+                        new AlertDialog.Builder(myContext)
+                                .setTitle("Remove Car Confirmation")
+                                .setMessage("Are you sure you want to delete this car ?")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mySingelton.deletedCars.add(data.get(getAdapterPosition()));
+                                        data.remove(getAdapterPosition());
+                                        myAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
                 }
             });
         }

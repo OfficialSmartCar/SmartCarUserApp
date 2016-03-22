@@ -71,7 +71,7 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
         ButterKnife.bind(SignUpAdditionalPartTwo.this);
 
         checkBox.setChecked(true, false);
-
+        mySingelton.signUpSuccess = "";
         userName = getIntent().getStringExtra("usernamePassed1");
         useremail = getIntent().getStringExtra("emailIdPassed1");
         password = getIntent().getStringExtra("passwordPassed1");
@@ -316,8 +316,10 @@ public class SignUpAdditionalPartTwo extends AppCompatActivity {
                                 String message = response.getString("ErrorMessage");
                                 if (!status.equalsIgnoreCase("Error")) {
                                     hideLoadingViewWithMessage("SignUp Success");
-                                    startActivity(new Intent(SignUpAdditionalPartTwo.this, LoginNew.class));
-                                    overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
+                                    mySingelton.signUpSuccess = "Confirm";
+                                    finish();
+//                                    startActivity(new Intent(SignUpAdditionalPartTwo.this, LoginNew.class));
+//                                    overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
                                 } else {
                                     hideLoadingViewWithMessage(message);
                                 }

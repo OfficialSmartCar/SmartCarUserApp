@@ -83,15 +83,6 @@ public class ContactUs extends AppCompatActivity {
         setContentView(R.layout.activity_contact_us);
         ButterKnife.bind(this);
 
-        mySingelton.successWebView = new WebView(this);
-        mySingelton.successWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mySingelton.successWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        if (Build.VERSION.SDK_INT >= 11) {
-            mySingelton.successWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mySingelton.successWebView.getSettings().setJavaScriptEnabled(true);
-        mySingelton.successWebView.loadUrl("file:///android_asset/index.html");
-
         Toolbar myToolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Contact Us");

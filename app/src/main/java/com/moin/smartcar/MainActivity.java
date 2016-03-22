@@ -37,7 +37,7 @@ public class MainActivity extends AwesomeSplash {
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
-        configSplash.setLogoSplash(R.drawable.logo); //or any other drawable
+        configSplash.setLogoSplash(R.drawable.logo_main); //or any other drawable
         configSplash.setAnimLogoSplashDuration(3000); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.FadeInDown);
 
@@ -71,11 +71,13 @@ public class MainActivity extends AwesomeSplash {
     public void animationsFinished() {
 
 //        getCOde();
-        Typeface myCustomTypeface = Typeface.createFromAsset(getAssets(),"fonts/arial.ttf");
+        Typeface myCustomTypeface = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
         DataSingelton.getMy_SingeltonData_Reference().myCustomTypeface = myCustomTypeface;
 
         DataSingelton mySingelton = DataSingelton.getMy_SingeltonData_Reference();
         mySingelton.signUpSuccess = "";
+
+        mySingelton.firstLogin_moin = 0;
 
         mySingelton.notificationCount = 0;
 

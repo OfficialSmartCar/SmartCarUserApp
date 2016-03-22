@@ -78,7 +78,7 @@ public class AddCarInfo extends AppCompatActivity {
         enterFromBottomAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car_info);
-
+        DataSingelton.getMy_SingeltonData_Reference().signUpSuccess = "Confirm";
         ButterKnife.bind(this);
 
         try {
@@ -565,8 +565,7 @@ public class AddCarInfo extends AppCompatActivity {
                             if (!status.equalsIgnoreCase("Error")) {
 //                                hideLoadingViewWithMessage("SignUp Success");
                                 DataSingelton.getMy_SingeltonData_Reference().signUpSuccess = "Confirm";
-                                startActivity(new Intent(AddCarInfo.this, LoginNew.class));
-                                overridePendingTransition(R.anim.scaleincrease, R.anim.slide_right_out);
+                                finish();
                             } else {
                                 hideLoadingViewWithMessage(message);
                             }

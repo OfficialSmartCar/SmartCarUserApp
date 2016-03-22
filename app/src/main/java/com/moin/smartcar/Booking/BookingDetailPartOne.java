@@ -117,11 +117,11 @@ public class BookingDetailPartOne extends AppCompatActivity {
         String time[] = mySingelton.MyBookingData.time.split(":");
         int hours = Integer.parseInt(time[0]);
         String time1[] = time[1].split(" ");
-        if (time1[1].equalsIgnoreCase("PM")) {
-            if (hours != 12) {
-                hours += 12;
-            }
-        }
+//        if (time1[1].equalsIgnoreCase("PM")) {
+//            if (hours != 12) {
+//                hours += 12;
+//            }
+//        }
 
         JSONObject params = new JSONObject();
         try {
@@ -223,11 +223,11 @@ public class BookingDetailPartOne extends AppCompatActivity {
         String time[] = mySingelton.MyBookingData.time.split(":");
         int hours = Integer.parseInt(time[0]);
         String time1[] = time[1].split(" ");
-        if (time1[1].equalsIgnoreCase("PM")) {
-            if (hours != 12) {
-                hours += 12;
-            }
-        }
+//        if (time1[1].equalsIgnoreCase("PM")) {
+//            if (hours != 12) {
+//                hours += 12;
+//            }
+//        }
 
         JSONObject params = new JSONObject();
         try {
