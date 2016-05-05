@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText emailId,password,confirmPassword,username;
+    private EditText emailId,password,confirmPassword;
     private View passwordContainer;
     private ImageView glassyImage;
     private Button signUpButton;
@@ -114,13 +114,6 @@ public class SignUp extends AppCompatActivity {
 
     private void showPasswordEditText(){
         passwordContainer.setLayoutParams(passwordContainerParams);
-//        password.setEnabled(true);
-//        confirmPassword.setEnabled(true);
-//        password.setFocusable(true);
-//        confirmPassword.setFocusable(true);
-
-
-
         emailId.setEnabled(false);
         emailId.setFocusable(false);
         emailId.setTextColor(getResources().getColor(R.color.m0in_grey));

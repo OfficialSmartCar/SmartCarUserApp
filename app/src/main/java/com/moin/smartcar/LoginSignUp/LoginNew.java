@@ -13,6 +13,7 @@ import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -73,7 +74,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class LoginNew extends AppCompatActivity {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class LoginNew extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
@@ -95,9 +99,9 @@ public class LoginNew extends AppCompatActivity {
 
 
     //for Google Plus SignIn
-    private SignInButton signInButton;
+    private TextView signInButton;
     private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 0;
+    private static final int RC_SIGN_IN = 1001;
     private static GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     private boolean mIntentInProgress;
@@ -109,9 +113,8 @@ public class LoginNew extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
-
+        ButterKnife.bind(LoginNew.this);
         getAllDataForNotifications();
-
 
         emailIdEditTExt = (EditText) findViewById(R.id.newLoginUsername);
         passwordEdittext = (EditText) findViewById(R.id.newLoginPasswordEditText);
@@ -158,33 +161,44 @@ public class LoginNew extends AppCompatActivity {
         FBLOginImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                LoginManager.getInstance().logInWithReadPermissions(LoginNew.this, Arrays.asList("public_profile", "user_friends", "email"));
+                LoginManager.getInstance().logInWithReadPermissions(LoginNew.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
 
         //google signIn
-//        signInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        signInButton = (TextView) findViewById(R.id.textView51);
 //        signInButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                google_signIn();
+////                google_signIn();
+//                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//                startActivityForResult(signInIntent, RC_SIGN_IN);
 //            }
 //        });
+
+
+
+
 //        signInButton.setSize(SignInButton.SIZE_STANDARD);
-////        initializeGoogleSignIn();
+//        initializeGoogleSignIn();
 //        buildGoogleApiClient();
 //        mGoogleApiClient.connect();
         setFonts();
     }
 
-    private void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(Plus.API)
-//                .addScope(Plus.SCOPE_PLUS_LOGIN)
-//                .build();
-//        mGoogleApiClient.connect();
+    @OnClick(R.id.sign_in_button)void InitiateGoogleLogin(View view){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void setFonts(){
@@ -293,20 +307,6 @@ public class LoginNew extends AppCompatActivity {
 
     protected void onStop() {
         super.onStop();
-//        if (mGoogleApiClient.isConnected()) {
-//            mGoogleApiClient.disconnect();
-//        }
-    }
-
-    private void initializeGoogleSignIn(){
-
-//        mGoogleApiClient = new GoogleApiClient.Builder(LoginNew.this)
-//                .addConnectionCallbacks(LoginNew.this)
-//                .addOnConnectionFailedListener(LoginNew.this)
-//                .addApi(Plus.API)
-//                .addScope(Plus.SCOPE_PLUS_LOGIN)
-//                .build();
-//        mGoogleApiClient.connect();
     }
 
     private void resolveSignInError() {
@@ -325,19 +325,6 @@ public class LoginNew extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 //        mGoogleApiClient.connect();
-    }
-
-    private void google_signIn() {
-            resolveSignInError();
-        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS){
-            buildGoogleApiClient();
-            if (!mGoogleApiClient.isConnecting()){
-                mGoogleApiClient.connect();
-            }
-        }
-        else {
-
-        }
     }
 
 
@@ -692,10 +679,9 @@ public class LoginNew extends AppCompatActivity {
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            MoinUtils.getReference().showMessage(LoginNew.this,"SignIn SUccessful");
+            MoinUtils.getReference().showMessage(LoginNew.this,"SignIn Successful");
         } else {
-            MoinUtils.getReference().showMessage(LoginNew.this, "SignOut SUccessful");
-
+            MoinUtils.getReference().showMessage(LoginNew.this, "Error in Google SignIn");
         }
     }
 
@@ -707,36 +693,9 @@ public class LoginNew extends AppCompatActivity {
 
         try{
             if (requestCode == RC_SIGN_IN) {
-                if (resultCode != RESULT_OK) {
-                    mShouldResolve = false;
-                }
-
-                mIntentInProgress = false;
-
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-
-                try {
-//                    if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-//                        Person person = Plus.PeopleApi
-//                                .getCurrentPerson(mGoogleApiClient);
-//                        String personName = person.getDisplayName();
-//                        String personPhotoUrl = person.getImage().getUrl();
-//                        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-//
-////                tvName.setText(personName);
-//                        emailIdEditTExt.setText(email);
-//
-//                        Toast.makeText(getApplicationContext(),
-//                                "You are Logged In " + personName,             Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(getApplicationContext(),
-//                                "Couldnt Get the Person Info", Toast.LENGTH_SHORT).show();
-//                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                handleSignInResult(result);
+                return;
             }
         }catch (Exception e){
 
@@ -752,12 +711,19 @@ public class LoginNew extends AppCompatActivity {
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (!result.isSuccess()) {
+        if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
+            try{
+
+            }catch (Exception e){
+                showMessage("Could Not SignIn");
+            }
             GoogleSignInAccount acct = result.getSignInAccount();
-//            emailIdEditTExt.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
-//            emailIdEditTExt.setText(getString(R.string.loginText,acct.getEmail()));
-            updateUI(true);
+            emailIdEditTExt.setText(acct.getEmail());
+//            Toast.makeText(LoginNew.this, acct.getEmail(), Toast.LENGTH_SHORT).show();
+//            passwordEdittext.setText("passkey@123_m");
+//            updateUI(true);
+            performLogin(emailIdEditTExt.getText().toString(),"passkey@123_m");
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -802,6 +768,11 @@ public class LoginNew extends AppCompatActivity {
 //        tvNotSignedIn.setVisibility(View.VISIBLE);
 //        signOutButton.setVisibility(View.GONE);
 //        viewContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
 //    @Override

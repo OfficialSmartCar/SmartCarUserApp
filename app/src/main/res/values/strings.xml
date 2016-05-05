@@ -7,8 +7,7 @@
     <!--<string name="facebook_app_id">1979694205590129</string>-->
     <string name="facebook_app_id">580404685456787</string>
 
-    <string name="server_client_id">591065935860-kcqt2n11ahoamtskp46td2gg01pnk956.apps.googleusercontent.com
-</string>
+    <string name="server_client_id">591065935860-tkfdtm6dvs5th46ne5gg7a6okmk2h7td.apps.googleusercontent.com</string>
 
     <string name="drawer_open">OPEN</string>
     <string name="drawer_close">CLOSE</string>
@@ -21,6 +20,8 @@
     <string name="blankPassword">Enter Password</string>
     <string name="invalidEmail">Entered Email Id Is Invalid</string>
     <string name="passwordDontMatch">Passwords Dont Match</string>
+
+    <!--<string name="google_maps_api_key">AIzaSyBW5FaZ14OxyX5nrEVE___fKCNlL-mpv-k</string>-->
 
     <string name="sendEmail">Send Email</string>
     <string name="resetPassword">Reset Password</string>

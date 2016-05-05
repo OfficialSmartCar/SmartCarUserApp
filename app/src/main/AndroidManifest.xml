@@ -9,9 +9,6 @@
         android:name="android.permission.INTERNET"
         android:required="true" />
     <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"
-        android:required="false" />
-    <uses-permission
         android:name="android.permission.WAKE_LOCK"
         android:required="false" />
     <uses-permission
@@ -21,6 +18,8 @@
         android:name="com.google.android.c2dm.permission.RECEIVE"
         android:required="false" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
     <permission
         android:name="com.moin.smartcar.permission.C2D_MESSAGE"
@@ -43,7 +42,7 @@
 
     <meta-data
         android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyDCbTlmUmLA78nMZ1A0oh288-nfWUikUSM" />
+        android:value="AIzaSyBW5FaZ14OxyX5nrEVE___fKCNlL-mpv-k" />
 
     <application
         android:name=".Network.MyApplication"

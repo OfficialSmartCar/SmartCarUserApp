@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -17,14 +18,20 @@ android {
             keyAlias "smartcar"
             keyPassword "appleios"
         }
+        debug {
+            storeFile file("smartcar.keystore")
+            storePassword "appleios"
+            keyAlias "smartcar"
+            keyPassword "appleios"
+        }
     }
     defaultConfig {
         multiDexEnabled true
         applicationId "com.moin.smartcar"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.0"
+        versionCode 5
+        versionName '1.1'
         generatedDensities = []
     }
     aaptOptions {
@@ -32,7 +39,14 @@ android {
     }
     buildTypes {
         release {
+            resValue "string", "google_maps_api_key", "AIzaSyBW5FaZ14OxyX5nrEVE___fKCNlL-mpv-k"
             signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            resValue "string", "google_maps_api_key", "AIzaSyBG3czSIyi0j-SdIxfhklutyu9f06wLGjs"
+            signingConfig signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -77,12 +91,12 @@ dependencies {
     compile 'com.github.moondroid.coverflow:library:1.0'
     compile 'com.github.lguipeng:AnimCheckBox:1.0.0'
     compile 'com.android.support:support-v4:23.2.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.android.gms:play-services-location:8.4.0'
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile 'com.google.android.gms:play-services-identity:8.4.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.3.0'
+    compile 'com.google.android.gms:play-services-ads:8.3.0'
+    //    compile 'com.google.android.gms:play-services-identity:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.google.android.gms:play-services-auth:8.3.0'
     //    compile project(':google-play-services')
 }

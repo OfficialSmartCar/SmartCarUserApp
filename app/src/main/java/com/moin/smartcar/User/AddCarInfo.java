@@ -34,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -218,6 +220,21 @@ public class AddCarInfo extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
+                    Pattern p = Pattern.compile("[^a-z0-9 -]", Pattern.CASE_INSENSITIVE);
+                    Matcher m = p.matcher(carNumberEditText.getText().toString());
+                    boolean check = m.find();
+                    if (check){
+                        showMessage("Special characters are not allowed in Reg. Number");
+                        return;
+                    }
+
+                    String[] arr = carNumberEditText.getText().toString().split(" ");
+                    if (arr.length > 1){
+                        showMessage("Space is Not allowed in Reg. Number");
+//                        carNumberEditText.requestFocus();
+//                        carNumberEditText.append("");
+                        return;
+                    }
                     changeTheDataInEditText();
                 }
             }
@@ -254,7 +271,12 @@ public class AddCarInfo extends AppCompatActivity {
 
     private void changeTheDataInEditText() {
 
+
+
         try {
+
+
+
             String toCapCharacters = carNumberEditText.getText().toString().toUpperCase();
             toCapCharacters = toCapCharacters.replace(" ", "");
             toCapCharacters = toCapCharacters.replace("-", "");
@@ -593,6 +615,7 @@ public class AddCarInfo extends AppCompatActivity {
 
     private int checkValidation(){
 
+
         if (carNameTextView.getText().toString().length() == 0){
             showErr("Please enter car name");
             return 0;
@@ -621,6 +644,23 @@ public class AddCarInfo extends AppCompatActivity {
             showErr("Please enter valid Reg Number");
             return 0;
         }
+
+        String[] arr1 = carNumberEditText.getText().toString().split(" ");
+        if (arr1.length>1){
+            showErr("No spaces are allowed in Reg Number");
+//            carNumberEditText.requestFocus();
+//            carNumberEditText.append("");
+            return 0;
+        }
+
+        Pattern p = Pattern.compile("[^a-z0-9 -]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(carNumberEditText.getText().toString());
+        boolean check = m.find();
+        if (check){
+            showMessage("Special characters are not allowed in Reg. Number");
+            return 0;
+        }
+
         int check1 = 0;
         for (int i=0;i<carModel.size();i++){
             if (modelAutocompleteTextView.getText().toString().equalsIgnoreCase(carModel.get(i))){

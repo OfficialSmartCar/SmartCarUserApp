@@ -1,36 +1,42 @@
 {
   "project_info": {
-    "project_id": "smartcar-1203",
     "project_number": "591065935860",
-    "name": "SmartCar"
+    "project_id": "smartcar-1203"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:591065935860:android:f53eac276fd7e71d",
-        "client_id": "android:com.moin.smartcar",
-        "client_type": 1,
         "android_client_info": {
-          "package_name": "com.moin.smartcar",
-          "certificate_hash": []
+          "package_name": "com.moin.smartcar"
         }
       },
-      "oauth_client": [],
-      "api_key": [],
+      "oauth_client": [
+        {
+          "client_id": "591065935860-tkfdtm6dvs5th46ne5gg7a6okmk2h7td.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moin.smartcar",
+            "certificate_hash": "3E454E4F6A88E18374B871AB5B55D30B48FC9D3C"
+          }
+        },
+        {
+          "client_id": "591065935860-l2crg7125cnq9qi7ufsi55kahbjnfbnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG3czSIyi0j-SdIxfhklutyu9f06wLGjs"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
-        "cloud_messaging_service": {
-          "status": 2,
-          "apns_config": []
-        },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 1
         },
         "ads_service": {
           "status": 1
@@ -38,6 +44,5 @@
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

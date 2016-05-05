@@ -445,7 +445,6 @@ public class MyOwnService extends AppCompatActivity implements CarSelection.carS
             return;
         }
         getData();
-
     }
 
 
