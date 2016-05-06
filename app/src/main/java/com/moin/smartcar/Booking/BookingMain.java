@@ -879,8 +879,8 @@ public class BookingMain extends AppCompatActivity {
                             String message = response.getString("ErrorMessage");
                             if (!status.equalsIgnoreCase("Error")) {
                                 hideLoadingView();
-                                makePayment();
-//                                callBookingAPIForMoinServer("Moin1");
+//                                makePayment();
+                                callBookingAPIForMoinServer("Moin1");
 //                                startActivity(new Intent(BookingMain.this, BookingSuccess.class));
 //                                overridePendingTransition(R.anim.activity_slide_right_in, R.anim.scalereduce);
                             } else {
